@@ -1,0 +1,234 @@
+:root{
+    --backgroundColor: white;
+    --board-border-radius: 2px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+div#root {
+    margin: 20px;
+    max-width: 700px;
+    font-family: "Finger Paint", sans-serif;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-areas:
+        "p1 p1 p1 p1 b1 b1 b1 b1 b1 b1 . ."
+        "p1 p1 p1 p1 b1 b1 b1 b1 b1 b1 d d"
+        "p2 p2 p2 p2 b2 b2 b2 b2 b2 b2 r r"
+        "p2 p2 p2 p2 b2 b2 b2 b2 b2 b2 i i";
+}
+
+section.roll-button-box {
+    grid-area: r;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+button.roll-button {
+    width: 130px;
+    height: 55px;
+    font-family: "Finger Paint", sans-serif;
+    background-color: powderblue;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-top: 10px;
+}
+
+button.roll-button:hover {
+    background-color: yellow;
+}
+section.roll-die-box {
+    margin-bottom: 10px;
+    grid-area: d;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+img.roll-die {
+    width: 120px;
+}
+
+section.instructions {
+    margin-top: 40px;
+    grid-area: i;
+    width: 150px;
+    height: 120px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+section.instructions > h3 {
+    margin: 0 5px 0 10px;
+    text-align: center;
+}
+
+section.instructions > p {
+    margin: 0;
+    border: 2px solid black;
+    border-bottom: 3px solid black;
+    border-radius: 4px;
+    font-weight: 800;
+    color: #333;
+    box-shadow: 0 2px 0 #bbb, 0 3px 4px rgba(0,0,0,0.15);
+
+}
+
+section.instructions > p.space-button {
+    height: 25px;
+    width: 60px;
+    text-align: center;
+    font-size: 2rem;
+    line-height: 0.1;
+}
+
+section.instructions > p.r-button {
+    margin-left: 13px;
+    height: 25px;
+    width: 25px;
+    text-align: center;
+}
+
+section.instructions > p.arrow-button {
+    height: 20px;
+    width: 30px;
+    text-align: center;
+    line-height: 0.5;
+    font-size: 1.5rem;
+}
+
+section > img {
+    width: 160px;
+}
+
+section.player1-info {
+    grid-area: p1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 8px;
+    position: relative;
+}
+
+section.player1-info > section.player1-score {
+    text-align: center;
+    width: 40px;
+    font-size: 1.5rem;
+    z-index: 1;
+    position: absolute;
+    right: 38px;
+    background: #dbdbdb;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+section.player1-info > h1{
+    margin: 0;
+}
+
+section.player2-info {
+    grid-area: p2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 8px;
+    position: relative;
+}
+
+section.player2-info > section.player2-score {
+    text-align: center;
+    width: 40px;
+    font-size: 1.5rem;
+    z-index: 1;
+    position: absolute;
+    right: 38px;
+    background: #dbdbdb;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+section.player2-info > h1{
+    margin: 0;
+}
+
+section.player1-board {
+    min-width: 300px;
+    padding-bottom: 30px;
+    grid-area: b1;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: end;
+    justify-content: center;
+}
+
+
+section.player1-board > button {
+    margin: 0;
+    border: var(--board-border-radius) solid black;
+    border-bottom: none;
+    border-right: none;
+    font-family: "Finger Paint", sans-serif;
+    width: 100px;
+    height: 100px;
+    background-color: var(--backgroundColor);
+    cursor: pointer;
+}
+
+section.player1-board > button:hover {
+    background-color: yellow;
+}
+
+section.player1-board > button.bottom-buttons {
+    border-bottom: var(--board-border-radius) solid black;
+}
+
+section.player1-board > button.right-buttons {
+    border-right: var(--board-border-radius) solid black;
+}
+
+section.player2-board {
+    padding-top: 30px;
+    grid-area: b2;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: start;
+    justify-content: center;
+}
+
+section.player2-board > button {
+    border: var(--board-border-radius) solid black;
+    border-bottom: none;
+    border-right: none;
+    font-family: "Finger Paint", sans-serif;
+    width: 100px;
+    height: 100px;
+    background-color: var(--backgroundColor);
+    cursor: pointer;
+}
+
+section.player2-board > button:hover {
+    background-color: yellow;
+}
+
+section.player2-board > button.bottom-buttons {
+    border-bottom: var(--board-border-radius) solid black;
+}
+
+section.player2-board > button.right-buttons {
+    border-right: var(--board-border-radius) solid black;
+}
+
+
