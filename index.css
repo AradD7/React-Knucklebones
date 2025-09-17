@@ -41,7 +41,7 @@ button.roll-button {
     margin-top: 10px;
 }
 
-button.roll-button:hover {
+button.roll-button:hover:not(:disabled) {
     background-color: yellow;
 }
 section.roll-die-box {
@@ -174,7 +174,6 @@ section.player1-board {
     justify-content: center;
 }
 
-
 section.player1-board > button {
     margin: 0;
     border: var(--board-border-radius) solid black;
@@ -184,19 +183,23 @@ section.player1-board > button {
     width: 100px;
     height: 100px;
     background-color: var(--backgroundColor);
+}
+
+section.player1-board > button:hover:not(:disabled) {
+    background-color: yellow;
     cursor: pointer;
 }
 
-section.player1-board > button:hover {
-    background-color: yellow;
-}
-
-section.player1-board > button.bottom-buttons {
+section.player1-board > button:nth-child(n + 7) {
     border-bottom: var(--board-border-radius) solid black;
 }
 
-section.player1-board > button.right-buttons {
+section.player1-board> button:nth-child(3n) {
     border-right: var(--board-border-radius) solid black;
+}
+
+section.player1-board > button > img {
+    width: 70px;
 }
 
 section.player2-board {
@@ -216,19 +219,21 @@ section.player2-board > button {
     width: 100px;
     height: 100px;
     background-color: var(--backgroundColor);
+}
+
+section.player2-board > button:hover:not(:disabled) {
+    background-color: yellow;
     cursor: pointer;
 }
 
-section.player2-board > button:hover {
-    background-color: yellow;
-}
-
-section.player2-board > button.bottom-buttons {
+section.player2-board > button:nth-child(n + 7) {
     border-bottom: var(--board-border-radius) solid black;
 }
 
-section.player2-board > button.right-buttons {
+section.player2-board> button:nth-child(3n) {
     border-right: var(--board-border-radius) solid black;
 }
 
-
+section.player2-board > button > img {
+    width: 70px;
+}
