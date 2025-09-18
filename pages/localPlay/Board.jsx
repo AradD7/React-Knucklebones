@@ -18,7 +18,7 @@ export default function Board(props) {
             }
         }
         for (let col = 0; col < 3; col++) {
-            if (props.board[2][col] === props.board[1][col] === props.board[0][col]) {
+            if ((props.board[2][col] === props.board[1][col]) && (props.board[2][col] === props.board[0][col])) {
                 isHighlighted[2][col] = true
                 isHighlighted[1][col] = true
                 isHighlighted[0][col] = true
@@ -65,7 +65,7 @@ export default function Board(props) {
             }
         }
         for (let col = 0; col < 3; col++) {
-            if (props.board[0][col] === props.board[1][col] === props.board[2][col]) {
+            if ((props.board[0][col] === props.board[1][col]) && (props.board[0][col] === props.board[2][col])) {
                 isHighlighted[0][col] = true
                 isHighlighted[1][col] = true
                 isHighlighted[2][col] = true

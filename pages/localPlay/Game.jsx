@@ -27,9 +27,9 @@ import { useWindowSize } from 'react-use'
 export default function Game() {
     const [currentDice, setCurrentDice] = useState(() => Dice[5])
     const [canRoll, setCanRoll] = useState(() => true)
-    const [board1, setBoard1] = useState(() => [[0, 2, 1], [2, 1, 2] ,[1, 2, 1]])
-    const [board2, setBoard2] = useState(() => [[0, 1, 2], [1, 6, 1] ,[2, 6, 2]])
-    const [score1, setScore1] = useState(() => 0)
+    const [board1, setBoard1] = useState(() => [[0, 2, 1], [2, 1, 1] ,[1, 2, 1]])
+    const [board2, setBoard2] = useState(() => [[0, 6, 2], [1, 6, 1] ,[2, 6, 2]])
+    const [score1, setScore1] = useState(() => 123)
     const [score2, setScore2] = useState(() => 0)
     const [isPlayer1Turn, setIsPlayer1Turn] = useState(() => true)
     const [isGameOver, setIsGameOver] = useState(() => false)
@@ -91,6 +91,7 @@ export default function Game() {
                 setScore1(data.score1),
                 setScore2(data.score2)
                 setIsGameOver(data.is_over)
+                setCurrentDice(Dice[5])
             })
     }
 
@@ -126,7 +127,7 @@ export default function Game() {
     }
 
     return (
-        <>
+        <section className="local-play">
             {isGameOver && endgame()}
             <Player
                 player="player1"
@@ -149,6 +150,7 @@ export default function Game() {
                     className="roll-die"
                     src={currentDice}
                     alt="die placeholder"
+                    style={{opacity: canRoll ? 0.4 : 1}}
                 />
             </section>
 
@@ -179,6 +181,6 @@ export default function Game() {
             />
 
             <Instructions />
-        </>
+        </section>
     )
 }

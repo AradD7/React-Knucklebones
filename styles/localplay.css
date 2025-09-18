@@ -1,16 +1,12 @@
 :root{
-    --backgroundColor: white;
+    --backgroundColor: #F6FFEF;
     --board-border-radius: 2px;
 }
 
-* {
-    box-sizing: border-box;
-}
 
-div#root {
+section.local-play {
     margin: 20px auto;
     max-width: 700px;
-    font-family: "Finger Paint", sans-serif;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(4, 1fr);
@@ -253,10 +249,10 @@ h1.announce-winner {
     text-align: center;
 }
 
-@media (max-width: 640px) {
-    div#root {
-        margin: 0 auto;
-        min-height: 100vh;
+@media (max-width: 640px) and (min-width: 520px) {
+    section.local-play {
+        margin: 0 30px;
+        min-height: 95vh;
         max-width: 700px;
         max-height: 700px;
         font-family: "Finger Paint", sans-serif;
@@ -369,10 +365,10 @@ h1.announce-winner {
         border-bottom: none;
         border-right: none;
         font-family: "Finger Paint", sans-serif;
-        width: 33%;
+        width: 30%;
         max-width: 160px;
-        height: 33%;
-        max-height: 110px;
+        height: 30%;
+        max-height: 130px;
         background-color: var(--backgroundColor);
     }
 
@@ -433,10 +429,10 @@ h1.announce-winner {
     section.player1-info > section.player1-score {
         position: static;
         right: auto;
-        width: 80px;
+        width: 60px;
         height: auto;
         text-align: center;
-        font-size: 2.5rem;
+        font-size: 2rem;
         background: #dbdbdb;
         border-radius: 10px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.3);
@@ -448,16 +444,220 @@ h1.announce-winner {
     section.player2-info > section.player2-score {
         position: static;
         right: auto;
-        width: 80px;
+        width: 60px;
         height: auto;
         text-align: center;
-        font-size: 2.5rem;
+        font-size: 2rem;
         background: #dbdbdb;
         border-radius: 10px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+}
+
+@media (max-width: 520px) {
+    section.local-play {
+        margin: 0;
+        min-height: 95vh;
+        max-width: 700px;
+        max-height: 700px;
+        font-family: "Finger Paint", sans-serif;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr) 60px 60px repeat(4, 1fr);
+        grid-template-areas:
+            "b1 b1 b1 b1"
+            "b1 b1 b1 b1"
+            "b1 b1 b1 b1"
+            "b1 b1 b1 b1"
+            "s1 dm dm rm"
+            "s2 dm dm rm"
+            "b2 b2 b2 b2"
+            "b2 b2 b2 b2"
+            "b2 b2 b2 b2"
+            "b2 b2 b2 b2";
+    }
+
+    section.roll-bottom {
+        padding-right: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        grid-area: rm;
+        justify-content: center;
+    }
+
+    section.roll-top {
+        padding-left: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        grid-area: dm;
+        justify-content: center;
+    }
+
+    button.roll-button {
+        width: 100px;
+        height: 90px;
+        font-family: "Finger Paint", sans-serif;
+        background-color: powderblue;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.4rem;
+        font-weight: 800;
+    }
+
+    button.roll-button:hover:not(:disabled) {
+        background-color: yellow;
+    }
+
+    img.roll-die {
+        width: 100px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    section.player1-info {
+        padding-top: 5px;
+        grid-area: s1;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    section.player2-info {
+        padding-bottom: 5px;
+        grid-area: s2;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    section.player1-info > section.player1-score {
+        position: static;
+        right: auto;
+        width: 60px;
+        height: 60px;
+        text-align: center;
+        font-size: 1.8rem;
+        background: #dbdbdb;
+        border-radius: 10px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    section.player2-info > section.player2-score {
+        position: static;
+        right: auto;
+        width: 60px;
+        height: 60px;
+        text-align: center;
+        font-size: 1.8rem;
+        background: #dbdbdb;
+        border-radius: 10px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    section.player1-board {
+        padding-bottom: 0;
+        grid-area: b1;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    section.player1-board > button {
+        margin: 0;
+        border: var(--board-border-radius) solid black;
+        border-bottom: none;
+        border-right: none;
+        font-family: "Finger Paint", sans-serif;
+        width: 30%;
+        max-width: 160px;
+        height: 30%;
+        max-height: 130px;
+        background-color: var(--backgroundColor);
+    }
+
+    section.player1-board > button:hover:not(:disabled) {
+        background-color: yellow;
+        cursor: pointer;
+    }
+
+    section.player1-board > button:nth-child(n + 7) {
+        border-bottom: var(--board-border-radius) solid black;
+    }
+
+    section.player1-board> button:nth-child(3n) {
+        border-right: var(--board-border-radius) solid black;
+    }
+
+    section.player1-board > button > img {
+        width: 80px;
+    }
+
+    section.player2-board {
+        padding-top: 0;
+        grid-area: b2;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    section.player2-board > button {
+        border: var(--board-border-radius) solid black;
+        border-bottom: none;
+        border-right: none;
+        font-family: "Finger Paint", sans-serif;
+        width: 30%;
+        max-width: 160px;
+        height: 30%;
+        max-height: 130px;
+        background-color: var(--backgroundColor);
+    }
+
+    section.player2-board > button:hover:not(:disabled) {
+        background-color: yellow;
+        cursor: pointer;
+    }
+
+    section.player2-board > button:nth-child(n + 7) {
+        border-bottom: var(--board-border-radius) solid black;
+    }
+
+    section.player2-board> button:nth-child(3n) {
+        border-right: var(--board-border-radius) solid black;
+    }
+
+    section.player2-board > button > img {
+        width: 80px;
+    }
+
+    section.instructions {
+        display: none;
+    }
+
+    section.player1-info > h1 {
+        display: none;
+    }
+
+    section.player1-info > img {
+        display: none;
+    }
+
+    section.player2-info > h1{
+        display: none;
+    }
+
+    section.player2-info > img {
+        display: none;
     }
 }
 
