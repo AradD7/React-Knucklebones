@@ -8,7 +8,7 @@
 }
 
 div#root {
-    margin: 20px;
+    margin: 20px auto;
     max-width: 700px;
     font-family: "Finger Paint", sans-serif;
     display: grid;
@@ -21,12 +21,20 @@ div#root {
         "p2 p2 p2 p2 b2 b2 b2 b2 b2 b2 i i";
 }
 
-section.roll-button-box {
-    grid-area: r;
+section.roll-bottom {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
+    grid-area: r;
+    justify-content: flex-start;
+}
+
+section.roll-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    grid-area: d;
+    justify-content: flex-end;
 }
 
 button.roll-button {
@@ -39,22 +47,17 @@ button.roll-button {
     font-size: 1.5rem;
     font-weight: 800;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 button.roll-button:hover:not(:disabled) {
     background-color: yellow;
 }
-section.roll-die-box {
-    margin-bottom: 10px;
-    grid-area: d;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-}
 
 img.roll-die {
     width: 120px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 section.instructions {
@@ -237,3 +240,224 @@ section.player2-board> button:nth-child(3n) {
 section.player2-board > button > img {
     width: 70px;
 }
+
+h1.announce-winner {
+    margin: 0;
+    color: #00E650;
+    font-size: 7rem;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    text-align: center;
+}
+
+@media (max-width: 640px) {
+    div#root {
+        margin: 0 auto;
+        min-height: 100vh;
+        max-width: 700px;
+        max-height: 700px;
+        font-family: "Finger Paint", sans-serif;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(10, 1fr);
+        grid-template-areas:
+            "b1 b1 b1 b1"
+            "b1 b1 b1 b1"
+            "b1 b1 b1 b1"
+            "b1 b1 b1 b1"
+            "s1 dm dm rm"
+            "s2 dm dm rm"
+            "b2 b2 b2 b2"
+            "b2 b2 b2 b2"
+            "b2 b2 b2 b2"
+            "b2 b2 b2 b2";
+    }
+
+    section.roll-bottom {
+        margin-right: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        grid-area: rm;
+        justify-content: center;
+    }
+
+    section.roll-top {
+        margin-left: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        grid-area: dm;
+        justify-content: center;
+    }
+
+    button.roll-button {
+        width: 135px;
+        height: 90px;
+        font-family: "Finger Paint", sans-serif;
+        background-color: powderblue;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    button.roll-button:hover:not(:disabled) {
+        background-color: yellow;
+    }
+
+    img.roll-die {
+        width: 100px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    section.player1-board {
+        padding-bottom: 0;
+        grid-area: b1;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    section.player1-board > button {
+        margin: 0;
+        border: var(--board-border-radius) solid black;
+        border-bottom: none;
+        border-right: none;
+        font-family: "Finger Paint", sans-serif;
+        width: 30%;
+        max-width: 160px;
+        height: 30%;
+        max-height: 130px;
+        background-color: var(--backgroundColor);
+    }
+
+    section.player1-board > button:hover:not(:disabled) {
+        background-color: yellow;
+        cursor: pointer;
+    }
+
+    section.player1-board > button:nth-child(n + 7) {
+        border-bottom: var(--board-border-radius) solid black;
+    }
+
+    section.player1-board> button:nth-child(3n) {
+        border-right: var(--board-border-radius) solid black;
+    }
+
+    section.player1-board > button > img {
+        width: auto;
+        max-width: 70px;
+    }
+
+    section.player2-board {
+        padding-top: 0;
+        grid-area: b2;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    section.player2-board > button {
+        border: var(--board-border-radius) solid black;
+        border-bottom: none;
+        border-right: none;
+        font-family: "Finger Paint", sans-serif;
+        width: 33%;
+        max-width: 160px;
+        height: 33%;
+        max-height: 110px;
+        background-color: var(--backgroundColor);
+    }
+
+    section.player2-board > button:hover:not(:disabled) {
+        background-color: yellow;
+        cursor: pointer;
+    }
+
+    section.player2-board > button:nth-child(n + 7) {
+        border-bottom: var(--board-border-radius) solid black;
+    }
+
+    section.player2-board> button:nth-child(3n) {
+        border-right: var(--board-border-radius) solid black;
+    }
+
+    section.player2-board > button > img {
+        width: auto;
+        max-width: 70px;
+    }
+
+    section.instructions {
+        display: none;
+    }
+
+    section.player1-info > h1 {
+        display: none;
+    }
+
+    section.player1-info > img {
+        display: none;
+    }
+
+    section.player2-info > h1{
+        display: none;
+    }
+
+    section.player2-info > img {
+        display: none;
+    }
+
+    section.player1-info {
+        padding-top: 5px;
+        grid-area: s1;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-end;
+    }
+
+    section.player2-info {
+        padding-bottom: 5px;
+        grid-area: s2;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+
+    section.player1-info > section.player1-score {
+        position: static;
+        right: auto;
+        width: 80px;
+        height: auto;
+        text-align: center;
+        font-size: 2.5rem;
+        background: #dbdbdb;
+        border-radius: 10px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    section.player2-info > section.player2-score {
+        position: static;
+        right: auto;
+        width: 80px;
+        height: auto;
+        text-align: center;
+        font-size: 2.5rem;
+        background: #dbdbdb;
+        border-radius: 10px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
