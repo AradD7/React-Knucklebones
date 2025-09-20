@@ -1,38 +1,78 @@
 import Board from "./Board"
 import Player from "./Player"
 import Instructions from "./Instructions"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Dice } from "./utils"
 import Confetti from 'react-confetti'
 import { useWindowSize } from 'react-use'
+//import QRCode from "react-qr-code"
+import useWebSocket, { ReadyState } from "react-use-websocket"
+import { Link } from "react-router-dom"
 
-//make it responsive
-//
-//signup/signin page
-//
-//new game with another player
-//
-//see your games
-//
-//logout
-//
-//
-//optional:
-//  change cursor to die
-//  highlight the higher score
-//  add animation for dice removal
-//  sounds
-//
-
-export default function Game() {
+export default function OnlineGame() {
     const [currentDice, setCurrentDice] = useState(() => Dice[5])
     const [canRoll, setCanRoll] = useState(() => true)
-    const [board1, setBoard1] = useState(() => [[0, 2, 1], [2, 1, 1] ,[1, 2, 1]])
-    const [board2, setBoard2] = useState(() => [[0, 6, 2], [1, 6, 1] ,[2, 6, 2]])
-    const [score1, setScore1] = useState(() => 123)
-    const [score2, setScore2] = useState(() => 0)
+    const [gameId, setGameId] = useState(() => null)
+    const [board1, setBoard1] = useState(() => [[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
+    const [board2, setBoard2] = useState(() => null)
+    const [score1, setScore1] = useState(() => 0)
+    const [score2, setScore2] = useState(() => null)
     const [isPlayer1Turn, setIsPlayer1Turn] = useState(() => true)
     const [isGameOver, setIsGameOver] = useState(() => false)
+
+    const [socketUrl, setSocketUrl] = useState(() => null);
+
+    const token = localStorage.getItem("token")
+
+    const { sendJsonMessage, readyState } = useWebSocket(socketUrl, {
+        onOpen: () => {
+            console.log('WebSocket connected!', socketUrl);
+            sendJsonMessage({
+                Type: "auth",
+                Token: token
+            })
+        },
+        onMessage: (event) => {
+            console.log('WebSocket message received:', event.data);
+            if (JSON.parse(event.data).type === "refresh") {
+                fetch(`http://localhost:8080/api/games/${gameId}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        }
+                    })
+                .then(data => {
+                        setBoard1(data.board1)
+                        setBoard2(data.board2)
+                        setScore1(data.score1)
+                        setScore2(data.score2)
+                        setIsGameOver(data.is_over)
+                        setCurrentDice(Dice[5])
+                        setIsPlayer1Turn(prev => !prev)
+                    })
+            }
+        }
+    }, socketUrl != null);
+
+    useEffect(() => {
+        fetch("http://localhost:8080/api/games/new", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+            .then(resp => resp.json())
+            .then(data => {
+                console.log(data)
+                setGameId(data.id)
+                setSocketUrl(`ws://localhost:8080/ws/games/${data.id}`)
+            })
+    }, [])
 
     function rollDice() {
         if (!isGameOver) {
@@ -54,13 +94,13 @@ export default function Game() {
         setBoard2([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
         setScore1(0)
         setScore2(0)
-        setIsPlayer1Turn(true)
+        setIsPlayer1Turn(Math.random() < 0.5)
         setIsGameOver(false)
     }
 
     function handlePlace(row, col) {
         console.log(`${col}, ${row} was presses`)
-        fetch("http://localhost:8080/api/games/localgame", {
+        fetch(`http://localhost:8080/api/games/move/${gameId}`, {
             method: "POST",
             body: JSON.stringify({
                 board1: board1,
@@ -72,6 +112,7 @@ export default function Game() {
             }),
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
         })
             .then(response => {
@@ -86,16 +127,24 @@ export default function Game() {
                 }
             })
                 .then(data => {
-                setBoard1(data.board1),
-                setBoard2(data.board2),
-                setScore1(data.score1),
+                setBoard1(data.board1)
+                setBoard2(data.board2)
+                setScore1(data.score1)
                 setScore2(data.score2)
                 setIsGameOver(data.is_over)
                 setCurrentDice(Dice[5])
             })
     }
 
-    console.log(isGameOver)
+    const connectionStatus = {
+        [ReadyState.CONNECTING]: 'Connecting',
+        [ReadyState.OPEN]: 'Open',
+        [ReadyState.CLOSING]: 'Closing',
+        [ReadyState.CLOSED]: 'Closed',
+        [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
+    }[readyState];
+
+    console.log("websocket connection status is: ", connectionStatus)
     const { width = 600 } = useWindowSize()
     const height = 330
     function endgame() {
@@ -126,6 +175,7 @@ export default function Game() {
         return null
     }
 
+    const shareLink = `http://localhost:8080/joingame?gameid=${gameId}`
     return (
         <section className="local-play">
             {isGameOver && endgame()}
@@ -143,20 +193,16 @@ export default function Game() {
                 hasRolled={!canRoll}
             />
 
-            <section
-                className={isPlayer1Turn ? "roll-top" : "roll-bottom"}
-            >
+            <section className="roll-top">
                 <img
                     className="roll-die"
                     src={currentDice}
                     alt="die placeholder"
-                    style={{opacity: canRoll ? 0.4 : 1}}
+                    style={{opacity: !canRoll ? 0.4 : 1}}
                 />
             </section>
 
-            <section
-                className={!isPlayer1Turn ? "roll-top" : "roll-bottom"}
-            >
+            <section className="roll-bottom">
                 <button
                     className="roll-button"
                     onClick={rollDice}
@@ -165,22 +211,30 @@ export default function Game() {
                     {isGameOver ? "Restart" : "Roll"}
                 </button>
             </section>
-
-            <Player
-                player="player2"
-                playerName="Guest2"
-                isTurn={!isPlayer1Turn}
-                score={score2}
-            />
-            <Board
-                player="player2"
-                place={handlePlace}
-                board={board2}
-                isTurn={!isPlayer1Turn}
-                hasRolled={!canRoll}
-            />
+            {board2 === null ?
+                <Link
+                to={`/joingame?gameid=${gameId}&isPlayer1Turn=${isPlayer1Turn}`}> Share Game
+                </Link> :
+                (<>
+                    <Player
+                    player="player2"
+                    playerName="Guest2"
+                    isTurn={!isPlayer1Turn}
+                    score={score2}
+                />
+                <Board
+                    player="player2"
+                    place={handlePlace}
+                    board={board2}
+                    isTurn={!isPlayer1Turn}
+                    hasRolled={!canRoll}
+                />
+                </>)
+            }
 
             <Instructions />
         </section>
     )
 }
+/*
+*/

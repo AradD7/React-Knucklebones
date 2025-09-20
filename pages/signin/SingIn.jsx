@@ -1,6 +1,10 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useState } from "react"
 
 export default function SignIn() {
+    const [status, setStatus] = useState(null)
+
+    const navigate = useNavigate()
 
     function signin(formData) {
         const data = Object.fromEntries(formData)
@@ -16,12 +20,22 @@ export default function SignIn() {
             },
         })
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => {
+                if (data.error != null) {
+                    setStatus("Wrong username or password")
+                } else{
+                    localStorage.setItem("refresh_token", data.refresh_token)
+                    localStorage.setItem("token", data.token)
+                    setStatus("Signed In!")
+                    navigate("/")
+                }
+            })
     }
 
     return (
         <section className="signin-section">
             <h1>Welcome!</h1>
+            {status && <h2 style={{color: status === "Signed In!" ? "green" : "red"}}>{status}</h2>}
             <form action={signin}>
                 <section className="input-section">
                     <label htmlFor="username">Username:</label>

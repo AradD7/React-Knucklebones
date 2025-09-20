@@ -19,6 +19,15 @@ section.signin-section {
     font-weight: 800;
 }
 
+.signin-section > h2 {
+    text-align: center;
+    margin: 0;
+    padding-bottom: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: red;
+}
+
 .signin-section > .signup-h1 {
     text-align: center;
     margin: 0;
