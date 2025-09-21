@@ -2,7 +2,7 @@ import Board from "./Board"
 import Player from "./Player"
 import Instructions from "./Instructions"
 import { useState } from "react"
-import { Dice } from "./utils"
+import { Dice } from "../../utils"
 import Confetti from 'react-confetti'
 import { useWindowSize } from 'react-use'
 
@@ -27,8 +27,8 @@ import { useWindowSize } from 'react-use'
 export default function LocalGame() {
     const [currentDice, setCurrentDice] = useState(() => Dice[5])
     const [canRoll, setCanRoll] = useState(() => true)
-    const [board1, setBoard1] = useState(() => [[0, 2, 1], [2, 1, 1] ,[1, 2, 1]])
-    const [board2, setBoard2] = useState(() => [[0, 6, 2], [1, 6, 1] ,[2, 6, 2]])
+    const [board1, setBoard1] = useState(() => [[0, 6, 1], [2, 6, 1] ,[1, 6, 1]])
+    const [board2, setBoard2] = useState(() => [[0, 1, 2], [1, 1, 1] ,[2, 6, 2]])
     const [score1, setScore1] = useState(() => 123)
     const [score2, setScore2] = useState(() => 0)
     const [isPlayer1Turn, setIsPlayer1Turn] = useState(() => true)
@@ -96,16 +96,14 @@ export default function LocalGame() {
     }
 
     console.log(isGameOver)
-    const { width = 600 } = useWindowSize()
-    const height = 330
+    const { width, height } = useWindowSize()
     function endgame() {
         if (score1 > score2) {
             return (
                 <>
                     <Confetti
                         width={width}
-                        height={height}
-                        style={{marginLeft: 60, marginRight: 60}}
+                        height={height/2}
                     />
                     <h1 className="announce-winner">Guest1 Won!</h1>
                 </>
@@ -116,8 +114,7 @@ export default function LocalGame() {
                 <>
                     <Confetti
                         width={width}
-                        height={height}
-                        style={{marginTop: height+30, marginLeft: 60, marginRight: 60}}
+                        style={{marginTop:"45vh"}}
                     />
                     <h1 className="announce-winner">Guest2 Won!</h1>
                 </>

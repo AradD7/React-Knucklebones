@@ -3,12 +3,36 @@
     font-family: "Finger Paint", sans-serif;
 }
 
-body {
+html {
     background-color: #f8efff;
+}
+
+header {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.back-button > span.material-symbols-outlined {
+    margin: 0;
+    font-size: 2.8rem;
+    text-align: center;
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+}
+
+div.main-content {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 90vh;
     margin: 0;
 }
 
+
+.back-button:visited {
+    color: inherit;
+}

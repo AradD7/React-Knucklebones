@@ -1,4 +1,4 @@
-import { Dice } from "./utils"
+import { Dice } from "../../utils"
 
 export default function Board(props) {
     const isDisabled = new Array(9).fill(true)

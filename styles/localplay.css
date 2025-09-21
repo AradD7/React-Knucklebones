@@ -247,6 +247,7 @@ h1.announce-winner {
     transform: translate(-50%, -50%);
     z-index: 9999;
     text-align: center;
+    background-color: transparent;
 }
 
 @media (max-width: 640px) and (min-width: 520px) {
@@ -460,9 +461,11 @@ h1.announce-winner {
 @media (max-width: 520px) {
     section.local-play {
         margin: 0;
-        min-height: 95vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        min-height: 760px;
         max-width: 700px;
-        max-height: 700px;
+        height: 90vh;
         font-family: "Finger Paint", sans-serif;
         display: grid;
         grid-template-columns: repeat(4, 1fr);

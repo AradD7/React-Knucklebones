@@ -2,34 +2,37 @@ import Board from "./Board"
 import Player from "./Player"
 import Instructions from "./Instructions"
 import { useState, useEffect } from "react"
-import { Dice } from "./utils"
+import { Dice } from "../../utils"
 import Confetti from 'react-confetti'
 import { useWindowSize } from 'react-use'
 //import QRCode from "react-qr-code"
 import useWebSocket, { ReadyState } from "react-use-websocket"
-import { Link } from "react-router-dom"
+import { useSearchParams } from "react-router-dom"
 
 export default function OnlineGame() {
+    const [searchParams] = useSearchParams()
+    const gameId = searchParams.get("gameid")
+    console.log(gameId)
+
     const [currentDice, setCurrentDice] = useState(() => Dice[5])
-    const [canRoll, setCanRoll] = useState(() => true)
-    const [gameId, setGameId] = useState(() => null)
+    const [canRoll, setCanRoll] = useState(() => false)
     const [board1, setBoard1] = useState(() => [[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
-    const [board2, setBoard2] = useState(() => null)
+    const [board2, setBoard2] = useState(() => [[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
     const [score1, setScore1] = useState(() => 0)
-    const [score2, setScore2] = useState(() => null)
-    const [isPlayer1Turn, setIsPlayer1Turn] = useState(() => true)
+    const [score2, setScore2] = useState(() => 0)
+    const [isPlayer1Turn, setIsPlayer1Turn] = useState(() => false)
     const [isGameOver, setIsGameOver] = useState(() => false)
 
-    const [socketUrl, setSocketUrl] = useState(() => null);
+    const socketUrl = `ws://localhost:8080/ws/games/${gameId}`
 
     const token = localStorage.getItem("token")
 
     const { sendJsonMessage, readyState } = useWebSocket(socketUrl, {
         onOpen: () => {
-            console.log('WebSocket connected!', socketUrl);
+            console.log('WebSocket connected!');
             sendJsonMessage({
-                Type: "auth",
-                Token: token
+                type: "auth",
+                token: token
             })
         },
         onMessage: (event) => {
@@ -53,24 +56,33 @@ export default function OnlineGame() {
                         setScore2(data.score2)
                         setIsGameOver(data.is_over)
                         setCurrentDice(Dice[5])
-                        setIsPlayer1Turn(prev => !prev)
+                        setIsPlayer1Turn(data.is_turn)
+                        setCanRoll(data.is_turn)
+                        console.log(data)
                     })
             }
         }
-    }, socketUrl != null);
+    });
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/games/new", {
+        fetch(`http://localhost:8080/api/games/${gameId}/join`, {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`
             }
         })
-            .then(resp => resp.json())
-            .then(data => {
-                console.log(data)
-                setGameId(data.id)
-                setSocketUrl(`ws://localhost:8080/ws/games/${data.id}`)
+        .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+            })
+        .then(data => {
+                setScore1(data.score1)
+                setScore2(data.score2)
+                setIsGameOver(data.is_over)
+                setCurrentDice(Dice[5])
+                setIsPlayer1Turn(data.is_turn)
+                setCanRoll(data.is_turn)
             })
     }, [])
 
@@ -94,7 +106,6 @@ export default function OnlineGame() {
         setBoard2([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
         setScore1(0)
         setScore2(0)
-        setIsPlayer1Turn(Math.random() < 0.5)
         setIsGameOver(false)
     }
 
@@ -103,9 +114,6 @@ export default function OnlineGame() {
         fetch(`http://localhost:8080/api/games/move/${gameId}`, {
             method: "POST",
             body: JSON.stringify({
-                board1: board1,
-                board2: board2,
-                turn: isPlayer1Turn ? "player1" : "player2",
                 dice: Dice.indexOf(currentDice),
                 row: row,
                 col: col
@@ -118,8 +126,6 @@ export default function OnlineGame() {
             .then(response => {
                 if (response.ok) {
                     console.log('successfully placed dice!')
-                    setCanRoll(true)
-                    setIsPlayer1Turn(prev => !prev)
                     return response.json();
                 } else {
                     console.log('Request failed with status:', response.status)
@@ -175,14 +181,13 @@ export default function OnlineGame() {
         return null
     }
 
-    const shareLink = `http://localhost:8080/joingame?gameid=${gameId}`
+    console.log(board2)
     return (
         <section className="local-play">
             {isGameOver && endgame()}
             <Player
                 player="player1"
                 playerName="Guest1"
-                isTurn={isPlayer1Turn}
                 score={score1}
             />
             <Board
@@ -198,7 +203,7 @@ export default function OnlineGame() {
                     className="roll-die"
                     src={currentDice}
                     alt="die placeholder"
-                    style={{opacity: !canRoll ? 0.4 : 1}}
+                    style={{opacity: !isPlayer1Turn || canRoll ? 0.4 : 1}}
                 />
             </section>
 
@@ -211,30 +216,21 @@ export default function OnlineGame() {
                     {isGameOver ? "Restart" : "Roll"}
                 </button>
             </section>
-            {board2 === null ?
-                <Link
-                to={`/joingame?gameid=${gameId}&isPlayer1Turn=${isPlayer1Turn}`}> Share Game
-                </Link> :
-                (<>
-                    <Player
-                    player="player2"
-                    playerName="Guest2"
-                    isTurn={!isPlayer1Turn}
-                    score={score2}
-                />
-                <Board
-                    player="player2"
-                    place={handlePlace}
-                    board={board2}
-                    isTurn={!isPlayer1Turn}
-                    hasRolled={!canRoll}
-                />
-                </>)
-            }
+
+            <Player
+                player="player2"
+                playerName="Guest2"
+                score={score2}
+            />
+            <Board
+                player="player2"
+                place={handlePlace}
+                board={board2}
+                isTurn={!isPlayer1Turn}
+                hasRolled={!canRoll}
+            />
 
             <Instructions />
         </section>
     )
 }
-/*
-*/
