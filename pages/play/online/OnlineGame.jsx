@@ -3,16 +3,19 @@ import Player from "./Player"
 import Instructions from "./Instructions"
 import { useState, useEffect } from "react"
 import RefreshJwtToken, { Dice } from "../../utils"
-import Confetti from 'react-confetti'
-import { useWindowSize } from 'react-use'
 import QRCode from "react-qr-code"
 import useWebSocket, { ReadyState } from "react-use-websocket"
 import { WhatsappIcon, TelegramIcon, WhatsappShareButton, TelegramShareButton } from "react-share"
+import ConfettiExplosion from 'react-confetti-explosion'
+import { useNavigate, useSearchParams } from "react-router-dom"
 
 export default function OnlineGame() {
+    const navigate = useNavigate()
+    const [searchParams, setSearchParams] = useSearchParams()
+
     const [currentDice, setCurrentDice] = useState(() => Dice[5])
     const [canRoll, setCanRoll] = useState(() => false)
-    const [gameId, setGameId] = useState(() => null)
+    const [gameId, setGameId] = useState(() => searchParams.get("gameid"))
     const [board1, setBoard1] = useState(() => [[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
     const [board2, setBoard2] = useState(() => null)
     const [score1, setScore1] = useState(() => 0)
@@ -20,6 +23,7 @@ export default function OnlineGame() {
     const [isPlayer1Turn, setIsPlayer1Turn] = useState(() => false)
     const [isGameOver, setIsGameOver] = useState(() => false)
     const [shareLink, setShareLink] = useState(() => "")
+    const [newGame, setNewGame] = useState(() => false)
 
     const [socketUrl, setSocketUrl] = useState(() => null);
     const token = localStorage.getItem("token")
@@ -27,7 +31,6 @@ export default function OnlineGame() {
 
     const { sendJsonMessage, readyState } = useWebSocket(socketUrl, {
         onOpen: () => {
-            console.log('WebSocket connected!', socketUrl);
             sendJsonMessage({
                 Type: "auth",
                 Token: token
@@ -62,33 +65,61 @@ export default function OnlineGame() {
     }, socketUrl != null);
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/games/new", {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        })
-            .then(resp => {
-                if (resp.status === 401) {
-                    return RefreshJwtToken(token)
-                        .then(data => {
-                        localStorage.setItem("token", data)
-                        return fetch("http://localhost:8080/api/games/new", {
-                            method: "GET",
-                            headers: {
-                                "Authorization": `Bearer ${data}`
-                            }
-                        })
-                    })
+        if (gameId === null) {
+            fetch("http://localhost:8080/api/games/new", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
                 }
-                return resp
             })
-            .then(response => response.json())
+                .then(resp => {
+                    if (resp.status === 401) {
+                        return RefreshJwtToken(token)
+                            .then(data => {
+                            localStorage.setItem("token", data)
+                            return fetch("http://localhost:8080/api/games/new", {
+                                method: "GET",
+                                headers: {
+                                    "Authorization": `Bearer ${data}`
+                                }
+                            })
+                        })
+                    }
+                    return resp
+                })
+                .then(response => response.json())
+                .then(data => {
+                    setGameId(data.id)
+                    setSocketUrl(`ws://localhost:8080/ws/games/${data.id}`)
+                    setSearchParams(prev => ({...Object.fromEntries(prev), gameid: data.id}))
+                })
+        } else {
+            fetch(`http://localhost:8080/api/games/${gameId}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                })
             .then(data => {
-                setGameId(data.id)
-                setSocketUrl(`ws://localhost:8080/ws/games/${data.id}`)
-            })
-    }, [])
+                    setBoard1(data.board1)
+                    setBoard2(data.board2)
+                    setScore1(data.score1)
+                    setScore2(data.score2)
+                    setIsGameOver(data.is_over)
+                    setCurrentDice(Dice[5])
+                    setIsPlayer1Turn(data.is_turn)
+                    setCanRoll(data.is_turn)
+                    if (!data.is_over) {
+                        setSocketUrl(`ws://localhost:8080/ws/games/${data.id}`)
+                    }
+                })
+        }
+    }, [newGame])
 
     useEffect(() => {
         setShareLink(`http://localhost:5173/joingame?gameid=${gameId}`)
@@ -109,11 +140,15 @@ export default function OnlineGame() {
                 .then(data => setCurrentDice(Dice[data.dice]))
             return
         }
+        setGameId(null)
         setBoard1([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
-        setBoard2([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
+        setIsGameOver(false)
         setScore1(0)
         setScore2(0)
-        setIsGameOver(false)
+        setBoard2(null)
+        setNewGame(prev => !prev)
+        setSearchParams({})
+        navigate("/onlineplay")
     }
 
     function handlePlace(row, col) {
@@ -158,43 +193,9 @@ export default function OnlineGame() {
         [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
     }[readyState];
 
-    const { width = 600 } = useWindowSize()
-    const height = 330
-    function endgame() {
-        if (score1 > score2) {
-            return (
-                <>
-                    <Confetti
-                        width={width}
-                        height={height}
-                        style={{marginLeft: 60, marginRight: 60}}
-                    />
-                    <h1 className="announce-winner">Guest1 Won!</h1>
-                </>
-            )
-        }
-        if (score2 > score1) {
-            return (
-                <>
-                    <Confetti
-                        width={width}
-                        height={height}
-                        style={{marginTop: height+30, marginLeft: 60, marginRight: 60}}
-                    />
-                    <h1 className="announce-winner">Guest2 Won!</h1>
-                </>
-            )
-        }
-        return null
-    }
-
-
     const handleClipboard = async () => {
-        console.log("clicked")
         try {
             await navigator.clipboard.writeText(shareLink);
-            console.log('Text copied to clipboard!');
-            // Optional: Show success message
         } catch (error) {
             console.error('Failed to copy text: ', error);
         }
@@ -202,7 +203,23 @@ export default function OnlineGame() {
 
     return (
         <section className="local-play">
-            {isGameOver && endgame()}
+            {isGameOver && (score1 > score2 ?
+                <>
+                    <ConfettiExplosion
+                        style={{position: "absolute", top: "20%", left: "50%"}}
+                        duration={4000}
+                        particleCount={400}
+                    />
+                    <h1 className="game-over-text">
+                        You Won!
+                    </h1>
+                </> :
+                <>
+                    <h1 className="game-over-text game-lost-text">
+                        You Lost!
+                    </h1>
+                </>
+            )}
             <Player
                 player="player1"
                 playerName="Guest1"
@@ -229,9 +246,9 @@ export default function OnlineGame() {
                 <button
                     className="roll-button"
                     onClick={rollDice}
-                    disabled={!canRoll}
+                    disabled={!isGameOver && !canRoll}
                 >
-                    {isGameOver ? "Restart" : "Roll"}
+                    {isGameOver ? "New Game" : "Roll"}
                 </button>
             </section>
             {board2 === null ?

@@ -60,9 +60,26 @@ section.board2-placeholder > section.qr-code > svg {
     width: 120px;
 }
 
+h1.game-over-text {
+    color: #EAC03A;
+    text-align: center;
+    line-height: 0.9;
+    margin: 0;
+    font-size: 8rem;
+    position: absolute;
+    left: 54%;
+    top: 22%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+
+h1.game-lost-text {
+    color: #700000;
+}
+
 @media (max-width: 640px) {
     section.board2-placeholder {
-        padding-top: 40px;
+        padding-top: 20px;
         justify-content: flex-start;
     }
 
@@ -84,7 +101,7 @@ section.board2-placeholder > section.qr-code > svg {
         padding: 0 15px;
         text-align: center;
         font-weight: 800;
-        padding-bottom: 40px;
+        padding-bottom: 30px;
     }
 
     section.board2-placeholder > section.qr-code {
@@ -95,7 +112,12 @@ section.board2-placeholder > section.qr-code > svg {
 
     section.board2-placeholder > section.qr-code > svg {
         margin: 0;
-        height: 160px;
-        width: 160px;
+        height: 120px;
+        width: 120px;
+    }
+
+    h1.game-over-text {
+        left: 50%;
+        top: 25%;
     }
 }

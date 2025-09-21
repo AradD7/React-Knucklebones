@@ -2,6 +2,31 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import RefreshJwtToken from "./utils";
 
+//**fix local game confetti animations**
+//
+//**logout**
+//
+//**guest user**
+//
+//**view profile
+//  set display name
+//  set avatar
+//**
+//
+//**ai play**
+//
+//see your games
+//
+//change cursor to dice
+//higlight higher score
+//animations
+//sound
+//
+//*****DEPLOYMENT*****
+//
+//Email verification
+//sing in with google
+
 export default function MainMenu() {
     const refreshToken = localStorage.getItem("refresh_token")
     const [token, setToken] = useState(() => null)

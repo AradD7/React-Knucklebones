@@ -3,16 +3,14 @@ import Player from "./Player"
 import Instructions from "./Instructions"
 import { useState, useEffect } from "react"
 import { Dice } from "../../utils"
-import Confetti from 'react-confetti'
-import { useWindowSize } from 'react-use'
-//import QRCode from "react-qr-code"
 import useWebSocket, { ReadyState } from "react-use-websocket"
-import { useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
+import ConfettiExplosion from 'react-confetti-explosion'
 
 export default function OnlineGame() {
     const [searchParams] = useSearchParams()
+    const navigate = useNavigate()
     const gameId = searchParams.get("gameid")
-    console.log(gameId)
 
     const [currentDice, setCurrentDice] = useState(() => Dice[5])
     const [canRoll, setCanRoll] = useState(() => false)
@@ -29,14 +27,12 @@ export default function OnlineGame() {
 
     const { sendJsonMessage, readyState } = useWebSocket(socketUrl, {
         onOpen: () => {
-            console.log('WebSocket connected!');
             sendJsonMessage({
                 type: "auth",
                 token: token
             })
         },
         onMessage: (event) => {
-            console.log('WebSocket message received:', event.data);
             if (JSON.parse(event.data).type === "refresh") {
                 fetch(`http://localhost:8080/api/games/${gameId}`, {
                     method: "GET",
@@ -58,7 +54,6 @@ export default function OnlineGame() {
                         setCurrentDice(Dice[5])
                         setIsPlayer1Turn(data.is_turn)
                         setCanRoll(data.is_turn)
-                        console.log(data)
                     })
             }
         }
@@ -91,7 +86,6 @@ export default function OnlineGame() {
             fetch("http://localhost:8080/api/rolls")
                 .then(response => {
                     if (response.ok) {
-                        console.log('Request to get new dice was successful!')
                         setCanRoll(false)
                         return response.json();
                     } else {
@@ -102,15 +96,10 @@ export default function OnlineGame() {
                 .then(data => setCurrentDice(Dice[data.dice]))
             return
         }
-        setBoard1([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
-        setBoard2([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
-        setScore1(0)
-        setScore2(0)
-        setIsGameOver(false)
+        navigate("/onlineplay")
     }
 
     function handlePlace(row, col) {
-        console.log(`${col}, ${row} was presses`)
         fetch(`http://localhost:8080/api/games/move/${gameId}`, {
             method: "POST",
             body: JSON.stringify({
@@ -125,7 +114,6 @@ export default function OnlineGame() {
         })
             .then(response => {
                 if (response.ok) {
-                    console.log('successfully placed dice!')
                     return response.json();
                 } else {
                     console.log('Request failed with status:', response.status)
@@ -150,41 +138,25 @@ export default function OnlineGame() {
         [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
     }[readyState];
 
-    console.log("websocket connection status is: ", connectionStatus)
-    const { width = 600 } = useWindowSize()
-    const height = 330
-    function endgame() {
-        if (score1 > score2) {
-            return (
-                <>
-                    <Confetti
-                        width={width}
-                        height={height}
-                        style={{marginLeft: 60, marginRight: 60}}
-                    />
-                    <h1 className="announce-winner">Guest1 Won!</h1>
-                </>
-            )
-        }
-        if (score2 > score1) {
-            return (
-                <>
-                    <Confetti
-                        width={width}
-                        height={height}
-                        style={{marginTop: height+30, marginLeft: 60, marginRight: 60}}
-                    />
-                    <h1 className="announce-winner">Guest2 Won!</h1>
-                </>
-            )
-        }
-        return null
-    }
-
-    console.log(board2)
     return (
         <section className="local-play">
-            {isGameOver && endgame()}
+            {isGameOver && (score1 > score2 ?
+                <>
+                    <ConfettiExplosion
+                        style={{position: "absolute", top: "20%", left: "50%"}}
+                        duration={4000}
+                        particleCount={400}
+                    />
+                    <h1 className="game-over-text">
+                        You Won!
+                    </h1>
+                </> :
+                <>
+                    <h1 className="game-over-text game-lost-text">
+                        You Lost!
+                    </h1>
+                </>
+            )}
             <Player
                 player="player1"
                 playerName="Guest1"
@@ -211,9 +183,9 @@ export default function OnlineGame() {
                 <button
                     className="roll-button"
                     onClick={rollDice}
-                    disabled={!canRoll}
+                    disabled={!isGameOver && !canRoll}
                 >
-                    {isGameOver ? "Restart" : "Roll"}
+                    {isGameOver ? "New Game" : "Roll"}
                 </button>
             </section>
 

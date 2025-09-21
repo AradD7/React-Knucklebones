@@ -6,24 +6,6 @@ import { Dice } from "../../utils"
 import Confetti from 'react-confetti'
 import { useWindowSize } from 'react-use'
 
-//make it responsive
-//
-//signup/signin page
-//
-//new game with another player
-//
-//see your games
-//
-//logout
-//
-//
-//optional:
-//  change cursor to die
-//  highlight the higher score
-//  add animation for dice removal
-//  sounds
-//
-
 export default function LocalGame() {
     const [currentDice, setCurrentDice] = useState(() => Dice[5])
     const [canRoll, setCanRoll] = useState(() => true)
