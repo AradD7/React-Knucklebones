@@ -3,15 +3,14 @@ import Player from "./Player"
 import Instructions from "./Instructions"
 import { useState } from "react"
 import { Dice } from "../../utils"
-import Confetti from 'react-confetti'
-import { useWindowSize } from 'react-use'
+import ConfettiExplosion from 'react-confetti-explosion'
 
 export default function LocalGame() {
     const [currentDice, setCurrentDice] = useState(() => Dice[5])
     const [canRoll, setCanRoll] = useState(() => true)
-    const [board1, setBoard1] = useState(() => [[0, 6, 1], [2, 6, 1] ,[1, 6, 1]])
-    const [board2, setBoard2] = useState(() => [[0, 1, 2], [1, 1, 1] ,[2, 6, 2]])
-    const [score1, setScore1] = useState(() => 123)
+    const [board1, setBoard1] = useState(() => [[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
+    const [board2, setBoard2] = useState(() => [[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
+    const [score1, setScore1] = useState(() => 0)
     const [score2, setScore2] = useState(() => 0)
     const [isPlayer1Turn, setIsPlayer1Turn] = useState(() => true)
     const [isGameOver, setIsGameOver] = useState(() => false)
@@ -21,7 +20,6 @@ export default function LocalGame() {
             fetch("http://localhost:8080/api/rolls")
                 .then(response => {
                     if (response.ok) {
-                        console.log('Request to get new dice was successful!')
                         setCanRoll(false)
                         return response.json();
                     } else {
@@ -41,7 +39,6 @@ export default function LocalGame() {
     }
 
     function handlePlace(row, col) {
-        console.log(`${col}, ${row} was presses`)
         fetch("http://localhost:8080/api/games/localgame", {
             method: "POST",
             body: JSON.stringify({
@@ -58,7 +55,6 @@ export default function LocalGame() {
         })
             .then(response => {
                 if (response.ok) {
-                    console.log('successfully placed dice!')
                     setCanRoll(true)
                     setIsPlayer1Turn(prev => !prev)
                     return response.json();
@@ -77,37 +73,19 @@ export default function LocalGame() {
             })
     }
 
-    console.log(isGameOver)
-    const { width, height } = useWindowSize()
-    function endgame() {
-        if (score1 > score2) {
-            return (
-                <>
-                    <Confetti
-                        width={width}
-                        height={height/2}
-                    />
-                    <h1 className="announce-winner">Guest1 Won!</h1>
-                </>
-            )
-        }
-        if (score2 > score1) {
-            return (
-                <>
-                    <Confetti
-                        width={width}
-                        style={{marginTop:"45vh"}}
-                    />
-                    <h1 className="announce-winner">Guest2 Won!</h1>
-                </>
-            )
-        }
-        return null
-    }
-
     return (
         <section className="local-play">
-            {isGameOver && endgame()}
+            {isGameOver &&
+                <section className={`local-game-over ${score1 > score2 ? "top" : "bottom"}`}>
+                    <ConfettiExplosion
+                        duration={4000}
+                        particleCount={400}
+                    />
+                    <h1>
+                        You Won!
+                    </h1>
+                </section>
+            }
             <Player
                 player="player1"
                 playerName="Guest1"

@@ -237,17 +237,26 @@ section.player2-board > button > img {
     width: 70px;
 }
 
-h1.announce-winner {
-    margin: 0;
-    color: #00E650;
-    font-size: 7rem;
+section.local-game-over {
     position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999;
+    top: 20%;
+    left: 54%
+}
+
+section.local-game-over > h1 {
+    color: #EAC03A;
     text-align: center;
-    background-color: transparent;
+    line-height: 0.9;
+    margin: 0;
+    font-size: 8rem;
+    position: absolute;
+    top: 22%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+
+section.bottom {
+    top: 53%;
 }
 
 @media (max-width: 640px) and (min-width: 520px) {
@@ -456,6 +465,20 @@ h1.announce-winner {
         align-items: center;
         justify-content: center;
     }
+
+    section.local-game-over {
+        position: absolute;
+        top: 25%;
+        left: 50%
+    }
+
+    section.local-game-over > h1 {
+        font-size: 9rem;
+    }
+
+    section.bottom {
+        top: 78%;
+    }
 }
 
 @media (max-width: 520px) {
@@ -662,5 +685,20 @@ h1.announce-winner {
     section.player2-info > img {
         display: none;
     }
+
+    section.local-game-over {
+        position: absolute;
+        top: 25%;
+        left: 50%
+    }
+
+    section.local-game-over > h1 {
+        font-size: 8rem;
+    }
+
+    section.bottom {
+        top: 72%;
+    }
+
 }
 

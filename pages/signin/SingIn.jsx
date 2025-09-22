@@ -34,7 +34,7 @@ export default function SignIn() {
 
     return (
         <section className="signin-section">
-            <h1>Welcome!</h1>
+            <h1>Enter Information:</h1>
             {status && <h2 style={{color: status === "Signed In!" ? "green" : "red"}}>{status}</h2>}
             <form action={signin}>
                 <section className="input-section">
