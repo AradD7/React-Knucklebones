@@ -111,11 +111,11 @@ export default function MainMenu() {
                             VS Player
                         </h1>
                     </Link>
-                    <Link to="signin">
+                    <Link to="vscomputer">
                         <h1
                             onMouseEnter={() => setShowLocalPlay(true)}
                         >
-                            VS AI
+                            VS Computer
                         </h1>
                     </Link>
                 </section>

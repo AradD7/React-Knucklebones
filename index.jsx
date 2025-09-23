@@ -7,6 +7,7 @@ import SignIn from "./pages/signin/SingIn"
 import SignUp from "./pages/signin/SignUp"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Navbar from "./pages/Navbar"
+import ComputerGame from "./pages/play/computer/ComputerGame"
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
                     <Route index element={<MainMenu />} />
 
                     <Route path="localplay" element={<LocalGame />} />
+                    <Route path="vscomputer" element={<ComputerGame />} />
                     <Route path="onlineplay" element={<OnlineGame />} />
                     <Route path="joingame" element={<JoinGame />} />
 

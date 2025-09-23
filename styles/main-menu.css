@@ -73,7 +73,9 @@ section.show {
 }
 
 section.show > a > h1 {
+    padding: 15px 0 30px;
     transition: all 0.3s ease;
+    line-height: 1;
 }
 
 section.show > a > h1:hover {

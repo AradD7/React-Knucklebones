@@ -22,3 +22,10 @@ export default async function RefreshJwtToken(refreshToken) {
     const data = await response.json()
     return data.token
 }
+
+export function RandomInt(max, min = 0) {
+    if (min > max) {
+        [min, max] = [max, min]
+    }
+    return Math.floor(Math.random() * (max - min)) + min;
+}
