@@ -107,8 +107,10 @@ section.instructions > p.arrow-button {
     font-size: 1.5rem;
 }
 
-section > img {
+img.profile-picture {
     width: 160px;
+    height: 160px;
+    border-radius: 20px;
 }
 
 section.player1-info {

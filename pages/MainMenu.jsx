@@ -2,11 +2,22 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import RefreshJwtToken from "./utils";
 
-//**ai play**
-//
 //**view profile
 //  set display name
 //  set avatar
+//**
+//
+//**show username (or display name)
+//on games
+//**
+//
+//**Add user profile pic
+//to the navbar to redirect
+//user to set profile page
+//**
+//
+//**Select difficulty for
+//vs computer
 //**
 //
 //see your games

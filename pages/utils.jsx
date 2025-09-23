@@ -4,8 +4,18 @@ import Die3 from "/images/die-3.png"
 import Die4 from "/images/die-4.png"
 import Die5 from "/images/die-5.png"
 import Die6 from "/images/die-6.png"
+import P0 from "/images/p0.jpg"
+import P1 from "/images/p1.png"
+import P2 from "/images/p2.svg"
+import P3 from "/images/p3.jpg"
+import P4 from "/images/p4.png"
+import P5 from "/images/p5.png"
+import P6 from "/images/p6.jpeg"
+import P7 from "/images/p7.jpeg"
+import P8 from "/images/p8.jpg"
 
 export const Dice = [null, Die1, Die2, Die3, Die4, Die5, Die6]
+export const ProfilePics = [P0, P1, P2, P3, P4, P5, P6, P7, P8]
 
 export default async function RefreshJwtToken(refreshToken) {
     const response = await fetch("http://localhost:8080/api/tokens/refresh", {

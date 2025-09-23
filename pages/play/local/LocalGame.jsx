@@ -1,6 +1,6 @@
-import Board from "./Board"
+import LocalBoard from "../LocalBoard"
 import Player from "./Player"
-import Instructions from "./Instructions"
+import Instructions from "../Instructions"
 import { useState } from "react"
 import { Dice } from "../../utils"
 import ConfettiExplosion from 'react-confetti-explosion'
@@ -88,11 +88,11 @@ export default function LocalGame() {
             }
             <Player
                 player="player1"
-                playerName="Guest1"
+                playerName="Guest"
                 isTurn={isPlayer1Turn}
                 score={score1}
             />
-            <Board
+            <LocalBoard
                 player="player1"
                 place={handlePlace}
                 board={board1}
@@ -125,11 +125,11 @@ export default function LocalGame() {
 
             <Player
                 player="player2"
-                playerName="Guest2"
+                playerName="Friend"
                 isTurn={!isPlayer1Turn}
                 score={score2}
             />
-            <Board
+            <LocalBoard
                 player="player2"
                 place={handlePlace}
                 board={board2}

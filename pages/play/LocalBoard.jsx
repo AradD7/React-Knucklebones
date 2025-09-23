@@ -1,6 +1,6 @@
-import { Dice } from "../../utils"
+import { Dice } from "../utils"
 
-export default function Board(props) {
+export default function LocalBoard(props) {
     const isDisabled = new Array(9).fill(true)
     const colBlocked = new Array(3).fill(false)
     const isHighlighted = [[false, false, false], [false, false, false], [false, false, false]]

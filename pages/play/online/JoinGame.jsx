@@ -1,6 +1,6 @@
 import Board from "./Board"
 import Player from "./Player"
-import Instructions from "./Instructions"
+import Instructions from "../Instructions"
 import { useState, useEffect } from "react"
 import { Dice } from "../../utils"
 import useWebSocket, { ReadyState } from "react-use-websocket"

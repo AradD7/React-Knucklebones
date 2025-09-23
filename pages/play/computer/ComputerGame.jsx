@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
 import { Dice, RandomInt } from "../../utils"
-import Board from "./Board"
+import LocalBoard from "../LocalBoard"
 import Player from "./Player"
-import Instructions from "./Instructions"
+import Instructions from "../Instructions"
 import ConfettiExplosion from 'react-confetti-explosion'
 
 export default function ComputerGame() {
     const [currentDice, setCurrentDice] = useState(Dice[5])
     const [canRoll, setCanRoll] = useState(true)
-    const [board1, setBoard1] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
+    const [board1, setBoard1] = useState([[0, 6, 6], [6, 6, 6] ,[6, 6, 6]])
     const [board2, setBoard2] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
     const [nextBoard1, setNextBoard1] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
     const [nextBoard2, setNextBoard2] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
@@ -52,14 +52,17 @@ export default function ComputerGame() {
                     return initBoard
                 })
             }
-        } else {
-            setBoard1(nextBoard1)
-            setBoard2(nextBoard2)
-            setScore1(nextScore1)
-            setScore2(nextScore2)
-            setIsComputerTurn(false)
-            setIsGameOver(isGameOverNext)
-            setCanRoll(true)
+        } else if (!isGameOver){
+            const timer = setTimeout(() => {
+                setBoard1(nextBoard1)
+                setBoard2(nextBoard2)
+                setScore1(nextScore1)
+                setScore2(nextScore2)
+                setIsComputerTurn(false)
+                setIsGameOver(isGameOverNext)
+                setCanRoll(true)
+            }, 2000)
+            return () => clearTimeout(timer)
         }
     }, [nextBoard2])
 
@@ -127,7 +130,7 @@ export default function ComputerGame() {
                 isTurn={!isComputerTurn}
                 score={score1}
             />
-            <Board
+            <LocalBoard
                 player="player1"
                 place={handlePlace}
                 board={board1}
@@ -164,7 +167,7 @@ export default function ComputerGame() {
                 isTurn={isComputerTurn}
                 score={score2}
             />
-            <Board
+            <LocalBoard
                 player="player2"
                 place={handlePlace}
                 board={board2}
