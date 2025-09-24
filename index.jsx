@@ -8,6 +8,7 @@ import SignUp from "./pages/signin/SignUp"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Navbar from "./pages/Navbar"
 import ComputerGame from "./pages/play/computer/ComputerGame"
+import PlayerProfile from "./pages/profile/PlayerProfile"
 
 
 function App() {
@@ -21,6 +22,8 @@ function App() {
                     <Route path="vscomputer" element={<ComputerGame />} />
                     <Route path="onlineplay" element={<OnlineGame />} />
                     <Route path="joingame" element={<JoinGame />} />
+
+                    <Route path="profile" element={<PlayerProfile />} />
 
                     <Route path="signin" element={<SignIn />} />
                     <Route path="signup" element={<SignUp />} />

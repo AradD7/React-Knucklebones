@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import RefreshJwtToken from "./utils";
+import { useState } from "react";
+import { Link, useOutletContext } from "react-router-dom";
 
 //**view profile
 //  set display name
@@ -8,13 +7,10 @@ import RefreshJwtToken from "./utils";
 //**
 //
 //**show username (or display name)
-//on games
+//on online games
 //**
 //
-//**Add user profile pic
-//to the navbar to redirect
-//user to set profile page
-//**
+//** keyboard inputs **
 //
 //**Select difficulty for
 //vs computer
@@ -33,60 +29,25 @@ import RefreshJwtToken from "./utils";
 //sing in with google
 
 export default function MainMenu() {
-    const refreshToken = localStorage.getItem("refresh_token")
-    const [token, setToken] = useState(null)
-    const [playerInfo, setPlayerInfo] = useState({
-        username: null,
-        avatar: null,
-    })
-    const [showLocalPlay, setShowLocalPlay] = useState(false)
-
-    useEffect(() => {
-        RefreshJwtToken(refreshToken)
-        .then(token => setToken(token))
-        .catch(error => console.log("Token invalid, login again: ", error.message))
-    }, [])
-
-    useEffect(() => {
-        if (token !== null) {
-            fetch("http://localhost:8080/api/players/getplayer", {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                    if (!response.ok) {
-                        throw new Error("token invalid")
-                    }
-                    return response.json()
-                })
-            .then(data => {{
-                    setPlayerInfo({
-                        username: data.username,
-                        avatar: data.avatar
-                    })
-                }})
-            .catch(error => {
-                    console.log("Please refresh token: ", error.message)
-                })
-    }}, [token])
+    const { token, setToken } = useOutletContext()
+    const { playerInfo } = useOutletContext()
 
     function signout() {
         fetch("http://localhost:8080/api/tokens/revoke", {
             headers: {
-                "Authorization": `Bearer ${refreshToken}`
+                "Authorization": `Bearer ${localStorage.getItem("refresh_token")}`
             }
         })
         .then(response => {
                 if (response.ok) {
                     localStorage.removeItem("refresh_token")
-                    localStorage.removeItem("token")
                     setToken(null)
                 }
             })
     }
-    localStorage.setItem("token", token)
+
+    const [showLocalPlay, setShowLocalPlay] = useState(false)
+
     return (
         <section className="main-menu" onMouseLeave={() => setShowLocalPlay(false)}>
             {token === null ?
@@ -103,7 +64,7 @@ export default function MainMenu() {
                 className="welcome-text"
                 onMouseEnter={() => setShowLocalPlay(false)}
             >
-                Hi, {playerInfo.username ?? ''}!
+                Hi, {playerInfo.displayName === "" ? playerInfo.username : playerInfo.displayName}!
             </h1>
             }
 

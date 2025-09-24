@@ -4,6 +4,7 @@ import Instructions from "../Instructions"
 import { useState } from "react"
 import { Dice } from "../../utils"
 import ConfettiExplosion from 'react-confetti-explosion'
+import { useOutletContext } from "react-router-dom"
 
 export default function LocalGame() {
     const [currentDice, setCurrentDice] = useState(Dice[5])
@@ -14,6 +15,8 @@ export default function LocalGame() {
     const [score2, setScore2] = useState(0)
     const [isPlayer1Turn, setIsPlayer1Turn] = useState(true)
     const [isGameOver, setIsGameOver] = useState(false)
+
+    const { playerInfo } = useOutletContext()
 
     function rollDice() {
         if (!isGameOver) {
@@ -88,7 +91,7 @@ export default function LocalGame() {
             }
             <Player
                 player="player1"
-                playerName="Guest"
+                playerName={!playerInfo.displayName ? playerInfo.username : playerInfo.displayName}
                 isTurn={isPlayer1Turn}
                 score={score1}
             />

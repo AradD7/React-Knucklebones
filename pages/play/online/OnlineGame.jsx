@@ -7,7 +7,7 @@ import QRCode from "react-qr-code"
 import useWebSocket, { ReadyState } from "react-use-websocket"
 import { WhatsappIcon, TelegramIcon, WhatsappShareButton, TelegramShareButton } from "react-share"
 import ConfettiExplosion from 'react-confetti-explosion'
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom"
 
 export default function OnlineGame() {
     const navigate = useNavigate()
@@ -24,9 +24,14 @@ export default function OnlineGame() {
     const [isGameOver, setIsGameOver] = useState(() => false)
     const [shareLink, setShareLink] = useState(() => "")
     const [newGame, setNewGame] = useState(() => false)
+    const [oppInfo, setOppInfo] = useState({
+        displayName: "",
+        avatar: "8",
+    })
 
     const [socketUrl, setSocketUrl] = useState(() => null);
-    const token = localStorage.getItem("token")
+    const {token, setToken, playerInfo} = useOutletContext()
+    console.log(playerInfo)
 
 
     const { sendJsonMessage, readyState } = useWebSocket(socketUrl, {
@@ -38,7 +43,13 @@ export default function OnlineGame() {
         },
         onMessage: (event) => {
             const msg = JSON.parse(event.data)
-            if (msg.type === "refresh") {
+            if (msg.type === "refresh" || msg.type === "joined") {
+                if (msg.type === "joined"){
+                    setOppInfo({
+                        displayName: msg.display_name,
+                        avatar: msg.avatar
+                    })
+                }
                 fetch(`http://localhost:8080/api/games/${gameId}`, {
                     method: "GET",
                     headers: {
@@ -48,6 +59,10 @@ export default function OnlineGame() {
                 .then(response => {
                         if (response.ok) {
                             return response.json();
+                        }
+                        if (response.status === 401) {
+                            setToken(null)
+                            return
                         }
                     })
                 .then(data => {
@@ -222,7 +237,8 @@ export default function OnlineGame() {
             )}
             <Player
                 player="player1"
-                playerName="Guest1"
+                playerName={!playerInfo.displayName ? playerInfo.username : playerInfo.displayName}
+                pic={playerInfo.avatar}
                 score={score1}
             />
             <Board
@@ -274,11 +290,12 @@ export default function OnlineGame() {
                 </section> :
                 (<>
                     <Player
-                    player="player2"
-                    playerName="Guest2"
-                    score={score2}
-                />
-                <Board
+                        player="player2"
+                        playerName={oppInfo.displayName}
+                        pic={oppInfo.avatar}
+                        score={score2}
+                    />
+                    <Board
                     player="player2"
                     place={handlePlace}
                     board={board2}

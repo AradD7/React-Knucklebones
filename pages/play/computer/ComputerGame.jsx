@@ -4,6 +4,7 @@ import LocalBoard from "../LocalBoard"
 import Player from "./Player"
 import Instructions from "../Instructions"
 import ConfettiExplosion from 'react-confetti-explosion'
+import { useOutletContext } from "react-router-dom"
 
 export default function ComputerGame() {
     const [currentDice, setCurrentDice] = useState(Dice[5])
@@ -19,6 +20,8 @@ export default function ComputerGame() {
     const [isComputerTurn, setIsComputerTurn] = useState(false)
     const [isGameOver, setIsGameOver] = useState(false)
     const [isGameOverNext, setIsGameOverNext] = useState(false)
+
+    const { playerInfo } = useOutletContext()
 
     function rollDice() {
         if (!isGameOver) {
@@ -126,7 +129,7 @@ export default function ComputerGame() {
             )}
             <Player
                 player="player1"
-                playerName="Guest1"
+                playerName={!playerInfo.displayName ? playerInfo.username : playerInfo.displayName}
                 isTurn={!isComputerTurn}
                 score={score1}
             />

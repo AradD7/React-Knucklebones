@@ -1,8 +1,9 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useOutletContext } from "react-router-dom"
 import { useState } from "react"
 
 export default function SignIn() {
     const [status, setStatus] = useState(null)
+    const { setToken } = useOutletContext()
 
     const navigate = useNavigate()
 
@@ -25,7 +26,7 @@ export default function SignIn() {
                     setStatus("Wrong username or password")
                 } else{
                     localStorage.setItem("refresh_token", data.refresh_token)
-                    localStorage.setItem("token", data.token)
+                    setToken(data.token)
                     setStatus("Signed In!")
                     navigate("/")
                 }

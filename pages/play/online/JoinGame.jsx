@@ -4,7 +4,7 @@ import Instructions from "../Instructions"
 import { useState, useEffect } from "react"
 import { Dice } from "../../utils"
 import useWebSocket, { ReadyState } from "react-use-websocket"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom"
 import ConfettiExplosion from 'react-confetti-explosion'
 
 export default function OnlineGame() {
@@ -12,18 +12,22 @@ export default function OnlineGame() {
     const navigate = useNavigate()
     const gameId = searchParams.get("gameid")
 
-    const [currentDice, setCurrentDice] = useState(() => Dice[5])
-    const [canRoll, setCanRoll] = useState(() => false)
-    const [board1, setBoard1] = useState(() => [[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
-    const [board2, setBoard2] = useState(() => [[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
-    const [score1, setScore1] = useState(() => 0)
-    const [score2, setScore2] = useState(() => 0)
-    const [isPlayer1Turn, setIsPlayer1Turn] = useState(() => false)
-    const [isGameOver, setIsGameOver] = useState(() => false)
+    const [currentDice, setCurrentDice] = useState(Dice[5])
+    const [canRoll, setCanRoll] = useState(false)
+    const [board1, setBoard1] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
+    const [board2, setBoard2] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
+    const [score1, setScore1] = useState(0)
+    const [score2, setScore2] = useState(0)
+    const [isPlayer1Turn, setIsPlayer1Turn] = useState(false)
+    const [isGameOver, setIsGameOver] = useState(false)
+    const [oppInfo, setOppInfo] = useState({
+        displayName: "",
+        avatar: "8",
+    })
 
     const socketUrl = `ws://localhost:8080/ws/games/${gameId}`
 
-    const token = localStorage.getItem("token")
+    const { token, setToken, playerInfo } = useOutletContext()
 
     const { sendJsonMessage, readyState } = useWebSocket(socketUrl, {
         onOpen: () => {
@@ -44,6 +48,10 @@ export default function OnlineGame() {
                         if (response.ok) {
                             return response.json();
                         }
+                        if (response.status === 401) {
+                            setToken(null)
+                            return
+                        }
                     })
                 .then(data => {
                         setBoard1(data.board1)
@@ -57,29 +65,38 @@ export default function OnlineGame() {
                     })
             }
         }
-    });
+    }, token !== null);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/games/${gameId}/join`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        })
-        .then(response => {
-                if (response.ok) {
-                    return response.json();
+        if (token !== null) {
+            fetch(`http://localhost:8080/api/games/${gameId}/join`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
                 }
             })
-        .then(data => {
-                setScore1(data.score1)
-                setScore2(data.score2)
-                setIsGameOver(data.is_over)
-                setCurrentDice(Dice[5])
-                setIsPlayer1Turn(data.is_turn)
-                setCanRoll(data.is_turn)
-            })
-    }, [])
+            .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    if (response.status === 401) {
+                        return
+                    }
+                })
+            .then(data => {
+                    setScore1(data.score1)
+                    setScore2(data.score2)
+                    setIsGameOver(data.is_over)
+                    setCurrentDice(Dice[5])
+                    setIsPlayer1Turn(data.is_turn)
+                    setCanRoll(data.is_turn)
+                    setOppInfo({
+                        displayName: data.opp_name,
+                        avatar: data.opp_avatar,
+                    })
+                })
+        }
+    }, [token])
 
     function rollDice() {
         if (!isGameOver) {
@@ -115,6 +132,10 @@ export default function OnlineGame() {
             .then(response => {
                 if (response.ok) {
                     return response.json();
+                }
+                if (response.status === 401) {
+                    setToken(null)
+                    return
                 } else {
                     console.log('Request failed with status:', response.status)
                     throw new Error('Request failed')
@@ -159,7 +180,8 @@ export default function OnlineGame() {
             )}
             <Player
                 player="player1"
-                playerName="Guest1"
+                playerName={playerInfo.displayName === null || playerInfo.displayName === "" ? playerInfo.username : playerInfo.displayName}
+                pic={playerInfo.avatar}
                 score={score1}
             />
             <Board
@@ -191,7 +213,8 @@ export default function OnlineGame() {
 
             <Player
                 player="player2"
-                playerName="Guest2"
+                playerName={oppInfo.displayName}
+                pic={oppInfo.avatar}
                 score={score2}
             />
             <Board

@@ -65,6 +65,8 @@ section.main-menu a {
 section.hide {
     max-height: 0;
     opacity: 0;
+    line-height: 1;
+    transition: all 0.3s ease;
 }
 
 section.show {
