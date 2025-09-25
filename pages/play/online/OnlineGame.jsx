@@ -2,12 +2,13 @@ import Board from "./Board"
 import Player from "./Player"
 import Instructions from "../Instructions"
 import { useState, useEffect } from "react"
-import RefreshJwtToken, { Dice } from "../../utils"
+import { Dice } from "../../utils"
 import QRCode from "react-qr-code"
 import useWebSocket, { ReadyState } from "react-use-websocket"
 import { WhatsappIcon, TelegramIcon, WhatsappShareButton, TelegramShareButton } from "react-share"
 import ConfettiExplosion from 'react-confetti-explosion'
 import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom"
+import axios from "axios"
 
 export default function OnlineGame() {
     const navigate = useNavigate()
@@ -30,7 +31,7 @@ export default function OnlineGame() {
     })
 
     const [socketUrl, setSocketUrl] = useState(() => null);
-    const {token, setToken, playerInfo} = useOutletContext()
+    const { playerInfo } = useOutletContext()
     console.log(playerInfo)
 
 
@@ -38,7 +39,7 @@ export default function OnlineGame() {
         onOpen: () => {
             sendJsonMessage({
                 Type: "auth",
-                Token: token
+                Token: localStorage.getItem("accessToken")
             })
         },
         onMessage: (event) => {
@@ -50,30 +51,19 @@ export default function OnlineGame() {
                         avatar: msg.avatar
                     })
                 }
-                fetch(`http://localhost:8080/api/games/${gameId}`, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Bearer ${token}`
-                    }
-                })
+                axios.get(`/games/${gameId}`)
                 .then(response => {
-                        if (response.ok) {
-                            return response.json();
-                        }
-                        if (response.status === 401) {
-                            setToken(null)
-                            return
-                        }
-                    })
-                .then(data => {
-                        setBoard1(data.board1)
-                        setBoard2(data.board2)
-                        setScore1(data.score1)
-                        setScore2(data.score2)
-                        setIsGameOver(data.is_over)
+                        setBoard1(response.data.board1)
+                        setBoard2(response.data.board2)
+                        setScore1(response.data.score1)
+                        setScore2(response.data.score2)
+                        setIsGameOver(response.data.is_over)
                         setCurrentDice(Dice[5])
-                        setIsPlayer1Turn(data.is_turn)
-                        setCanRoll(data.is_turn)
+                        setIsPlayer1Turn(response.data.is_turn)
+                        setCanRoll(response.data.is_turn)
+                    })
+                .catch(error => {
+                        console.log(error)
                     })
             }
         }
@@ -81,60 +71,37 @@ export default function OnlineGame() {
 
     useEffect(() => {
         if (gameId === null) {
-            fetch("http://localhost:8080/api/games/new", {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            })
-                .then(resp => {
-                    if (resp.status === 401) {
-                        return RefreshJwtToken(token)
-                            .then(data => {
-                            localStorage.setItem("token", data)
-                            return fetch("http://localhost:8080/api/games/new", {
-                                method: "GET",
-                                headers: {
-                                    "Authorization": `Bearer ${data}`
-                                }
-                            })
-                        })
-                    }
-                    return resp
+            axios.get("/games/new")
+                .then(response => {
+                    const data = response.data;
+                    setGameId(data.id);
+                    setSocketUrl(`ws://localhost:8080/ws/games/${data.id}`);
+                    setSearchParams(prev => ({...Object.fromEntries(prev), gameid: data.id}));
                 })
-                .then(response => response.json())
-                .then(data => {
-                    setGameId(data.id)
-                    setSocketUrl(`ws://localhost:8080/ws/games/${data.id}`)
-                    setSearchParams(prev => ({...Object.fromEntries(prev), gameid: data.id}))
-                })
+                .catch(error => {
+                    console.log("Error creating new game:", error);
+                });
         } else {
-            fetch(`http://localhost:8080/api/games/${gameId}`, {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                })
-            .then(data => {
-                    setBoard1(data.board1)
-                    setBoard2(data.board2)
-                    setScore1(data.score1)
-                    setScore2(data.score2)
-                    setIsGameOver(data.is_over)
-                    setCurrentDice(Dice[5])
-                    setIsPlayer1Turn(data.is_turn)
-                    setCanRoll(data.is_turn)
+            axios.get(`/games/${gameId}`)
+                .then(response => {
+                    const data = response.data;
+                    setBoard1(data.board1);
+                    setBoard2(data.board2);
+                    setScore1(data.score1);
+                    setScore2(data.score2);
+                    setIsGameOver(data.is_over);
+                    setCurrentDice(Dice[5]);
+                    setIsPlayer1Turn(data.is_turn);
+                    setCanRoll(data.is_turn);
                     if (!data.is_over) {
-                        setSocketUrl(`ws://localhost:8080/ws/games/${data.id}`)
+                        setSocketUrl(`ws://localhost:8080/ws/games/${data.id}`);
                     }
                 })
+                .catch(error => {
+                    console.log("Error loading game:", error);
+                });
         }
-    }, [newGame])
+    }, [newGame]);
 
     useEffect(() => {
         setShareLink(`http://localhost:5173/joingame?gameid=${gameId}`)
@@ -142,62 +109,48 @@ export default function OnlineGame() {
 
     function rollDice() {
         if (!isGameOver) {
-            fetch("http://localhost:8080/api/rolls")
+            axios.get("/rolls")
                 .then(response => {
-                    if (response.ok) {
-                        setCanRoll(false)
-                        return response.json();
-                    } else {
-                        console.log('Request failed with status:', response.status)
-                        throw new Error('Request failed')
-                    }
+                    setCanRoll(false);
+                    setCurrentDice(Dice[response.data.dice]);
                 })
-                .then(data => setCurrentDice(Dice[data.dice]))
-            return
+                .catch(error => {
+                    console.log('Roll failed:', error);
+                });
+            return;
         }
-        setGameId(null)
-        setBoard1([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
-        setIsGameOver(false)
-        setScore1(0)
-        setScore2(0)
-        setBoard2(null)
-        setNewGame(prev => !prev)
-        setSearchParams({})
-        navigate("/onlineplay")
+        setGameId(null);
+        setBoard1([[0, 0, 0], [0, 0, 0], [0, 0, 0]]);
+        setIsGameOver(false);
+        setScore1(0);
+        setScore2(0);
+        setBoard2(null);
+        setNewGame(prev => !prev);
+        setSearchParams({});
+        navigate("/onlineplay");
     }
 
     function handlePlace(row, col) {
-        fetch(`http://localhost:8080/api/games/move/${gameId}`, {
-            method: "POST",
-            body: JSON.stringify({
-                board1: board1,
-                board2: board2,
-                turn: isPlayer1Turn ? "player1" : "player2",
-                dice: Dice.indexOf(currentDice),
-                row: row,
-                col: col
-            }),
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
+        axios.post(`/games/move/${gameId}`, {
+            board1: board1,
+            board2: board2,
+            turn: isPlayer1Turn ? "player1" : "player2",
+            dice: Dice.indexOf(currentDice),
+            row: row,
+            col: col
         })
             .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    console.log('Request failed with status:', response.status)
-                    throw new Error('Request failed')
-                }
+                const data = response.data;
+                setBoard1(data.board1);
+                setBoard2(data.board2);
+                setScore1(data.score1);
+                setScore2(data.score2);
+                setIsGameOver(data.is_over);
+                setCurrentDice(Dice[5]);
             })
-                .then(data => {
-                setBoard1(data.board1)
-                setBoard2(data.board2)
-                setScore1(data.score1)
-                setScore2(data.score2)
-                setIsGameOver(data.is_over)
-                setCurrentDice(Dice[5])
-            })
+            .catch(error => {
+                console.log('Move failed:', error);
+            });
     }
 
     const connectionStatus = {

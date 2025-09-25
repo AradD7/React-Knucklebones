@@ -17,22 +17,6 @@ import P8 from "/images/p8.jpg"
 export const Dice = [null, Die1, Die2, Die3, Die4, Die5, Die6]
 export const ProfilePics = [P0, P1, P2, P3, P4, P5, P6, P7, P8]
 
-export default async function RefreshJwtToken(refreshToken) {
-    const response = await fetch("http://localhost:8080/api/tokens/refresh", {
-        method: "GET",
-        headers: {
-            "Authorization": `Bearer ${refreshToken}`
-        }
-    })
-
-    if (!response.ok) {
-        throw new Error("token invalid")
-    }
-
-    const data = await response.json()
-    return data.token
-}
-
 export function RandomInt(max, min = 0) {
     if (min > max) {
         [min, max] = [max, min]

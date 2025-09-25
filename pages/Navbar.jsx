@@ -1,10 +1,9 @@
 import { Link, Outlet } from "react-router-dom"
-import RefreshJwtToken, { ProfilePics } from "./utils"
+import { ProfilePics } from "./utils"
 import { useEffect, useState } from "react"
+import axios from "axios"
 
 export default function Navbar() {
-    const refreshToken = localStorage.getItem("refresh_token")
-    const [token, setToken] = useState(null)
     const [playerInfo, setPlayerInfo] = useState({
         username:    "guest",
         avatar:      "",
@@ -12,38 +11,21 @@ export default function Navbar() {
     })
 
     useEffect(() => {
-        console.log("getting fresh jwt")
-        RefreshJwtToken(refreshToken)
-        .then(token => setToken(token))
-        .catch(error => console.log("Token invalid, login again: ", error.message))
-    }, [])
-
-    useEffect(() => {
+        const token = localStorage.getItem("accessToken")
         if (token !== null) {
-            fetch("http://localhost:8080/api/players/getplayer", {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                    if (!response.ok) {
-                        throw new Error("token invalid")
-                    }
-                    return response.json()
-                })
-            .then(data => {{
-                    console.log("got fresh player info", data)
+            axios.get("/players/getplayer")
+                .then(response => {
+                    console.log("got fresh player info", response.data)
                     setPlayerInfo({
-                        username: data.username,
-                        avatar: data.avatar,
-                        displayName: data.display_name
+                        username: response.data.username,
+                        avatar: response.data.avatar,
+                        displayName: response.data.display_name
                     })
-                }})
-            .catch(error => {
-                    console.log("Please refresh token: ", error.message)
                 })
-    }}, [token])
+                .catch(error => {
+                    console.log("Error: ", error.message)
+                })
+        }}, [])
 
     return (
         <>
@@ -69,7 +51,7 @@ export default function Navbar() {
             </header>
 
             <div className="main-content">
-                <Outlet context={{token, setToken, playerInfo, setPlayerInfo}}/>
+                <Outlet context={{playerInfo, setPlayerInfo}}/>
             </div>
         </>
     )

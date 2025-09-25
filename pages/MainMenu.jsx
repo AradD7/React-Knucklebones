@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 
@@ -29,20 +30,18 @@ import { Link, useOutletContext } from "react-router-dom";
 //sing in with google
 
 export default function MainMenu() {
-    const { token, setToken } = useOutletContext()
+    const token = localStorage.getItem("accessToken")
     const { playerInfo } = useOutletContext()
 
     function signout() {
-        fetch("http://localhost:8080/api/tokens/revoke", {
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("refresh_token")}`
-            }
-        })
-        .then(response => {
-                if (response.ok) {
-                    localStorage.removeItem("refresh_token")
-                    setToken(null)
-                }
+        axios.get("/tokens/revoke")
+        .then(() => {
+                localStorage.removeItem("refresh_token")
+                localStorage.removeItem("accessToken")
+                window.location.reload(); // ← Force page refresh
+            })
+        .catch(error => {
+                console.log("failed to logout, ", error)
             })
     }
 

@@ -1,30 +1,24 @@
+import axios from "axios";
 import { Link } from "react-router-dom"
 
 export default function SignUp() {
 
     function signup(formData) {
-        const data = Object.fromEntries(formData)
-        fetch("http://localhost:8080/api/players/new", {
-            method: "POST",
-            body:   JSON.stringify({
-                username: data.username,
-                password: data.password,
-            }),
-            headers: {
-                "Content-Type": "application/json",
-            }
-        })
-        .then(response => {
-                if (response.ok) {
-                    console.log("player successfully created")
-                    return response.json()
-                }
-                console.log("failed to create player")
-                return response.json()
-            })
-        .then(data => console.log(data))
-    }
+        const data = Object.fromEntries(formData);
 
+        axios.post("/players/new", {
+            username: data.username,
+            password: data.password
+        })
+            .then(response => {
+                console.log("player successfully created");
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log("failed to create player");
+                console.log(error.response?.data || error.message);
+            });
+    }
     return (
         <section className="signin-section">
             <h1 className="signup-h1">Make an Account!</h1>

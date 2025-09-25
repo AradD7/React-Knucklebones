@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Navbar from "./pages/Navbar"
 import ComputerGame from "./pages/play/computer/ComputerGame"
 import PlayerProfile from "./pages/profile/PlayerProfile"
+import "./src/api/config"
 
 
 function App() {

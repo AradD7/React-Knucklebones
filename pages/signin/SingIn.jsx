@@ -1,36 +1,35 @@
-import { Link, useNavigate, useOutletContext } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
+import axios from "axios"
 
 export default function SignIn() {
     const [status, setStatus] = useState(null)
-    const { setToken } = useOutletContext()
 
     const navigate = useNavigate()
 
     function signin(formData) {
         const data = Object.fromEntries(formData)
 
-        fetch("http://localhost:8080/api/players/login", {
-            method: "POST",
-            body:   JSON.stringify({
-                username: data.username,
-                password: data.password,
-            }),
-            headers: {
-                "Content-Type": "application/json"
-            },
+        axios.post("/players/login", {
+            username: data.username,
+            password: data.password
         })
-        .then(response => response.json())
-        .then(data => {
+            .then(response => {
+                const data = response.data;
                 if (data.error != null) {
-                    setStatus("Wrong username or password")
-                } else{
-                    localStorage.setItem("refresh_token", data.refresh_token)
-                    setToken(data.token)
-                    setStatus("Signed In!")
-                    navigate("/")
+                    setStatus("Wrong username or password");
+                } else {
+                    localStorage.setItem("refresh_token", data.refresh_token);
+                    localStorage.setItem("accessToken", data.token); // ← Store access token too
+                    console.log(data)
+                    setStatus("Signed In!");
+                    navigate("/");
                 }
             })
+            .catch(error => {
+                console.log("Login failed:", error);
+                setStatus("Login failed. Please try again.");
+            });
     }
 
     return (

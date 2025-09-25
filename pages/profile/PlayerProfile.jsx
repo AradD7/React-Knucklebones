@@ -1,41 +1,34 @@
 import { useOutletContext } from "react-router-dom"
 import { ProfilePics } from "../utils"
 import { useState } from "react"
+import axios from "axios"
 
 export default function PlayerProfile(){
-    const { token, playerInfo, setPlayerInfo } = useOutletContext()
+    const { playerInfo, setPlayerInfo } = useOutletContext()
 
     const [avatarIdx, setAvatarIdx] = useState(playerInfo.avatar === "" ? 8 : parseInt(playerInfo.avatar))
     const [isChangingName, setIsChanginName] = useState(false)
     const [isChangingAvatar, setIsChanginAvatar] = useState(false)
 
     function updateProfile(formData){
-        const data = Object.fromEntries(formData)
-        console.log(data)
-        fetch("http://localhost:8080/api/players/update", {
-            method: "POST",
-            body: JSON.stringify({
-                display_name: data.displayName,
-                avatar: data.avatar
-            }),
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
-        })
-        .then(resp => {
-                if (resp.ok) {
-                    setPlayerInfo(prev => ({...prev,
-                        avatar: data.avatar,
-                        displayName: data.displayName
-                    }))
-                    console.log("successfully updated!")
-                } else{
-                    console.log("failed to update")
-                }
-            })
-    }
+        const data = Object.fromEntries(formData);
+        console.log(data);
 
+        axios.post("/players/update", {
+            display_name: data.displayName,
+            avatar: data.avatar
+        })
+            .then(() => {
+                setPlayerInfo(prev => ({...prev,
+                    avatar: data.avatar,
+                    displayName: data.displayName
+                }));
+                console.log("successfully updated!");
+            })
+            .catch(error => {
+                console.log("failed to update:", error);
+            });
+    }
     function setAvatar(idx) {
         setAvatarIdx(idx)
         setIsChanginAvatar(false)
