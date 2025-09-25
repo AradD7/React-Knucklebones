@@ -1,10 +1,11 @@
-import { useOutletContext } from "react-router-dom"
+import { useNavigate, useOutletContext } from "react-router-dom"
 import { ProfilePics } from "../utils"
 import { useState } from "react"
 import axios from "axios"
 
 export default function PlayerProfile(){
     const { playerInfo, setPlayerInfo } = useOutletContext()
+    const navigate = useNavigate()
 
     const [avatarIdx, setAvatarIdx] = useState(playerInfo.avatar === "" ? 8 : parseInt(playerInfo.avatar))
     const [isChangingName, setIsChanginName] = useState(false)
@@ -13,17 +14,21 @@ export default function PlayerProfile(){
     function updateProfile(formData){
         const data = Object.fromEntries(formData);
         console.log(data);
+        console.log(playerInfo)
 
+        console.log("is updating to: ", data.displayName || playerInfo.displayName)
         axios.post("/players/update", {
-            display_name: data.displayName,
+            display_name: data.displayName || playerInfo.displayName,
             avatar: data.avatar
         })
             .then(() => {
                 setPlayerInfo(prev => ({...prev,
                     avatar: data.avatar,
-                    displayName: data.displayName
+                    displayName: data.displayName || playerInfo.displayName,
                 }));
                 console.log("successfully updated!");
+                navigate("/")
+
             })
             .catch(error => {
                 console.log("failed to update:", error);

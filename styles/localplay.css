@@ -66,6 +66,7 @@ section.instructions {
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
+    opacity: 0;
 }
 
 section.instructions > h3 {

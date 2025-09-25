@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Dice, RandomInt } from "../../utils"
 import LocalBoard from "../LocalBoard"
 import Player from "./Player"
 import Instructions from "../Instructions"
 import ConfettiExplosion from 'react-confetti-explosion'
-import { useOutletContext } from "react-router-dom"
+import { useOutletContext, useSearchParams } from "react-router-dom"
+import axios from "axios"
 
 export default function ComputerGame() {
     const [currentDice, setCurrentDice] = useState(Dice[5])
     const [canRoll, setCanRoll] = useState(true)
-    const [board1, setBoard1] = useState([[0, 6, 6], [6, 6, 6] ,[6, 6, 6]])
+    const [board1, setBoard1] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
     const [board2, setBoard2] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
     const [nextBoard1, setNextBoard1] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
     const [nextBoard2, setNextBoard2] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
@@ -17,26 +18,45 @@ export default function ComputerGame() {
     const [score2, setScore2] = useState(0)
     const [nextScore1, setNextScore1] = useState(0)
     const [nextScore2, setNextScore2] = useState(0)
+    const [nextDice, setNextDice] = useState(5)
     const [isComputerTurn, setIsComputerTurn] = useState(false)
     const [isGameOver, setIsGameOver] = useState(false)
     const [isGameOverNext, setIsGameOverNext] = useState(false)
+    const [searchParams] = useSearchParams()
+    const difficulty = searchParams.get("difficulty")
 
     const { playerInfo } = useOutletContext()
 
+    const intervalRef = useRef(null)
+    const counterRef = useRef(0)
     function rollDice() {
         if (!isGameOver) {
-            fetch("http://localhost:8080/api/rolls")
-                .then(response => {
-                    if (response.ok) {
-                        setCanRoll(false)
-                        return response.json();
-                    } else {
-                        console.log('Request failed with status:', response.status)
-                        throw new Error('Request failed')
-                    }
+            setCanRoll(false)
+
+            intervalRef.current = setInterval(() => {
+                counterRef.current++
+                setCurrentDice(Dice[Math.ceil(Math.random() * 6)])
+            }, 100)
+            const minAnimationTime = new Promise(resolve => setTimeout(resolve, 1000))
+
+            Promise.all([
+                axios.get("/rolls")
+                .then(response => response.data)
+                .catch(error => {
+                    console.log('Roll failed:', error);
+                    throw error;
+                }),
+                minAnimationTime
+            ])
+                .then(([data]) => {
+                    clearInterval(intervalRef.current);
+                    setCurrentDice(Dice[data.dice]);
                 })
-                .then(data => setCurrentDice(Dice[data.dice]))
-            return
+                .catch(() => {
+                    clearInterval(intervalRef.current);
+                    setCanRoll(true);
+                })
+            return;
         }
         setBoard1([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
         setBoard2([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
@@ -54,45 +74,41 @@ export default function ComputerGame() {
                     initBoard[0][RandomInt(3)] = RandomInt(1, 7)
                     return initBoard
                 })
+            } else if (!isGameOver){
+                setCanRoll(false);
+                intervalRef.current = setInterval(() => {
+                    setCurrentDice(Dice[Math.ceil(Math.random() * 6)])
+                }, 100)
+
+                setTimeout(() => {
+                    clearInterval(intervalRef.current);
+                    setCurrentDice(Dice[nextDice]);
+
+                    setTimeout(() => {
+                        setBoard1(nextBoard1)
+                        setBoard2(nextBoard2)
+                        setScore1(nextScore1)
+                        setScore2(nextScore2)
+                        setIsComputerTurn(false)
+                        setIsGameOver(isGameOverNext)
+                        setCanRoll(true)
+                    }, 1000)
+                }, 1000)
             }
-        } else if (!isGameOver){
-            const timer = setTimeout(() => {
-                setBoard1(nextBoard1)
-                setBoard2(nextBoard2)
-                setScore1(nextScore1)
-                setScore2(nextScore2)
-                setIsComputerTurn(false)
-                setIsGameOver(isGameOverNext)
-                setCanRoll(true)
-            }, 2000)
-            return () => clearTimeout(timer)
         }
     }, [nextBoard2])
 
     function handlePlace(row, col) {
-        fetch("http://localhost:8080/api/games/computergame", {
-            method: "POST",
-            body: JSON.stringify({
-                board1: board1,
-                board2: board2,
-                dice: Dice.indexOf(currentDice),
-                row: row,
-                col: col,
-                diffuclty: "hard"
-            }),
-            headers: {
-                "Content-Type": "application/json",
-            },
+        axios.post("http://localhost:8080/api/games/computergame", {
+            board1: board1,
+            board2: board2,
+            dice: Dice.indexOf(currentDice),
+            row: row,
+            col: col,
+            difficulty: difficulty,
         })
             .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    console.log('Request failed with status:', response.status)
-                    throw new Error('Request failed')
-                }
-            })
-                .then(data => {
+                const data = response.data
                 console.log(data)
                 setBoard1(data.board1),
                 setBoard2(data.board2),
@@ -102,10 +118,15 @@ export default function ComputerGame() {
                 setScore2(data.score2)
                 setNextScore1(data.next_score1),
                 setNextScore2(data.next_score2)
+                setNextDice(data.next_dice)
                 setIsGameOver(data.is_over)
                 setIsGameOverNext(data.is_over_next)
+                setIsComputerTurn(true)
                 setCurrentDice(Dice[5])
             })
+            .catch(error => {
+                console.log('Failed to place:', error);
+            });
     }
 
     return (
@@ -131,6 +152,7 @@ export default function ComputerGame() {
                 player="player1"
                 playerName={!playerInfo.displayName ? playerInfo.username : playerInfo.displayName}
                 isTurn={!isComputerTurn}
+                pic={playerInfo.avatar}
                 score={score1}
             />
             <LocalBoard

@@ -10,7 +10,10 @@ section.signin-section {
     justify-content: center;
     align-items: center;
     padding: 30px 0 10px;
-    margin-top: 220px;
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .signin-section > h1 {
@@ -92,4 +95,70 @@ section.signin-section {
 p {
     margin: 0;
     font-size: 0.8rem;
+}
+
+@media (max-width: 450px) {
+    .signin-section > h1 {
+        font-size: 1.9rem;
+    }
+
+    .signin-section > h2 {
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: red;
+    }
+
+    .signin-section > .signup-h1 {
+        text-align: center;
+        margin: 0;
+        padding: 16px 0;
+        font-size: 2rem;
+    }
+
+    .input-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 0 10px 10px;
+    }
+
+    .button-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .button-section > button {
+        width: 98px;
+        height: 50px;
+        font-family: "Finger Paint", sans-serif;
+        background-color: powderblue;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.2rem;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .input-section > input {
+        width: 150px;
+        height: 28px;
+    }
+
+    .input-section > label {
+        font-size: 0.8rem;
+    }
+
+    .redirect-section {
+        padding-top: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    p {
+        margin: 0;
+        font-size: 0.8rem;
+    }
 }

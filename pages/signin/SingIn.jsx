@@ -1,11 +1,14 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate, useOutletContext } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
 
 export default function SignIn() {
     const [status, setStatus] = useState(null)
+    const {setPlayerInfo} = useOutletContext()
+
 
     const navigate = useNavigate()
+    const location = useLocation();
 
     function signin(formData) {
         const data = Object.fromEntries(formData)
@@ -19,11 +22,17 @@ export default function SignIn() {
                 if (data.error != null) {
                     setStatus("Wrong username or password");
                 } else {
-                    localStorage.setItem("refresh_token", data.refresh_token);
+                    localStorage.setItem("refreshToken", data.refresh_token);
                     localStorage.setItem("accessToken", data.token); // ← Store access token too
                     console.log(data)
+                    setPlayerInfo({
+                        username: data.username,
+                        avatar: data.avatar,
+                        displayName: data.display_name,
+                    })
                     setStatus("Signed In!");
-                    navigate("/");
+                    const from = location.state?.from || '/';
+                    navigate(from, { replace: true });
                 }
             })
             .catch(error => {

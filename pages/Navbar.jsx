@@ -37,17 +37,20 @@ export default function Navbar() {
                     <span className="material-symbols-outlined">arrow_back</span>
                 </Link>
 
-                <Link
-                    to="profile"
-                    className="nav-profile"
-                >
-                    {playerInfo.avatar === "" ?
-                    <span class="material-symbols-outlined">
-                        account_box
-                    </span>:
+                {playerInfo.avatar === "" ?
+                    playerInfo.displayName === null ?
+                        <Link to="signin" className="signin-redirect">
+                            <h1>Sign In!</h1>
+                        </Link> :
+                        <Link to="profile" className="nav-profile">
+                            <span className="material-symbols-outlined">
+                                account_box
+                            </span>
+                        </Link> :
+                    <Link to="profile" className="nav-profile">
                         <img src={ProfilePics[playerInfo.avatar]} />
-                    }
-                </Link>
+                    </Link>
+                }
             </header>
 
             <div className="main-content">

@@ -1,6 +1,6 @@
 section.main-menu {
     position: fixed;
-    top: 45%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -25,17 +25,13 @@ h1.menu-entry {
     transition: all 0.3s ease;
 }
 
-h1.localplay-text {
-    cursor:default;
-}
-
 h1.localplay-text.showing {
     font-size: 2.7rem;
+    cursor: default;
 }
 
 h1.menu-entry:hover {
     font-size: 2.7rem;
-
 }
 
 h1.menu-entry:visited {
@@ -47,7 +43,16 @@ section.main-menu a {
 }
 
 .submenu {
-    transition: all 0.2s ease;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.submenu.open {
+    max-height: 160px; /* Adjust based on your content height */
+}
+
+.submenu-content {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -56,30 +61,219 @@ section.main-menu a {
     margin: 0;
     text-decoration: none;
     gap: 30px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease 0.1s, transform 0.2s ease 0.1s;
 }
 
-.submenu > a:visited {
+.submenu.open .submenu-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.submenu-content > a {
+    margin-top: -30px;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.submenu-content > a:hover {
+    font-size: 1.2rem;
+}
+
+.submenu-content > a:visited {
     color: inherit;
 }
 
-section.hide {
+.submenu-content > a:focus {
+    color: inherit;
+    outline: none;
+}
+
+.submenu-content > a.is-open {
+    font-size: 1.2rem;
+}
+
+.diff-submenu {
     max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-left: 160px;
+}
+
+.diff-submenu.open {
+    max-height: 120px;
+}
+
+.diff-submenu > a {
+    transition: all 0.2s ease;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
     opacity: 0;
-    line-height: 1;
-    transition: all 0.3s ease;
+    transform: translateX(-10px);
+    transition: opacity 0.2s ease 0.1s, transform 0.2s ease 0.1s, font-size 0.2s ease;
 }
 
-section.show {
-    max-height: 70px;
+.diff-submenu.open > a {
     opacity: 1;
+    transform: translateX(0);
 }
 
-section.show > a > h1 {
-    padding: 15px 0 30px;
-    transition: all 0.3s ease;
-    line-height: 1;
+.diff-submenu > a > h1 {
+    padding: 0 15px 8px;
+    margin: 0;
+    font-size: 1.2rem;
+    color: #666666;
+    text-align: center;
+    transition: all 0.2s ease;
 }
 
-section.show > a > h1:hover {
-    font-size: 2.6rem;
+.diff-submenu > a:hover > h1 {
+    font-size: 1.6rem;
+    color: #444444;
+}
+
+.diff-submenu > a:focus {
+    outline: none;
+}
+
+.diff-submenu > a:visited {
+    color: inherit;
+}
+
+
+@media (max-width: 550px) {
+    h1.welcome-text {
+        text-align: center;
+        margin: 0;
+        padding-bottom: 50px;
+        font-size: 3.8rem;
+        line-height: 1;
+    }
+}
+
+@media (min-height: 450px) and (max-height: 720px) {
+    section.main-menu {
+        top: 50%;
+    }
+    h1.welcome-text {
+        font-size: 3.5rem;
+    }
+    h1.menu-entry {
+        font-size: 1.5rem;
+    }
+
+    h1.localplay-text.showing {
+        font-size: 1.7rem;
+        cursor: default;
+    }
+
+    h1.menu-entry:hover {
+        font-size: 1.7rem;
+    }
+
+    .submenu-content > a {
+        margin-top: -15px;
+        font-size: 0.7rem;
+    }
+
+    .submenu-content > a:hover {
+        font-size: 0.9rem;
+    }
+
+    .submenu-content > a.is-open {
+        font-size: 0.9rem;
+    }
+
+    .diff-submenu {
+        margin-left: 120px;
+    }
+
+    .diff-submenu.open {
+        max-height: 100px;
+    }
+
+    .diff-submenu > a > h1 {
+        font-size: 1rem;
+    }
+
+    .diff-submenu > a:hover > h1 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 380px) or (max-height: 450px) {
+    section.main-menu {
+        top: 55%;
+    }
+    h1.welcome-text {
+        text-align: center;
+        margin: 0;
+        padding-bottom: 30px;
+        font-size: 2.2rem;
+    }
+    h1.menu-entry {
+        padding-top: 0px;
+        font-size: 1.3rem;
+    }
+
+    h1.localplay-text.showing {
+        font-size: 1.6rem;
+        cursor: default;
+    }
+
+    h1.menu-entry:hover {
+        font-size: 1.6rem;
+    }
+
+    .submenu.open {
+        max-height: 100px; /* Adjust based on your content height */
+    }
+
+    .submenu-content {
+        gap: 20px;
+        opacity: 0;
+    }
+
+    .submenu-content > a {
+        margin-top: -15px;
+        font-size: 0.5rem;
+    }
+
+    .submenu-content > a:hover {
+        font-size: 0.6rem;
+    }
+
+    .submenu-content > a.is-open {
+        font-size: 0.6rem;
+    }
+
+    .diff-submenu {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        margin-left: 160px;
+    }
+
+    .diff-submenu.open {
+        max-height: 100px;
+    }
+
+    .diff-submenu > a > h1 {
+        font-size: 0.8rem;
+    }
+
+    .diff-submenu > a:hover > h1 {
+        font-size: 1rem;
+    }
 }

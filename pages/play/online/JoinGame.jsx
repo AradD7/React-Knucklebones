@@ -1,17 +1,20 @@
 import Board from "./Board"
 import Player from "./Player"
 import Instructions from "../Instructions"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Dice } from "../../utils"
 import useWebSocket, { ReadyState } from "react-use-websocket"
-import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom"
+import { useLocation, useNavigate, useOutletContext, useSearchParams } from "react-router-dom"
 import ConfettiExplosion from 'react-confetti-explosion'
 import axios from "axios"
 
 export default function OnlineGame() {
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
+    const location = useLocation()
     const gameId = searchParams.get("gameid")
+    const intervalRef = useRef(null)
+    const counterRef = useRef(0)
 
     const [currentDice, setCurrentDice] = useState(Dice[5])
     const [canRoll, setCanRoll] = useState(false)
@@ -78,19 +81,36 @@ export default function OnlineGame() {
                 .catch(error => {
                     console.log('Error joining game:', error);
                 });
+        } else {
+            navigate("/signin", { state: { from: location } })
         }
     }, [gameId]);
 
     function rollDice() {
         if (!isGameOver) {
-            axios.get("/rolls")
-                .then(response => {
-                    setCanRoll(false);
-                    setCurrentDice(Dice[response.data.dice]);
-                })
+            setCanRoll(false);
+            intervalRef.current = setInterval(() => {
+                counterRef.current++
+                setCurrentDice(Dice[Math.ceil(Math.random() * 6)])
+            }, 100)
+            const minAnimationTime = new Promise(resolve => setTimeout(resolve, 1000))
+            Promise.all([
+                axios.get("/rolls")
+                .then(response => response.data)
                 .catch(error => {
                     console.log('Roll failed:', error);
-                });
+                    throw error;
+                }),
+                minAnimationTime
+            ])
+                .then(([data]) => {
+                    clearInterval(intervalRef.current);
+                    setCurrentDice(Dice[data.dice]);
+                })
+                .catch(() => {
+                    clearInterval(intervalRef.current);
+                    setCanRoll(true);
+                })
             return;
         }
         navigate("/onlineplay");

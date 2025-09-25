@@ -1,7 +1,7 @@
 import Board from "./Board"
 import Player from "./Player"
 import Instructions from "../Instructions"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Dice } from "../../utils"
 import QRCode from "react-qr-code"
 import useWebSocket, { ReadyState } from "react-use-websocket"
@@ -11,6 +11,8 @@ import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom
 import axios from "axios"
 
 export default function OnlineGame() {
+    const intervalRef = useRef(null)
+    const counterRef = useRef(0)
     const navigate = useNavigate()
     const [searchParams, setSearchParams] = useSearchParams()
 
@@ -107,16 +109,32 @@ export default function OnlineGame() {
         setShareLink(`http://localhost:5173/joingame?gameid=${gameId}`)
     }, [gameId])
 
+
     function rollDice() {
         if (!isGameOver) {
-            axios.get("/rolls")
-                .then(response => {
-                    setCanRoll(false);
-                    setCurrentDice(Dice[response.data.dice]);
-                })
+            setCanRoll(false);
+            intervalRef.current = setInterval(() => {
+                counterRef.current++
+                setCurrentDice(Dice[Math.ceil(Math.random() * 6)])
+            }, 100)
+            const minAnimationTime = new Promise(resolve => setTimeout(resolve, 1000))
+            Promise.all([
+                axios.get("/rolls")
+                .then(response => response.data)
                 .catch(error => {
                     console.log('Roll failed:', error);
-                });
+                    throw error;
+                }),
+                minAnimationTime
+            ])
+                .then(([data]) => {
+                    clearInterval(intervalRef.current);
+                    setCurrentDice(Dice[data.dice]);
+                })
+                .catch(() => {
+                    clearInterval(intervalRef.current);
+                    setCanRoll(true);
+                })
             return;
         }
         setGameId(null);

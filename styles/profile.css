@@ -1,15 +1,18 @@
 section.player-profile {
     width: 90vw;
     max-width: 430px;
-    height: 38vh;
-    min-height: 300px;
+    height: 40vh;
+    min-height: 320px;
     background-color: #FBFFF8;
     border-radius: 30px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 220px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 h1.profile-title {
@@ -32,13 +35,14 @@ section.input-display-name {
 }
 
 section.input-display-name > input {
-    margin-right: -70px;
+    margin-right: -75px;
     background-color: #F0F9FA;
     width: max-content;
     min-width: 150px;
     height: 38px;
     border: none;
     border-radius: 10px;
+    padding-left: 10px;
 }
 
 section.input-display-name > p {
@@ -132,4 +136,71 @@ section.update-button {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media (max-width: 450px) {
+    h1.profile-title {
+        margin-top: 20px;
+        font-size: 1.6rem;
+        font-weight: 800;
+        font-weight: 600;
+    }
+
+    section.input-display-name > input {
+        margin-right: -30px;
+        width: 120px;
+        min-width: 10px;
+        font-size: 0.7rem;
+    }
+
+    section.input-display-name > p {
+        font-size: 1rem;
+    }
+
+    section.input-display-name > p > span{
+        font-size: 1.1rem;
+        cursor: pointer;
+    }
+
+    section.input-display-name > label {
+        font-size: 1.1rem;
+    }
+
+    section.input-avatar {
+        margin-left: 20px;
+        margin-bottom: 30px;
+    }
+
+    section.input-avatar > span {
+        cursor: pointer;
+        margin-top: 55px;
+    }
+
+    section.input-avatar > label {
+        font-size: 1.1rem;
+    }
+
+    div.profile-pictures {
+        margin-left: 20px;
+        margin-right: -85px;
+    }
+
+    div.profile-pictures > img {
+        width:  60px;
+        height: 60px;
+    }
+
+
+    .avatar-image {
+        width: 60px;
+        height: 60px;
+    }
+
+    .update-button > button {
+        width: 88px;
+        height: 40px;
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+    }
+
 }
