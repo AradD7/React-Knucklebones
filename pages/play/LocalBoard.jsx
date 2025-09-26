@@ -41,11 +41,11 @@ export default function LocalBoard(props) {
                         key={key}
                         onClick={() => props.place(indexR, indexC)}
                         disabled={isDisabled[key]}
+                        style={{backgroundColor: isHighlighted[indexR][indexC] && Dice[col] ? "yellow" : null, borderRadius: 10}}
                     >
                         <img
                             src={Dice[col]}
                             alt={Dice[col] === null ? null : `die of value ${col}`}
-                            style={{backgroundColor: isHighlighted[indexR][indexC] ? "yellow" : null, borderRadius: 10}}
                         />
                     </button>)
             }
@@ -88,11 +88,11 @@ export default function LocalBoard(props) {
                         key={key}
                         onClick={() => props.place(2-indexR, indexC)}
                         disabled={isDisabled[key]}
+                        style={{backgroundColor: isHighlighted[2-indexR][indexC] && Dice[col] ? "yellow" : null, borderRadius: 10}}
                     >
                         <img
                             src={Dice[col]}
                             alt={Dice[col] === null ? null : `die of value ${col}`}
-                            style={{backgroundColor: isHighlighted[2-indexR][indexC] ? "yellow" : null, borderRadius: 10}}
                         />
                     </button>)
             }

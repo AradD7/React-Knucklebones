@@ -1,83 +1,47 @@
-import { Link, useLocation, useNavigate, useOutletContext } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useState } from "react"
+import appleLogo from "../../images/apple-icon.png"
+import discordLogo from "../../images/discord-icon.png"
+import { GoogleLogin } from "@react-oauth/google"
 import axios from "axios"
 
 export default function SignIn() {
     const [status, setStatus] = useState(null)
-    const {setPlayerInfo} = useOutletContext()
-
-
     const navigate = useNavigate()
-    const location = useLocation();
-
-    function signin(formData) {
-        const data = Object.fromEntries(formData)
-
-        axios.post("/players/login", {
-            username: data.username,
-            password: data.password
-        })
-            .then(response => {
-                const data = response.data;
-                if (data.error != null) {
-                    setStatus("Wrong username or password");
-                } else {
-                    localStorage.setItem("refreshToken", data.refresh_token);
-                    localStorage.setItem("accessToken", data.token); // ← Store access token too
-                    console.log(data)
-                    setPlayerInfo({
-                        username: data.username,
-                        avatar: data.avatar,
-                        displayName: data.display_name,
-                    })
-                    setStatus("Signed In!");
-                    const from = location.state?.from || '/';
-                    navigate(from, { replace: true });
-                }
-            })
-            .catch(error => {
-                console.log("Login failed:", error);
-                setStatus("Login failed. Please try again.");
-            });
-    }
 
     return (
         <section className="signin-section">
-            <h1>Enter Information:</h1>
+            <h1>Sign In Options:</h1>
             {status && <h2 style={{color: status === "Signed In!" ? "green" : "red"}}>{status}</h2>}
-            <form action={signin}>
-                <section className="input-section">
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        id="username"
-                        placeholder="BigSteve"
-                        type="text"
-                        name="username"
-                        defaultValue="usertest"
-                        onFocus={(e) => e.target.placeholder = ''}
-                        onBlur={(e) => e.target.placeholder = 'BigSteve'}
-                    />
-                </section>
-
-                <section className="input-section">
-                    <label htmlFor="password">Password:</label>
-                    <input id="password"
-                        placeholder="passw0rd"
-                        type="password"
-                        name="password"
-                        defaultValue="usertest"
-                        onFocus={(e) => e.target.placeholder = ''}
-                        onBlur={(e) => e.target.placeholder = 'passw0rd'}
-                    />
-                </section>
-
-                <section className="button-section">
-                    <button>Sign In</button>
-                </section>
-                <section className="redirect-section">
-                    <p>Don't have an account? <Link to="/signup">Sign Up!</Link></p>
-                </section>
-            </form>
+            <section className="icon-section">
+                <img src={appleLogo} alt="Sign in with apple" className="apple-icon"/>
+                <GoogleLogin
+                    onSuccess={credentialResponse => {
+                        axios.post("/auth/goole", {
+                            id_token: credentialResponse.credential
+                        })
+                            .then(response => {
+                                localStorage.setItem("accessToken", response.data.token)
+                                localStorage.setItem("refreshToken", response.data.refresh_token)
+                                setStatus("Signed In!")
+                            })
+                            .catch(error => {
+                                setStatus("Something went wrong")
+                                console.log(error)
+                            })
+                    }}
+                    onError={() => {
+                        setStatus("Sign In Failed")
+                    }}
+                    theme="filled_black"
+                    size="large"
+                    text="signin"
+                    shape="pill"
+                />
+                <img src={discordLogo} alt="Sign in with discord" className="discord-icon"/>
+            </section>
+            <h2 className="or-h2"> or: </h2>
+            <button disabled className="goto-email" onClick={() => navigate("/signinwithemail")}>Continue with Email</button>
         </section>
     )
 }

@@ -2,6 +2,12 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 
+//** sing in with google
+//full front and backend
+//implementation **
+//
+//Email verification
+//
 //see your games
 //
 //change cursor to dice
@@ -11,8 +17,6 @@ import { Link, useOutletContext } from "react-router-dom";
 //
 //*****DEPLOYMENT*****
 //
-//Email verification
-//sing in with google
 
 export default function MainMenu() {
     const token = localStorage.getItem("accessToken")

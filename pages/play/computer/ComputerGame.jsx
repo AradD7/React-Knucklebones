@@ -99,7 +99,7 @@ export default function ComputerGame() {
     }, [nextBoard2])
 
     function handlePlace(row, col) {
-        axios.post("http://localhost:8080/api/games/computergame", {
+        axios.post("/games/computergame", {
             board1: board1,
             board2: board2,
             dice: Dice.indexOf(currentDice),

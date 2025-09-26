@@ -60,7 +60,7 @@ export default function LocalGame() {
     }
 
     function handlePlace(row, col) {
-        axios.post("http://localhost:8080/api/games/localgame", {
+        axios.post("/games/localgame", {
             board1: board1,
             board2: board2,
             turn: isPlayer1Turn ? "player1" : "player2",
