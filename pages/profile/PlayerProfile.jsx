@@ -60,7 +60,7 @@ export default function PlayerProfile(){
         <section className="player-profile">
             <h1 className="profile-title">
                 {playerInfo.displayName ?
-                    `${playerInfo.displayName}${playerInfo.displayName[playerInfo.displayName.length - 1] === 's' ? "'" : "'s"} Profile`:
+                    `${playerInfo.displayName}${playerInfo.displayName[playerInfo.displayName.length - 1] === 's' ? "'" : "'s"} Profile` :
                     `${playerInfo.username}${playerInfo.username[playerInfo.username.length - 1] === 's' ? "'" : "'s"} Profile`}
             </h1>
             <form action={updateProfile}>
