@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8080/api';
+axios.defaults.baseURL = 'go-knucklebones-production.up.railway.app/api';
 
 // Token refresh function
 function refreshToken() {
