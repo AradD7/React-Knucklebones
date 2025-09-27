@@ -77,7 +77,7 @@ export default function OnlineGame() {
                 .then(response => {
                     const data = response.data;
                     setGameId(data.id);
-                    setSocketUrl(`ws://localhost:8080/ws/games/${data.id}`);
+                    setSocketUrl(`wss://go-knucklebones-production.up.railway.app/ws/games/${data.id}`);
                     setSearchParams(prev => ({...Object.fromEntries(prev), gameid: data.id}));
                 })
                 .catch(error => {
@@ -96,7 +96,7 @@ export default function OnlineGame() {
                     setIsPlayer1Turn(data.is_turn);
                     setCanRoll(data.is_turn);
                     if (!data.is_over) {
-                        setSocketUrl(`ws://localhost:8080/ws/games/${data.id}`);
+                        setSocketUrl(`wss://go-knucklebones-production.up.railway.app/ws/games/${data.id}`);
                     }
                 })
                 .catch(error => {
@@ -106,7 +106,7 @@ export default function OnlineGame() {
     }, [newGame]);
 
     useEffect(() => {
-        setShareLink(`http://localhost:5173/joingame?gameid=${gameId}`)
+        setShareLink(`https://sillyminigames.com/joingame?gameid=${gameId}`)
     }, [gameId])
 
 

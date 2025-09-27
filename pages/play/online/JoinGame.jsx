@@ -29,7 +29,7 @@ export default function OnlineGame() {
         avatar: "8",
     })
 
-    const socketUrl = `ws://localhost:8080/ws/games/${gameId}`
+    const socketUrl = `wss://go-knucklebones-production.up.railway.app/ws/games/${gameId}`
 
     const { playerInfo } = useOutletContext()
 
