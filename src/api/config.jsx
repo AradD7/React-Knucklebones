@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'go-knucklebones-production.up.railway.app/api';
+axios.defaults.baseURL = 'https://go-knucklebones-production.up.railway.app/api';
 
 // Token refresh function
 function refreshToken() {
