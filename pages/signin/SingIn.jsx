@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate, useOutletContext } from "react-router-dom"
 import { useState } from "react"
 import appleLogo from "../../images/apple-icon.png"
 import discordLogo from "../../images/discord-icon.png"
@@ -7,7 +7,34 @@ import axios from "axios"
 
 export default function SignIn() {
     const [status, setStatus] = useState(null)
+    const {setPlayerInfo} = useOutletContext()
+
+
+    const location = useLocation();
     const navigate = useNavigate()
+
+    function handleSuccess(creds) {
+        axios.post("/auth/google", {
+            id_token: creds.credential
+        })
+            .then(response => {
+                localStorage.setItem("accessToken", response.data.token)
+                localStorage.setItem("refreshToken", response.data.refresh_token)
+                setPlayerInfo({
+                    username: response.data.username,
+                    avatar: parseInt(response.data.avatar),
+                    displayName: response.data.display_name,
+                })
+                console.log(response.data)
+                setStatus("Signed In!");
+                const from = location.state?.from || '/';
+                navigate(from, { replace: true });
+            })
+            .catch(error => {
+                setStatus("Something went wrong")
+                console.log(error)
+            })
+    }
 
     return (
         <section className="signin-section">
@@ -16,20 +43,7 @@ export default function SignIn() {
             <section className="icon-section">
                 <img src={appleLogo} alt="Sign in with apple" className="apple-icon"/>
                 <GoogleLogin
-                    onSuccess={credentialResponse => {
-                        axios.post("/auth/goole", {
-                            id_token: credentialResponse.credential
-                        })
-                            .then(response => {
-                                localStorage.setItem("accessToken", response.data.token)
-                                localStorage.setItem("refreshToken", response.data.refresh_token)
-                                setStatus("Signed In!")
-                            })
-                            .catch(error => {
-                                setStatus("Something went wrong")
-                                console.log(error)
-                            })
-                    }}
+                    onSuccess={credentialResponse => handleSuccess(credentialResponse)}
                     onError={() => {
                         setStatus("Sign In Failed")
                     }}

@@ -11,6 +11,7 @@ import Navbar from "./pages/Navbar"
 import ComputerGame from "./pages/play/computer/ComputerGame"
 import PlayerProfile from "./pages/profile/PlayerProfile"
 import { GoogleOAuthProvider } from "@react-oauth/google"
+import "./src/api/config"
 
 
 function App() {

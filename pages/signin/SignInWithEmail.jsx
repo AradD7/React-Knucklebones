@@ -1,15 +1,14 @@
 import { Link, useLocation, useNavigate, useOutletContext } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
-import { GoogleLogin } from "@react-oauth/google"
 
 export default function SignIn() {
     const [status, setStatus] = useState(null)
     const {setPlayerInfo} = useOutletContext()
 
 
-    const navigate = useNavigate()
     const location = useLocation();
+    const navigate = useNavigate()
 
     function signin(formData) {
         const data = Object.fromEntries(formData)
