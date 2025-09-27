@@ -13,7 +13,7 @@ import PlayerProfile from "./pages/profile/PlayerProfile"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import "./src/api/config"
 
-
+console.log(axios.defaults.baseURL);
 function App() {
     return (
         <BrowserRouter>
