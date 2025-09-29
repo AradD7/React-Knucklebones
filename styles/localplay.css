@@ -41,8 +41,14 @@ button.roll-button {
     margin-bottom: 10px;
 }
 
+
+button.roll-button:disabled {
+    opacity: 0.5;
+}
+
 button.roll-button:hover:not(:disabled) {
     background-color: var(--buttonHoverColor);
+    cursor: pointer;
 }
 
 img.roll-die {

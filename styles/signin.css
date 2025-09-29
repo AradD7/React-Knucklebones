@@ -136,7 +136,11 @@ section.icon-section > img {
     border-radius: 10px;
     font-size: 1.1rem;
     font-weight: 800;
-    /*cursor: pointer;*/
+}
+
+.goto-email:hover:not(:disabled) {
+    background-color: var(--buttonHoverColor);
+    cursor: pointer;
 }
 
 @media (max-width: 450px) {

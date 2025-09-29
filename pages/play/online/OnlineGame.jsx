@@ -12,7 +12,6 @@ import axios from "axios"
 
 export default function OnlineGame() {
     const intervalRef = useRef(null)
-    const counterRef = useRef(0)
     const navigate = useNavigate()
     const [searchParams, setSearchParams] = useSearchParams()
 
@@ -77,7 +76,7 @@ export default function OnlineGame() {
                 .then(response => {
                     const data = response.data;
                     setGameId(data.id);
-                    setSocketUrl(`wss://go-knucklebones-production.up.railway.app/ws/games/${data.id}`);
+                    setSocketUrl(`${import.meta.env.VITE_WEBSOCKET_URL}${data.id}`);
                     setSearchParams(prev => ({...Object.fromEntries(prev), gameid: data.id}));
                 })
                 .catch(error => {
@@ -96,7 +95,7 @@ export default function OnlineGame() {
                     setIsPlayer1Turn(data.is_turn);
                     setCanRoll(data.is_turn);
                     if (!data.is_over) {
-                        setSocketUrl(`wss://go-knucklebones-production.up.railway.app/ws/games/${data.id}`);
+                        setSocketUrl(`${import.meta.env.VITE_WEBSOCKET_URL}${data.id}`);
                     }
                 })
                 .catch(error => {
@@ -112,31 +111,27 @@ export default function OnlineGame() {
 
     function rollDice() {
         if (!isGameOver) {
+            if (!canRoll) return; // Prevent double-clicks
+
             setCanRoll(false);
+
+            // Pre-determine final result
+            const finalRoll = Math.ceil(Math.random() * 6);
+
+            // Start animation
             intervalRef.current = setInterval(() => {
-                counterRef.current++
-                setCurrentDice(Dice[Math.ceil(Math.random() * 6)])
-            }, 100)
-            const minAnimationTime = new Promise(resolve => setTimeout(resolve, 1000))
-            Promise.all([
-                axios.get("/rolls")
-                .then(response => response.data)
-                .catch(error => {
-                    console.log('Roll failed:', error);
-                    throw error;
-                }),
-                minAnimationTime
-            ])
-                .then(([data]) => {
-                    clearInterval(intervalRef.current);
-                    setCurrentDice(Dice[data.dice]);
-                })
-                .catch(() => {
-                    clearInterval(intervalRef.current);
-                    setCanRoll(true);
-                })
+                setCurrentDice(Dice[Math.ceil(Math.random() * 6)]);
+            }, 100);
+
+            // Stop after 800ms
+            setTimeout(() => {
+                clearInterval(intervalRef.current);
+                setCurrentDice(Dice[finalRoll]);
+            }, 800);
+
             return;
         }
+
         setGameId(null);
         setBoard1([[0, 0, 0], [0, 0, 0], [0, 0, 0]]);
         setIsGameOver(false);
@@ -147,6 +142,14 @@ export default function OnlineGame() {
         setSearchParams({});
         navigate("/onlineplay");
     }
+
+    useEffect(() => {
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+        };
+    }, []);
 
     function handlePlace(row, col) {
         axios.post(`/games/move/${gameId}`, {

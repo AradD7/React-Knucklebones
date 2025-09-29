@@ -41,11 +41,11 @@ export default function Board(props) {
                         key={key}
                         onClick={() => props.place(indexR, indexC)}
                         disabled={isDisabled[key]}
+                        style={{backgroundColor: isHighlighted[indexR][indexC] && Dice[col] ? "#EA7159" : null}}
                     >
                         <img
                             src={Dice[col]}
                             alt={Dice[col] === null ? null : `die of value ${col}`}
-                            style={{backgroundColor: isHighlighted[indexR][indexC] ? "#EA7159" : null, borderRadius: 10}}
                         />
                     </button>)
             }
@@ -76,11 +76,11 @@ export default function Board(props) {
                         key={key}
                         onClick={() => props.place(2-indexR, indexC)}
                         disabled={true}
+                        style={{backgroundColor: isHighlighted[2-indexR][indexC] && Dice[col] ? "#EA7159" : null}}
                     >
                         <img
                             src={Dice[col]}
                             alt={Dice[col] === null ? null : `die of value ${col}`}
-                            style={{backgroundColor: isHighlighted[2-indexR][indexC] ? "#EA7159" : null, borderRadius: 10}}
                         />
                     </button>)
             }

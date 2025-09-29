@@ -1,7 +1,7 @@
 import LocalBoard from "../LocalBoard"
 import Player from "./Player"
 import Instructions from "../Instructions"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Dice } from "../../utils"
 import ConfettiExplosion from 'react-confetti-explosion'
 import { useOutletContext } from "react-router-dom"
@@ -21,36 +21,29 @@ export default function LocalGame() {
     const { playerInfo } = useOutletContext()
 
     const intervalRef = useRef(null)
-    const counterRef = useRef(0)
     function rollDice() {
         if (!isGameOver) {
-            setCanRoll(false)
+            if (!canRoll) return; // Prevent double-clicks
 
+            setCanRoll(false);
+
+            // Pre-determine final result
+            const finalRoll = Math.ceil(Math.random() * 6);
+
+            // Start animation
             intervalRef.current = setInterval(() => {
-                counterRef.current++
-                setCurrentDice(Dice[Math.ceil(Math.random() * 6)])
-            }, 100)
-            const minAnimationTime = new Promise(resolve => setTimeout(resolve, 1000))
+                setCurrentDice(Dice[Math.ceil(Math.random() * 6)]);
+            }, 100);
 
-            Promise.all([
-                axios.get("/rolls")
-                .then(response => response.data)
-                .catch(error => {
-                    console.log('Roll failed:', error);
-                    throw error;
-                }),
-                minAnimationTime
-            ])
-                .then(([data]) => {
-                    clearInterval(intervalRef.current);
-                    setCurrentDice(Dice[data.dice]);
-                })
-                .catch(() => {
-                    clearInterval(intervalRef.current);
-                    setCanRoll(true);
-                })
+            // Stop after 800ms
+            setTimeout(() => {
+                clearInterval(intervalRef.current);
+                setCurrentDice(Dice[finalRoll]);
+            }, 800);
+
             return;
         }
+
         setBoard1([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
         setBoard2([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
         setScore1(0)
@@ -58,6 +51,14 @@ export default function LocalGame() {
         setIsPlayer1Turn(true)
         setIsGameOver(false)
     }
+
+    useEffect(() => {
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+        };
+    }, []);
 
     function handlePlace(row, col) {
         axios.post("/games/localgame", {
