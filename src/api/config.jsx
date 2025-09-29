@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://go-knucklebones-production.up.railway.app/api';
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 
 // Token refresh function
 function refreshToken() {

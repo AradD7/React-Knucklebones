@@ -41,7 +41,7 @@ export default function LocalBoard(props) {
                         key={key}
                         onClick={() => props.place(indexR, indexC)}
                         disabled={isDisabled[key]}
-                        style={{backgroundColor: isHighlighted[indexR][indexC] && Dice[col] ? "yellow" : null, borderRadius: 10}}
+                        style={{backgroundColor: isHighlighted[indexR][indexC] && Dice[col] ? "#EA7159" : null}}
                     >
                         <img
                             src={Dice[col]}
@@ -88,7 +88,7 @@ export default function LocalBoard(props) {
                         key={key}
                         onClick={() => props.place(2-indexR, indexC)}
                         disabled={isDisabled[key]}
-                        style={{backgroundColor: isHighlighted[2-indexR][indexC] && Dice[col] ? "yellow" : null, borderRadius: 10}}
+                        style={{backgroundColor: isHighlighted[2-indexR][indexC] && Dice[col] ? "#EA7159" : null}}
                     >
                         <img
                             src={Dice[col]}

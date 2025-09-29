@@ -1,9 +1,3 @@
-:root{
-    --backgroundColor: #F5FFEF;
-    --board-border-radius: 5px;
-}
-
-
 section.local-play {
     margin: 20px auto;
     max-width: 700px;
@@ -37,7 +31,8 @@ button.roll-button {
     width: 130px;
     height: 70px;
     font-family: "Finger Paint", sans-serif;
-    background-color: powderblue;
+    background-color: var(--buttonColor);
+    color: var(--textColor);
     border: none;
     border-radius: 10px;
     font-size: 1.5rem;
@@ -47,7 +42,7 @@ button.roll-button {
 }
 
 button.roll-button:hover:not(:disabled) {
-    background-color: yellow;
+    background-color: var(--buttonHoverColor);
 }
 
 img.roll-die {
@@ -122,6 +117,7 @@ section.player1-info {
     align-items: center;
     padding-bottom: 8px;
     position: relative;
+    color: var(--textColor);
 }
 
 section.player1-info > section.player1-score {
@@ -131,7 +127,7 @@ section.player1-info > section.player1-score {
     z-index: 1;
     position: absolute;
     right: 38px;
-    background: #dbdbdb;
+    background: var(--buttonColor);
     border-radius: 10px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
@@ -148,6 +144,7 @@ section.player2-info {
     align-items: center;
     padding-top: 8px;
     position: relative;
+    color: var(--textColor);
 }
 
 section.player2-info > section.player2-score {
@@ -157,7 +154,7 @@ section.player2-info > section.player2-score {
     z-index: 1;
     position: absolute;
     right: 38px;
-    background: #dbdbdb;
+    background: var(--buttonColor);
     border-radius: 10px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
@@ -178,17 +175,17 @@ section.player1-board {
 
 section.player1-board > button {
     margin: 0;
-    border: var(--board-border-radius) solid black;
+    border: var(--board-border-radius) solid var(--backgroundColor);
     border-bottom: none;
     border-right: none;
     font-family: "Finger Paint", sans-serif;
     width: 100px;
     height: 100px;
-    background-color: var(--backgroundColor);
+    background-color: var(--containerColor);
 }
 
 section.player1-board > button:hover:not(:disabled) {
-    background-color: yellow;
+    background-color: var(--highlightColor);
     cursor: pointer;
 }
 
@@ -220,11 +217,11 @@ section.player2-board > button {
     font-family: "Finger Paint", sans-serif;
     width: 100px;
     height: 100px;
-    background-color: var(--backgroundColor);
+    background-color: var(--containerColor);
 }
 
 section.player2-board > button:hover:not(:disabled) {
-    background-color: yellow;
+    background-color: var(--highlightColor);
     cursor: pointer;
 }
 
@@ -307,17 +304,12 @@ section.bottom {
         width: 135px;
         height: 90px;
         font-family: "Finger Paint", sans-serif;
-        background-color: powderblue;
         border: none;
         border-radius: 10px;
         font-size: 1.5rem;
         font-weight: 800;
         margin-top: 0;
         margin-bottom: 0;
-    }
-
-    button.roll-button:hover:not(:disabled) {
-        background-color: yellow;
     }
 
     img.roll-die {
@@ -341,14 +333,12 @@ section.bottom {
         border-right: none;
         font-family: "Finger Paint", sans-serif;
         width: 30%;
-        max-width: 160px;
+        max-width: 150px;
         height: 30%;
         max-height: 130px;
-        background-color: var(--backgroundColor);
     }
 
     section.player1-board > button:hover:not(:disabled) {
-        background-color: yellow;
         cursor: pointer;
     }
 
@@ -379,14 +369,12 @@ section.bottom {
         border-right: none;
         font-family: "Finger Paint", sans-serif;
         width: 30%;
-        max-width: 160px;
+        max-width: 150px;
         height: 30%;
         max-height: 130px;
-        background-color: var(--backgroundColor);
     }
 
     section.player2-board > button:hover:not(:disabled) {
-        background-color: yellow;
         cursor: pointer;
     }
 
@@ -446,7 +434,6 @@ section.bottom {
         height: auto;
         text-align: center;
         font-size: 2rem;
-        background: #dbdbdb;
         border-radius: 10px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         display: flex;
@@ -461,7 +448,6 @@ section.bottom {
         height: auto;
         text-align: center;
         font-size: 2rem;
-        background: #dbdbdb;
         border-radius: 10px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         display: flex;
@@ -531,15 +517,10 @@ section.bottom {
         width: 100px;
         height: 90px;
         font-family: "Finger Paint", sans-serif;
-        background-color: powderblue;
         border: none;
         border-radius: 10px;
         font-size: 1.4rem;
         font-weight: 800;
-    }
-
-    button.roll-button:hover:not(:disabled) {
-        background-color: yellow;
     }
 
     img.roll-die {
@@ -571,7 +552,6 @@ section.bottom {
         height: 60px;
         text-align: center;
         font-size: 1.8rem;
-        background: #dbdbdb;
         border-radius: 10px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         display: flex;
@@ -586,7 +566,6 @@ section.bottom {
         height: 60px;
         text-align: center;
         font-size: 1.8rem;
-        background: #dbdbdb;
         border-radius: 10px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         display: flex;
@@ -612,11 +591,9 @@ section.bottom {
         max-width: 160px;
         height: 30%;
         max-height: 130px;
-        background-color: var(--backgroundColor);
     }
 
     section.player1-board > button:hover:not(:disabled) {
-        background-color: yellow;
         cursor: pointer;
     }
 
@@ -649,11 +626,9 @@ section.bottom {
         max-width: 160px;
         height: 30%;
         max-height: 130px;
-        background-color: var(--backgroundColor);
     }
 
     section.player2-board > button:hover:not(:disabled) {
-        background-color: yellow;
         cursor: pointer;
     }
 

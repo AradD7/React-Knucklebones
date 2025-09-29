@@ -3,7 +3,7 @@ section.signin-section {
     max-width: 430px;
     height: 33vh;
     min-height: 300px;
-    background-color: #FBFFF8;
+    background-color: var(--containerColor);
     border-radius: 30px;
     display: flex;
     flex-direction: column;
@@ -60,7 +60,7 @@ section.signin-section {
     width: 98px;
     height: 60px;
     font-family: "Finger Paint", sans-serif;
-    background-color: powderblue;
+    background-color: var(--buttonColor);
     border: none;
     border-radius: 10px;
     font-size: 1.3rem;
@@ -131,11 +131,12 @@ section.icon-section > img {
     width: 220px;
     height: 50px;
     font-family: "Finger Paint", sans-serif;
-    background-color: powderblue;
+    background-color: var(--buttonColor);
     border: none;
     border-radius: 10px;
     font-size: 1.1rem;
     font-weight: 800;
+    /*cursor: pointer;*/
 }
 
 @media (max-width: 450px) {

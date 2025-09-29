@@ -45,7 +45,7 @@ export default function Board(props) {
                         <img
                             src={Dice[col]}
                             alt={Dice[col] === null ? null : `die of value ${col}`}
-                            style={{backgroundColor: isHighlighted[indexR][indexC] ? "yellow" : null, borderRadius: 10}}
+                            style={{backgroundColor: isHighlighted[indexR][indexC] ? "#EA7159" : null, borderRadius: 10}}
                         />
                     </button>)
             }
@@ -80,7 +80,7 @@ export default function Board(props) {
                         <img
                             src={Dice[col]}
                             alt={Dice[col] === null ? null : `die of value ${col}`}
-                            style={{backgroundColor: isHighlighted[2-indexR][indexC] ? "yellow" : null, borderRadius: 10}}
+                            style={{backgroundColor: isHighlighted[2-indexR][indexC] ? "#EA7159" : null, borderRadius: 10}}
                         />
                     </button>)
             }

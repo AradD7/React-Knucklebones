@@ -2,21 +2,53 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 
-//** sing in with google
-//full front and backend
-//implementation **
+//**change roll to be done
+//on the frontend rather than
+//api calls ***
 //
-//Email verification
+//** add connection status for
+//online games to see if other
+//parson is connected **
 //
-//see your games
+//** When person joins online game,
+//first thing both players see,
+//should be the name + avatar of each
+//other for 5seconds, then start the
+//game **
 //
-//change cursor to dice
-//higlight higher score
-//animations
-//sound
+//** see the dice rolling when
+//the other player is rolling **
 //
-//*****DEPLOYMENT*****
+//** add feature to see who you
+//are playing with on mobile **
 //
+//** Email verification **
+//
+//** reconnect to an online game **
+//
+//** user to set their usernam **
+//
+//** input sanitation on frontend **
+//
+//** change localStorage to cookies **
+//
+//** add health endpoit to backend **
+//
+//** game history **
+//
+//** sounds **
+//
+//** higlight higher score**
+//
+//** add a how to play section **
+//
+//** move the whole app to its own
+//section so that the homepage is for
+//silly mini games instead of just
+//knucklebones **
+//
+//sign in with discord
+//sign in with apple
 
 export default function MainMenu() {
     const token = localStorage.getItem("accessToken")

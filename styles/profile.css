@@ -3,7 +3,7 @@ section.player-profile {
     max-width: 430px;
     height: 40vh;
     min-height: 320px;
-    background-color: #FBFFF8;
+    background-color: var(--containerColor);
     border-radius: 30px;
     display: flex;
     flex-direction: column;
@@ -120,16 +120,17 @@ div.profile-pictures > img {
     width: 98px;
     height: 50px;
     font-family: "Finger Paint", sans-serif;
-    background-color: powderblue;
+    background-color: var(--buttonColor);
     border: none;
     border-radius: 10px;
     font-size: 1.3rem;
     font-weight: 800;
     cursor: pointer;
+    color: var(--textColor);
 }
 
 .update-button > button:hover {
-    background-color: #EECECA;
+    background-color: var(--buttonHoverColor);
 }
 
 section.update-button {

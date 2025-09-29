@@ -11,13 +11,14 @@ h1.welcome-text {
     padding-bottom: 50px;
     font-size: 4.8rem;
     line-height: 1;
+    color: var(--textColor);
 }
 
 h1.menu-entry {
     text-align: center;
     margin: 0;
     text-decoration: none;
-    color: #444444;
+    color: var(--textColor);
     padding-top: 15px;
     padding-bottom: 15px;
     font-size: 2.2rem;
@@ -56,7 +57,7 @@ section.main-menu a {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #444444;
+    color: var(--textColor);
     text-align: center;
     margin: 0;
     text-decoration: none;
@@ -129,14 +130,14 @@ section.main-menu a {
     padding: 0 15px 8px;
     margin: 0;
     font-size: 1.2rem;
-    color: #666666;
+    color: var(--textColor);
     text-align: center;
     transition: all 0.2s ease;
 }
 
 .diff-submenu > a:hover > h1 {
     font-size: 1.6rem;
-    color: #444444;
+    color: var(--textColor);
 }
 
 .diff-submenu > a:focus {
