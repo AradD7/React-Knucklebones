@@ -19,26 +19,32 @@ export default function SignIn() {
         })
             .then(response => {
                 const data = response.data;
-                if (data.error != null) {
-                    setStatus("Wrong username or password");
-                } else {
-                    localStorage.setItem("refreshToken", data.refresh_token);
-                    localStorage.setItem("accessToken", data.token);
-                    console.log(data)
-                    setPlayerInfo({
-                        username: data.username,
-                        avatar: data.avatar,
-                        displayName: data.display_name,
-                    })
-                    setStatus("Signed In!");
-                    const from = location.state?.from || '/';
-                    navigate(from, { replace: true });
-                }
+                localStorage.setItem("refreshToken", data.refresh_token);
+                localStorage.setItem("accessToken", data.token);
+                console.log(data)
+                setPlayerInfo({
+                    username: data.username,
+                    avatar: data.avatar,
+                    displayName: data.display_name,
+                })
+                setStatus("Signed In!");
+                const from = location.state?.from || '/';
+                navigate(from, { replace: true });
             })
             .catch(error => {
+                if (error.status == 400) {
+                    setStatus("Wrong username or password");
+                    return
+                }
+                if (error.status == 403) {
+                    navigate("/verify", {
+                        state: { status: "signedIn", username: data.username}
+                    })
+                    return
+                }
                 console.log("Login failed:", error);
                 setStatus("Login failed. Please try again.");
-            });
+                });
     }
 
     return (

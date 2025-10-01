@@ -1,0 +1,70 @@
+section.verification {
+    width: 90vw;
+    max-width: 430px;
+    height: 33vh;
+    min-height: 200px;
+    max-height: 250px;
+    background-color: var(--containerColor);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    gap: 35px;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0 10px;
+}
+
+section.verification > h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.verification > button {
+    width: 150px;
+    height: 50px;
+    font-family: "Finger Paint", sans-serif;
+    background-color: var(--buttonColor);
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.verification > button:hover:not(:disabled) {
+    cursor: pointer;
+    background-color: var(--buttonHoverColor);
+}
+
+.verification > p {
+    text-align: center;
+    margin-top: -25px;
+    font-size: 1rem;
+}
+
+.success {
+    color: green;
+}
+
+.fail{
+    color: var(--buttonHoverColor);
+}
+
+p.fail {
+    font-size: 0.8rem;
+}
+
+.verification > h2 {
+    margin: 0;
+    margin-bottom: -20px;
+}
+
+section.with-token > h1 {
+    margin-bottom: 40px;
+    font-size: 2.2rem;
+}

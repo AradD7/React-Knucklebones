@@ -12,6 +12,7 @@ import ComputerGame from "./pages/play/computer/ComputerGame"
 import PlayerProfile from "./pages/profile/PlayerProfile"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import "./src/api/config"
+import VerifyEmail from "./pages/signin/VerifyEmail"
 
 function App() {
     return (
@@ -30,6 +31,7 @@ function App() {
                     <Route path="signin" element={<SignIn />} />
                     <Route path="signinwithemail" element={<SignInWithEmail />} />
                     <Route path="signup" element={<SignUp />} />
+                    <Route path="verify" element={<VerifyEmail />} />
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -55,7 +55,7 @@ export default function SignIn() {
                 <img src={discordLogo} alt="Sign in with discord" className="discord-icon"/>
             </section>
             <h2 className="or-h2"> or: </h2>
-            <button disabled className="goto-email" onClick={() => navigate("/signinwithemail")}>Continue with Email</button>
+            <button className="goto-email" onClick={() => navigate("/signinwithemail")}>Continue with Email</button>
         </section>
     )
 }

@@ -1,17 +1,21 @@
 import axios from "axios";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export default function SignUp() {
+    const navigate = useNavigate()
 
     function signup(formData) {
         const data = Object.fromEntries(formData);
 
         axios.post("/players/new", {
             username: data.username,
+            email:    data.email,
             password: data.password
         })
             .then(response => {
-                console.log("player successfully created");
+                navigate("/verify", {
+                    state: { status: "created", email: data.email}
+                })
                 console.log(response.data);
             })
             .catch(error => {
@@ -33,6 +37,18 @@ export default function SignUp() {
                         defaultValue="usertest"
                         onFocus={(e) => e.target.placeholder = ''}
                         onBlur={(e) => e.target.placeholder = 'BigSteve'}
+                    />
+                </section>
+
+                <section className="input-section">
+                    <label htmlFor="email" className="email-label">Email:</label>
+                    <input
+                        id="email"
+                        placeholder="bigsteve@loco.com"
+                        type="email"
+                        name="email"
+                        onFocus={(e) => e.target.placeholder = ''}
+                        onBlur={(e) => e.target.placeholder = 'bigsteve@loco.com'}
                     />
                 </section>
 

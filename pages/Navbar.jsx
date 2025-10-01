@@ -48,7 +48,7 @@ export default function Navbar() {
                             </span>
                         </Link> :
                     <Link to="profile" className="nav-profile">
-                        <img src={ProfilePics[playerInfo.avatar]} />
+                        <img src={ProfilePics[parseInt(playerInfo.avatar)]} />
                     </Link>
                 }
             </header>

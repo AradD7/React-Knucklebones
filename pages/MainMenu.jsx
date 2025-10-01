@@ -2,14 +2,6 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 
-//**change roll to be done
-//on the frontend rather than
-//api calls ***
-//
-//** add connection status for
-//online games to see if other
-//parson is connected **
-//
 //** When person joins online game,
 //first thing both players see,
 //should be the name + avatar of each
@@ -19,6 +11,10 @@ import { Link, useOutletContext } from "react-router-dom";
 //** see the dice rolling when
 //the other player is rolling **
 //
+//** add connection status for
+//online games to see if other
+//person is connected **
+//
 //** add feature to see who you
 //are playing with on mobile **
 //
@@ -26,13 +22,9 @@ import { Link, useOutletContext } from "react-router-dom";
 //
 //** reconnect to an online game **
 //
-//** user to set their usernam **
+//** user to set their username **
 //
 //** input sanitation on frontend **
-//
-//** change localStorage to cookies **
-//
-//** add health endpoit to backend **
 //
 //** game history **
 //
@@ -86,7 +78,7 @@ export default function MainMenu() {
                 </Link>
             </> :
             <h1 className="welcome-text">
-                Hi, {playerInfo.displayName === "" ? playerInfo.username : playerInfo.displayName}!
+                Hi, {playerInfo.displayName ? playerInfo.displayName : playerInfo.username}!
             </h1>
             }
             <h1
