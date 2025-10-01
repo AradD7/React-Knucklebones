@@ -59,7 +59,6 @@ export default function SignIn() {
                         placeholder="BigSteve"
                         type="text"
                         name="username"
-                        defaultValue="usertest"
                         onFocus={(e) => e.target.placeholder = ''}
                         onBlur={(e) => e.target.placeholder = 'BigSteve'}
                     />
@@ -71,7 +70,6 @@ export default function SignIn() {
                         placeholder="passw0rd"
                         type="password"
                         name="password"
-                        defaultValue="usertest"
                         onFocus={(e) => e.target.placeholder = ''}
                         onBlur={(e) => e.target.placeholder = 'passw0rd'}
                     />
