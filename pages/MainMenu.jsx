@@ -18,8 +18,6 @@ import { Link, useOutletContext } from "react-router-dom";
 //** add feature to see who you
 //are playing with on mobile **
 //
-//** Email verification **
-//
 //** reconnect to an online game **
 //
 //** user to set their username **

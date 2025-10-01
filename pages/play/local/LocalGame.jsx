@@ -28,7 +28,7 @@ export default function LocalGame() {
             setCanRoll(false);
 
             // Pre-determine final result
-            const finalRoll = Math.ceil(Math.random() * 6);
+            const finalRoll = (crypto.getRandomValues(new Uint32Array(1))[0] % 6) + 1;
 
             // Start animation
             intervalRef.current = setInterval(() => {

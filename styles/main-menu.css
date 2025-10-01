@@ -11,7 +11,7 @@ h1.welcome-text {
     padding-bottom: 50px;
     font-size: 4.8rem;
     line-height: 1;
-    color: var(--textColor);
+    color: #fff3e4;
 }
 
 h1.menu-entry {
@@ -23,7 +23,7 @@ h1.menu-entry {
     padding-bottom: 15px;
     font-size: 2.2rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: font-size 0.3s ease;
 }
 
 h1.localplay-text.showing {
@@ -65,6 +65,7 @@ section.main-menu a {
     opacity: 0;
     transform: translateY(-10px);
     transition: opacity 0.2s ease 0.1s, transform 0.2s ease 0.1s;
+    white-space: nowrap;
 }
 
 .submenu.open .submenu-content {
@@ -74,7 +75,7 @@ section.main-menu a {
 
 .submenu-content > a {
     margin-top: -30px;
-    transition: all 0.2s ease;
+    transition: font-size 0.2s ease;
     font-size: 1rem;
     outline: none;
     -webkit-tap-highlight-color: transparent;
@@ -113,7 +114,6 @@ section.main-menu a {
 }
 
 .diff-submenu > a {
-    transition: all 0.2s ease;
     outline: none;
     -webkit-tap-highlight-color: transparent;
     opacity: 0;
@@ -132,7 +132,7 @@ section.main-menu a {
     font-size: 1.2rem;
     color: var(--textColor);
     text-align: center;
-    transition: all 0.2s ease;
+    transition: font-size 0.2s ease;
 }
 
 .diff-submenu > a:hover > h1 {
@@ -156,6 +156,10 @@ section.main-menu a {
         padding-bottom: 50px;
         font-size: 3.8rem;
         line-height: 1;
+    }
+
+    .submenu-content {
+        white-space: unset;
     }
 }
 

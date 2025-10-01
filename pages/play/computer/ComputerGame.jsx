@@ -35,7 +35,7 @@ export default function ComputerGame() {
             setCanRoll(false);
 
             // Pre-determine final result
-            const finalRoll = Math.ceil(Math.random() * 6);
+            const finalRoll = (crypto.getRandomValues(new Uint32Array(1))[0] % 6) + 1;
 
             // Start animation
             intervalRef.current = setInterval(() => {
@@ -57,6 +57,7 @@ export default function ComputerGame() {
         setScore2(0)
         setIsComputerTurn(false)
         setIsGameOver(false)
+        setCanRoll(true)
     }
 
     useEffect(() => {

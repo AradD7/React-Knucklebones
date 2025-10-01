@@ -26,7 +26,7 @@ export default function VerifyEmail() {
                     setPlayerInfo({
                         username: response.data.username,
                         avatar: parseInt(response.data.avatar),
-                        displayName: response.data.display_name,
+                        displayName: response.username,
                     })
 
                     setVerified(true)
@@ -64,7 +64,7 @@ export default function VerifyEmail() {
                 {status &&
                     (status == "created" ?
                         <>
-                            <h2 className="success">Acount Created!</h2>
+                            <h2 className="success">Account Created!</h2>
                             <h1>Please check your email to verify your account</h1>
                             <button disabled={isClicked} onClick={handleReverification} className="reverification"> Resend Email </button>
                         </> :
@@ -86,8 +86,8 @@ export default function VerifyEmail() {
             </section> :
             <section className="verification with-token">
                 {verified ?
-                    <h1 className="success">Acount Verified!</h1> :
-                    <h1>Verifying Acount...</h1>
+                    <h1 className="success">Account Verified!</h1> :
+                    <h1>Verifying Account...</h1>
                 }
             </section>
     )

@@ -47,6 +47,10 @@ header {
         'opsz' 24;
 }
 
+.back-button > span.material-symbols-outlined:hover {
+    color: #ffe8ce;
+}
+
 div.main-content {
     display: flex;
     justify-content: center;
@@ -100,6 +104,6 @@ a.signin-redirect > h1 {
 }
 
 .signin-redirect > h1:hover {
-    color: #111111;
+    color: #ffe8ce;
 }
 
