@@ -27,9 +27,9 @@ export default function SignIn() {
                     avatar: data.avatar,
                     displayName: data.display_name,
                 })
-                setStatus("Signed In!");
+                setStatus("Signed In! Redirecting...");
                 const from = location.state?.from || '/';
-                navigate(from, { replace: true });
+                setTimeout(() => navigate(from, { replace: true }), 1000);
             })
             .catch(error => {
                 if (error.status == 400) {
@@ -50,7 +50,7 @@ export default function SignIn() {
     return (
         <section className="signin-section">
             <h1>Sign In With Email:</h1>
-            {status && <h2 style={{color: status === "Signed In!" ? "green" : "red"}}>{status}</h2>}
+            {status && <h2 style={{color: status === "Signed In! Redirecting..." ? "green" : "red"}}>{status}</h2>}
             <form action={signin}>
                 <section className="input-section">
                     <label htmlFor="username">Username:</label>

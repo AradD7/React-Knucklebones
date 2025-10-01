@@ -2,21 +2,9 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 
-//** When person joins online game,
-//first thing both players see,
-//should be the name + avatar of each
-//other for 5seconds, then start the
-//game **
-//
-//** see the dice rolling when
-//the other player is rolling **
-//
 //** add connection status for
 //online games to see if other
 //person is connected **
-//
-//** add feature to see who you
-//are playing with on mobile **
 //
 //** reconnect to an online game **
 //

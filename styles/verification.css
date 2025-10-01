@@ -27,7 +27,7 @@ section.verification > h1 {
 
 .verification > button {
     width: 150px;
-    height: 50px;
+    height: 60px;
     font-family: "Finger Paint", sans-serif;
     background-color: var(--buttonColor);
     border: none;

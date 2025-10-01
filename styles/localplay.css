@@ -9,6 +9,7 @@ section.local-play {
         "p1 p1 p1 p1 b1 b1 b1 b1 b1 b1 d d"
         "p2 p2 p2 p2 b2 b2 b2 b2 b2 b2 r r"
         "p2 p2 p2 p2 b2 b2 b2 b2 b2 b2 i i";
+    transition: opacity ease 0.7s;
 }
 
 section.roll-bottom {
@@ -113,6 +114,7 @@ img.profile-picture {
     width: 160px;
     height: 160px;
     border-radius: 20px;
+    background-color: var(--containerColor);
 }
 
 section.player1-info {

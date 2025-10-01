@@ -79,6 +79,73 @@ h1.game-lost-text {
     color: #700000;
 }
 
+div.vs-info {
+    transition: opacity 0.8 ease;
+}
+
+section.start-player-info {
+    position: absolute;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 3;
+    top: 20vh;
+    left: 55%;
+    transform: translate(-50%, -50%);
+}
+
+section.start-player-info > img {
+    position: static;
+    width: 150px;
+    height: 150px;
+    border-radius: 20px;
+    background-color: white;
+}
+
+section.start-player-info > h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+section.start-opp-info {
+    position: absolute;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 3;
+    background-color: unset;
+    top: 46vh;
+    left: 55%;
+    transform: translate(-50%, 0);
+}
+
+section.start-opp-info > img {
+    width: 150px;
+    height: 150px;
+    border-radius: 20px;
+    background-color: white;
+}
+
+section.start-opp-info > h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+h1.big-vs {
+    position: absolute;
+    overflow: hidden;
+    z-index: 3;
+    font-size: 7rem;
+    color: red;
+    top: 30vh;
+    left: 55%;
+    transform: translate(-50%, -50%);
+}
+
 @media (max-width: 640px) {
     section.board2-placeholder {
         padding-top: 20px;
@@ -123,3 +190,111 @@ h1.game-lost-text {
         top: 25%;
     }
 }
+
+@media (max-width: 640px) and (min-width: 520px) {
+    section.start-player-info {
+        top: 27vh;
+        left: 50%;
+    }
+
+    section.start-opp-info {
+        top: 65vh;
+        left: 50%;
+    }
+
+    section.start-player-info > img {
+        width: 200px;
+        height: 200px;
+    }
+
+    section.start-player-info > h1 {
+        font-size: 3rem;
+    }
+
+    section.start-opp-info > img {
+        width: 200px;
+        height: 200px;
+    }
+
+    section.start-opp-info > h1 {
+        font-size: 3rem;
+    }
+
+    h1.big-vs {
+        font-size: 9rem;
+        top: 42vh;
+        left: 50%;
+    }
+}
+
+@media (max-width: 520px) {
+    section.start-player-info {
+        top: 27vh;
+        left: 50%;
+    }
+
+    section.start-opp-info {
+        top: 60vh;
+        left: 50%;
+    }
+
+    section.start-player-info > img {
+        width: 200px;
+        height: 200px;
+    }
+
+    section.start-player-info > h1 {
+        font-size: 3rem;
+    }
+
+    section.start-opp-info > img {
+        width: 200px;
+        height: 200px;
+    }
+
+    section.start-opp-info > h1 {
+        font-size: 3rem;
+    }
+
+    h1.big-vs {
+        font-size: 9rem;
+        top: 41vh;
+        left: 50%;
+    }
+}
+
+@media (max-height: 750px) {
+    section.start-player-info {
+        top: 250px;
+    }
+
+    section.start-player-info > img {
+        width: 150px;
+        height: 150px;
+    }
+
+    section.start-player-info > h1 {
+        font-size: 2.5rem;
+    }
+
+    section.start-opp-info {
+        top: 500px;
+        left: 50%;
+    }
+
+    section.start-opp-info > img {
+        width: 150px;
+        height: 150px;
+    }
+
+    section.start-opp-info > h1 {
+        font-size: 2.5rem;
+    }
+
+    h1.big-vs {
+        font-size: 7rem;
+        top: 350px;
+        left: 50%;
+    }
+}
+

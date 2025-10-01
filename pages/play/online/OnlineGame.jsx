@@ -2,7 +2,7 @@ import Board from "./Board"
 import Player from "./Player"
 import Instructions from "../Instructions"
 import { useState, useEffect, useRef } from "react"
-import { Dice } from "../../utils"
+import { Dice, ProfilePics } from "../../utils"
 import QRCode from "react-qr-code"
 import useWebSocket, { ReadyState } from "react-use-websocket"
 import { WhatsappIcon, TelegramIcon, WhatsappShareButton, TelegramShareButton } from "react-share"
@@ -30,11 +30,35 @@ export default function OnlineGame() {
         displayName: "",
         avatar: "8",
     })
+    const [showVsInfo, setShowVsInfo] = useState(false)
+    const [showPlayerInfo ,setShowPlayerInfo] = useState(false)
+    const [showOppInfo ,setShowOppInfo] = useState(false)
+    const [showVsText ,setShowVsText] = useState(false)
 
     const [socketUrl, setSocketUrl] = useState(() => null);
     const { playerInfo } = useOutletContext()
     console.log(playerInfo)
 
+    function animateDiceRoll(finalRoll) {
+        // Clear any existing interval first
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+
+        // Start animation
+        intervalRef.current = setInterval(() => {
+            setCurrentDice(Dice[Math.ceil(Math.random() * 6)]);
+        }, 100);
+
+        // Stop after 800ms
+        setTimeout(() => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+            }
+            setCurrentDice(Dice[finalRoll]);
+        }, 800);
+    }
 
     const { sendJsonMessage, readyState } = useWebSocket(socketUrl, {
         onOpen: () => {
@@ -51,6 +75,16 @@ export default function OnlineGame() {
                         displayName: msg.display_name,
                         avatar: msg.avatar
                     })
+                    setTimeout(() => setShowVsInfo(true), 500)
+                    setTimeout(() => setShowPlayerInfo(true), 1100)
+                    setTimeout(() => setShowVsText(true), 2100)
+                    setTimeout(() => setShowOppInfo(true), 3200)
+                    setTimeout(() => {
+                        setShowVsInfo(false)
+                        setShowOppInfo(false)
+                        setShowPlayerInfo(false)
+                        setShowVsText(false)
+                    }, 6000)
                 }
                 axios.get(`/games/${gameId}`)
                 .then(response => {
@@ -66,6 +100,10 @@ export default function OnlineGame() {
                 .catch(error => {
                         console.log(error)
                     })
+            } else if (msg.type === "roll") {
+                const finalRoll = msg.dice;
+                console.log(msg)
+                animateDiceRoll(finalRoll)
             }
         }
     }, socketUrl != null);
@@ -112,23 +150,14 @@ export default function OnlineGame() {
     function rollDice() {
         if (!isGameOver) {
             if (!canRoll) return; // Prevent double-clicks
-
             setCanRoll(false);
 
-            // Pre-determine final result
-            const finalRoll = Math.ceil(Math.random() * 6);
-
-            // Start animation
-            intervalRef.current = setInterval(() => {
-                setCurrentDice(Dice[Math.ceil(Math.random() * 6)]);
-            }, 100);
-
-            // Stop after 800ms
-            setTimeout(() => {
-                clearInterval(intervalRef.current);
-                setCurrentDice(Dice[finalRoll]);
-            }, 800);
-
+            axios.get(`/games/roll?game_id=${gameId}`)
+                .then(response => {
+                    const finalRoll = response.data.dice;
+                    animateDiceRoll(finalRoll)
+                })
+                .catch(err => console.log(err))
             return;
         }
 
@@ -191,94 +220,107 @@ export default function OnlineGame() {
     };
 
     return (
-        <section className="local-play">
-            {isGameOver && (score1 > score2 ?
-                <>
-                    <ConfettiExplosion
-                        style={{position: "absolute", top: "20%", left: "50%"}}
-                        duration={4000}
-                        particleCount={400}
-                    />
-                    <h1 className="game-over-text">
-                        You Won!
-                    </h1>
-                </> :
-                <>
-                    <h1 className="game-over-text game-lost-text">
-                        You Lost!
-                    </h1>
-                </>
-            )}
-            <Player
-                player="player1"
-                playerName={!playerInfo.displayName ? playerInfo.username : playerInfo.displayName}
-                pic={playerInfo.avatar}
-                score={score1}
-            />
-            <Board
-                player="player1"
-                place={handlePlace}
-                board={board1}
-                isTurn={isPlayer1Turn}
-                hasRolled={!canRoll}
-            />
-
-            <section className="roll-top">
-                <img
-                    className="roll-die"
-                    src={currentDice}
-                    alt="die placeholder"
-                    style={{opacity: !isPlayer1Turn || canRoll ? 0.4 : 1}}
-                />
-            </section>
-
-            <section className="roll-bottom">
-                <button
-                    className="roll-button"
-                    onClick={rollDice}
-                    disabled={!isGameOver && !canRoll}
-                >
-                    {isGameOver ? "New Game" : "Roll"}
-                </button>
-            </section>
-            {board2 === null ?
-                <section className="board2-placeholder">
-                    <h1>Share the link below to start the game!</h1>
-                    <section className="invite-link">
-                        <input readOnly defaultValue={shareLink} />
-                        <TelegramShareButton url={shareLink} title="Join my game!">
-                            <TelegramIcon size={50}/>
-                        </TelegramShareButton>
-                        <WhatsappShareButton url={shareLink} title="Join my game!">
-                            <WhatsappIcon size={50} />
-                        </WhatsappShareButton>
-                        <span className="material-symbols-outlined" onClick={handleClipboard}>
-                            content_copy
-                        </span>
-                    </section>
-                    <section className="qr-code">
-                        <QRCode
-                            value={shareLink}
+        <>
+            <div className="vs-info" style={{visibility: showVsInfo ? "visible" : "hidden"}}>
+                <section className="start-player-info" style={{opacity: showPlayerInfo ? 1 : 0}}>
+                    <img src={ProfilePics[parseInt(playerInfo.avatar)]} alt="player avatar" />
+                    <h1> {playerInfo.displayName} </h1>
+                </section>
+                <h1 className="big-vs" style={{opacity: showVsText ? 1 : 0}}> VS </h1>
+                <section className="start-opp-info" style={{opacity: showOppInfo ? 1 : 0}}>
+                    <h1> {oppInfo.displayName} </h1>
+                    <img src={ProfilePics[parseInt(oppInfo.avatar)]} alt="player avatar" />
+                </section>
+            </div>
+            <section className="local-play" style={{opacity: showVsInfo ? 0.2 : 1}}>
+                {isGameOver && (score1 > score2 ?
+                    <>
+                        <ConfettiExplosion
+                            style={{position: "absolute", top: "20%", left: "50%"}}
+                            duration={4000}
+                            particleCount={400}
                         />
-                    </section>
-                </section> :
-                (<>
-                    <Player
-                        player="player2"
-                        playerName={oppInfo.displayName}
-                        pic={oppInfo.avatar}
-                        score={score2}
-                    />
-                    <Board
-                    player="player2"
-                    place={handlePlace}
-                    board={board2}
+                        <h1 className="game-over-text">
+                            You Won!
+                        </h1>
+                    </> :
+                    <>
+                        <h1 className="game-over-text game-lost-text">
+                            You Lost!
+                        </h1>
+                    </>
+                )}
+                <Player
+                    player="player1"
+                    playerName={!playerInfo.displayName ? playerInfo.username : playerInfo.displayName}
+                    pic={playerInfo.avatar}
+                    score={score1}
                 />
-                </>)
-            }
+                <Board
+                    player="player1"
+                    place={handlePlace}
+                    board={board1}
+                    isTurn={isPlayer1Turn}
+                    hasRolled={!canRoll}
+                />
 
-            <Instructions />
-        </section>
+                <section className="roll-top">
+                    <img
+                        className="roll-die"
+                        src={currentDice}
+                        alt="die placeholder"
+                        style={{opacity: !isPlayer1Turn || canRoll ? 0.4 : 1}}
+                    />
+                </section>
+
+                <section className="roll-bottom">
+                    <button
+                        className="roll-button"
+                        onClick={rollDice}
+                        disabled={!isGameOver && !canRoll}
+                    >
+                        {isGameOver ? "New Game" : "Roll"}
+                    </button>
+                </section>
+                {board2 === null ?
+                    <section className="board2-placeholder">
+                        <h1>Share the link below to start the game!</h1>
+                        <section className="invite-link">
+                            <input readOnly defaultValue={shareLink} />
+                            <TelegramShareButton url={shareLink} title="Join my game!">
+                                <TelegramIcon size={50}/>
+                            </TelegramShareButton>
+                            <WhatsappShareButton url={shareLink} title="Join my game!">
+                                <WhatsappIcon size={50} />
+                            </WhatsappShareButton>
+                            <span className="material-symbols-outlined" onClick={handleClipboard}>
+                                content_copy
+                            </span>
+                        </section>
+                        <section className="qr-code">
+                            <QRCode
+                                value={shareLink}
+                            />
+                        </section>
+                    </section> :
+                    (<>
+                        <Player
+                            player="player2"
+                            playerName={oppInfo.displayName}
+                            pic={oppInfo.avatar}
+                            score={score2}
+                        />
+                        <Board
+                        player="player2"
+                        place={handlePlace}
+                        board={board2}
+                    />
+                    </>)
+                }
+
+                <Instructions />
+            </section>
+        </>
     )
 }
 /*

@@ -1,7 +1,6 @@
 import { ProfilePics } from "../../utils";
 
 export default function Player(props) {
-    console.log(props.pic)
     return (
         props.player === "player1" ? (
             <section className={`${props.player}-info`}>

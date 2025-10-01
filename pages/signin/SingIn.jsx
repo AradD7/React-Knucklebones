@@ -9,7 +9,6 @@ export default function SignIn() {
     const [status, setStatus] = useState(null)
     const {setPlayerInfo} = useOutletContext()
 
-
     const location = useLocation();
     const navigate = useNavigate()
 
@@ -28,7 +27,7 @@ export default function SignIn() {
                 console.log(response.data)
                 setStatus("Signed In!");
                 const from = location.state?.from || '/';
-                navigate(from, { replace: true });
+                setTimeout(() => navigate(from, { replace: true }), 2500);
             })
             .catch(error => {
                 setStatus("Something went wrong")

@@ -1,11 +1,12 @@
 import { ProfilePics } from "../../utils"
+import guestPic from "/images/guest.png"
 
 export default function Player(props) {
     return (
         props.player === "player1" ? (
             <section className={`${props.player}-info`}>
                 <h1>{props.playerName}</h1>
-                <img src={ProfilePics[props.pic]} alt="lamb avatar" className="profile-picture"/>
+                <img src={props.pic ? ProfilePics[props.pic] : guestPic} alt="lamb avatar" className="profile-picture"/>
                 <section className={`${props.player}-score`}>{props.score}</section>
             </section>) : (
             <section className={`${props.player}-info`}>
