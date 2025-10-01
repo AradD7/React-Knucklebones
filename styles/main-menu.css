@@ -79,6 +79,7 @@ section.main-menu a {
     font-size: 1rem;
     outline: none;
     -webkit-tap-highlight-color: transparent;
+    color: var(--textColor);
 }
 
 .submenu-content > a:hover {
@@ -141,6 +142,16 @@ section.main-menu a {
 }
 
 .diff-submenu > a:focus {
+    color: inherit;
+    outline: none;
+}
+
+.diff-submenu > a:active {
+    color: inherit;
+}
+
+.diff-submenu > a:focus-visible {
+    color: inherit;
     outline: none;
 }
 
