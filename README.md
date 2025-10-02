@@ -8,8 +8,11 @@ I built the [Knucklebones backend](https://github.com/AradD7/Go-Knucklebones) bu
 
 ## Screenshots
 
-<!-- Add your screenshots here -->
-*Coming soon*
+![Main Menu](./screenshots/mobile-3.png)
+![Gameplay Screenshot](./screenshots/mobile-1.png)
+![Joined Onilne Game](./screenshots/mobile-2.png)
+![PC New Game](./screenshots/pc-1.png)
+![PC Gameplay](./screenshots/pc-2.png)
 
 ## Features
 
