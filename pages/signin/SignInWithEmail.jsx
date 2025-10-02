@@ -21,7 +21,6 @@ export default function SignIn() {
                 const data = response.data;
                 localStorage.setItem("refreshToken", data.refresh_token);
                 localStorage.setItem("accessToken", data.token);
-                console.log(data)
                 setPlayerInfo({
                     username: data.username,
                     avatar: data.avatar,

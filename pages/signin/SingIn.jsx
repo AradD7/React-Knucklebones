@@ -24,7 +24,6 @@ export default function SignIn() {
                     avatar: parseInt(response.data.avatar),
                     displayName: response.data.display_name,
                 })
-                console.log(response.data)
                 setStatus("Signed In!");
                 const from = location.state?.from || '/';
                 setTimeout(() => navigate(from, { replace: true }), 2500);

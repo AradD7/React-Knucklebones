@@ -84,7 +84,6 @@ export default function OnlineGame() {
                     });
             } else if (msg.type === "roll") {
                 const finalRoll = msg.dice;
-                console.log(msg)
                 animateDiceRoll(finalRoll)
             }
         }

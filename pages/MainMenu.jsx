@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 
+//** input sanitation on frontend **
+//
 //** add connection status for
 //online games to see if other
 //person is connected **
@@ -9,8 +11,6 @@ import { Link, useOutletContext } from "react-router-dom";
 //** reconnect to an online game **
 //
 //** user to set their username **
-//
-//** input sanitation on frontend **
 //
 //** game history **
 //
@@ -53,7 +53,6 @@ export default function MainMenu() {
         setDifficultyClicked(prev => !prev)
     }
 
-    console.log("main menu: ", playerInfo)
     return (
         <section className="main-menu">
             {playerInfo.username === "guest" ?

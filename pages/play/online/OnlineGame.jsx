@@ -37,7 +37,6 @@ export default function OnlineGame() {
 
     const [socketUrl, setSocketUrl] = useState(() => null);
     const { playerInfo } = useOutletContext()
-    console.log(playerInfo)
 
     function animateDiceRoll(finalRoll) {
         // Clear any existing interval first
@@ -102,7 +101,6 @@ export default function OnlineGame() {
                     })
             } else if (msg.type === "roll") {
                 const finalRoll = msg.dice;
-                console.log(msg)
                 animateDiceRoll(finalRoll)
             }
         }

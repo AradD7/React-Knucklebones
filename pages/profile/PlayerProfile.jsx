@@ -13,10 +13,6 @@ export default function PlayerProfile(){
 
     function updateProfile(formData){
         const data = Object.fromEntries(formData);
-        console.log(data);
-        console.log(playerInfo)
-
-        console.log("is updating to: ", data.displayName || playerInfo.displayName)
         axios.post("/players/update", {
             display_name: data.displayName || playerInfo.displayName,
             avatar: data.avatar
@@ -26,7 +22,6 @@ export default function PlayerProfile(){
                     avatar: data.avatar,
                     displayName: data.displayName || playerInfo.displayName,
                 }));
-                console.log("successfully updated!");
                 navigate("/")
 
             })

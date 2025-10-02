@@ -15,7 +15,6 @@ export default function Navbar() {
         if (token !== null) {
             axios.get("/players/getplayer")
                 .then(response => {
-                    console.log("got fresh player info", response.data)
                     setPlayerInfo({
                         username: response.data.username,
                         avatar: response.data.avatar,

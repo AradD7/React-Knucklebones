@@ -111,7 +111,6 @@ export default function ComputerGame() {
         })
             .then(response => {
                 const data = response.data
-                console.log(data)
                 setBoard1(data.board1),
                 setBoard2(data.board2),
                 setNextBoard1(data.next_board1),
