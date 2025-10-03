@@ -45,6 +45,7 @@ axios.interceptors.response.use(
             }
 
             await refreshPromise;
+            delete originalRequest.headers.Authorization;
             return axios(originalRequest); // Retry the original request
         }
 
