@@ -5,9 +5,11 @@ axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 let refreshPromise = null;
 
 axios.interceptors.request.use(function(config) {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-        config.headers.Authorization = 'Bearer ' + token;
+    if (!config.headers.Authorization) {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            config.headers.Authorization = 'Bearer ' + token;
+        }
     }
     return config;
 });
