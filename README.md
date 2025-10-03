@@ -87,6 +87,7 @@ npm install
 ```env
 VITE_BACKEND_URL=http://localhost:8080/api
 VITE_GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
+VITE_WEBSOCKET_URL=ws://localhost:8080/ws/games/
 ```
 
 4. Start the development server:
