@@ -8,11 +8,33 @@ I built the [Knucklebones backend](https://github.com/AradD7/Go-Knucklebones) bu
 
 ## Screenshots
 
-![Main Menu](./screenshots/mobile-3.png)
-![Gameplay Screenshot](./screenshots/mobile-1.png)
-![Joined Onilne Game](./screenshots/mobile-2.png)
-![PC New Game](./screenshots/pc-1.png)
-![PC Gameplay](./screenshots/pc-2.png)
+### Mobile
+
+<table>
+  <tr>
+    <td><img src="./screenshots/mobile-3.png" alt="Main Menu" width="250"></td>
+    <td><img src="./screenshots/mobile-1.png" alt="Gameplay" width="250"></td>
+    <td><img src="./screenshots/mobile-2.png" alt="Online Game" width="250"></td>
+  </tr>
+  <tr>
+    <td align="center">Main Menu</td>
+    <td align="center">Gameplay</td>
+    <td align="center">Online Game</td>
+  </tr>
+</table>
+
+### Desktop
+
+<table>
+  <tr>
+    <td><img src="./screenshots/pc-1.png" alt="New Game" width="100%"></td>
+    <td><img src="./screenshots/pc-2.png" alt="Gameplay" width="100%"></td>
+  </tr>
+  <tr>
+    <td align="center">New Game</td>
+    <td align="center">Gameplay</td>
+  </tr>
+</table>
 
 ## Features
 
