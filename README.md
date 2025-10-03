@@ -135,6 +135,8 @@ The build output will be in the `dist/` directory.
 |----------|-------------|---------|
 | `VITE_BACKEND_URL` | Backend API base URL | `http://localhost:8080/api` |
 | `VITE_GOOGLE_CLIENT_ID` | Google OAuth Client ID | `123456-abc.apps.googleusercontent.com` |
+| `VITE_WEBSOCKET_URL` | `ws://localhost:8080/ws/games/` |
+
 
 ## Available Routes
 
@@ -153,7 +155,7 @@ The build output will be in the `dist/` directory.
 The app uses JWT-based authentication with automatic token refresh:
 
 1. User signs in (email/password or Google OAuth)
-2. Access token (60 min) and refresh token (60 days) stored in localStorage
+2. Access token (60 min) and refresh token (7 days) stored in localStorage
 3. Axios interceptor automatically adds access token to requests
 4. On 401 errors, automatically refreshes token and retries request
 5. If refresh fails, redirects to sign-in page
@@ -169,11 +171,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## Related Projects
 
 - [Backend Repository](https://github.com/AradD7/Go-Knucklebones) - Go backend with full API
-
-## License
-
-[MIT License](LICENSE)
-
-## Contact
-
-Project Link: [https://github.com/yourusername/silly-mini-games-frontend](https://github.com/yourusername/silly-mini-games-frontend)
