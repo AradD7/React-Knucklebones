@@ -12,7 +12,8 @@ export default function Navbar() {
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken")
-        if (token !== null) {
+        const refreshToken = localStorage.getItem("refreshToken")
+        if (token !== null || refreshToken !== null) {
             axios.get("/players/getplayer")
                 .then(response => {
                     setPlayerInfo({
