@@ -136,7 +136,7 @@ The build output will be in the `dist/` directory.
 |----------|-------------|---------|
 | `VITE_BACKEND_URL` | Backend API base URL | `http://localhost:8080/api` |
 | `VITE_GOOGLE_CLIENT_ID` | Google OAuth Client ID | `123456-abc.apps.googleusercontent.com` |
-| `VITE_WEBSOCKET_URL` | `ws://localhost:8080/ws/games/` |
+| `VITE_WEBSOCKET_URL` | Backend Websocket URL | `ws://localhost:8080/ws/games/` |
 
 
 ## Available Routes
