@@ -1,6 +1,6 @@
 # Silly Mini Games - Frontend
 
-This is the frontend of [Silly Mini Games](https://www.sillyminigames.com) written in React. Silly Mini Games is a game hub to play fun, simple, and lesser-known mini games with your friends! Currently only the game of Knucklebones is available, but more games are coming. Knucklebones is inspired by the dice game in the video game Cult of The Lamb.
+This is the frontend of [Silly Mini Games](https://www.sillyminigames.com) written in React. Silly Mini Games is a game hub to play lesser-known mini games with your friends or against AI! Currently supports Knucklebones, a dice game from the video game Cult of The Lamb, with more games planned.
 
 ## Motivation
 
