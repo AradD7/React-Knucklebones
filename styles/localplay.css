@@ -379,6 +379,9 @@ section.bottom {
     section.player2-info {
         padding-bottom: 5px;
         grid-area: s2;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
     }
 
     section.player1-info > section.player1-score {
