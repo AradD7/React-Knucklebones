@@ -6,8 +6,8 @@
     --buttonHoverColor: #B2150D;
     --containerColor: #FFF3E5;
     --highlightColor: #FFFFFF;
+    color-scheme: light only;
 }
-
 
 * {
     box-sizing: border-box;

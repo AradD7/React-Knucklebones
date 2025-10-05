@@ -198,11 +198,11 @@ section.player1-board > button:hover:not(:disabled) {
 }
 
 section.player1-board > button:nth-child(n + 7) {
-    border-bottom: var(--board-border-radius) solid black;
+    border-bottom: var(--board-border-radius) solid var(--backgroundColor);
 }
 
 section.player1-board> button:nth-child(3n) {
-    border-right: var(--board-border-radius) solid black;
+    border-right: var(--board-border-radius) solid var(--backgroundColor);
 }
 
 section.player1-board > button > img {
@@ -219,7 +219,7 @@ section.player2-board {
 }
 
 section.player2-board > button {
-    border: var(--board-border-radius) solid black;
+    border: var(--board-border-radius) solid var(--backgroundColor);
     border-bottom: none;
     border-right: none;
     font-family: "Finger Paint", sans-serif;
@@ -234,11 +234,11 @@ section.player2-board > button:hover:not(:disabled) {
 }
 
 section.player2-board > button:nth-child(n + 7) {
-    border-bottom: var(--board-border-radius) solid black;
+    border-bottom: var(--board-border-radius) solid var(--backgroundColor);
 }
 
 section.player2-board> button:nth-child(3n) {
-    border-right: var(--board-border-radius) solid black;
+    border-right: var(--board-border-radius) solid var(--backgroundColor);
 }
 
 section.player2-board > button > img {
@@ -292,30 +292,17 @@ section.bottom {
 
     section.roll-bottom {
         margin-right: 40px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         grid-area: rm;
-        justify-content: center;
     }
 
     section.roll-top {
         margin-left: 40px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         grid-area: dm;
-        justify-content: center;
     }
 
     button.roll-button {
         width: 135px;
         height: 90px;
-        font-family: "Finger Paint", sans-serif;
-        border: none;
-        border-radius: 10px;
-        font-size: 1.5rem;
-        font-weight: 800;
         margin-top: 0;
         margin-bottom: 0;
     }
@@ -329,33 +316,14 @@ section.bottom {
     section.player1-board {
         padding-bottom: 0;
         grid-area: b1;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
     }
 
     section.player1-board > button {
         margin: 0;
-        border: var(--board-border-radius) solid black;
-        border-bottom: none;
-        border-right: none;
-        font-family: "Finger Paint", sans-serif;
         width: 30%;
         max-width: 150px;
         height: 30%;
         max-height: 130px;
-    }
-
-    section.player1-board > button:hover:not(:disabled) {
-        cursor: pointer;
-    }
-
-    section.player1-board > button:nth-child(n + 7) {
-        border-bottom: var(--board-border-radius) solid black;
-    }
-
-    section.player1-board> button:nth-child(3n) {
-        border-right: var(--board-border-radius) solid black;
     }
 
     section.player1-board > button > img {
@@ -366,32 +334,13 @@ section.bottom {
     section.player2-board {
         padding-top: 0;
         grid-area: b2;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
     }
 
     section.player2-board > button {
-        border: var(--board-border-radius) solid black;
-        border-bottom: none;
-        border-right: none;
-        font-family: "Finger Paint", sans-serif;
         width: 30%;
         max-width: 150px;
         height: 30%;
         max-height: 130px;
-    }
-
-    section.player2-board > button:hover:not(:disabled) {
-        cursor: pointer;
-    }
-
-    section.player2-board > button:nth-child(n + 7) {
-        border-bottom: var(--board-border-radius) solid black;
-    }
-
-    section.player2-board> button:nth-child(3n) {
-        border-right: var(--board-border-radius) solid black;
     }
 
     section.player2-board > button > img {
@@ -430,9 +379,6 @@ section.bottom {
     section.player2-info {
         padding-bottom: 5px;
         grid-area: s2;
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-end;
     }
 
     section.player1-info > section.player1-score {
@@ -505,30 +451,18 @@ section.bottom {
 
     section.roll-bottom {
         padding-right: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         grid-area: rm;
-        justify-content: center;
     }
 
     section.roll-top {
         padding-left: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         grid-area: dm;
-        justify-content: center;
     }
 
     button.roll-button {
         width: 100px;
         height: 90px;
-        font-family: "Finger Paint", sans-serif;
-        border: none;
-        border-radius: 10px;
         font-size: 1.4rem;
-        font-weight: 800;
     }
 
     img.roll-die {
@@ -540,17 +474,11 @@ section.bottom {
     section.player1-info {
         padding-top: 5px;
         grid-area: s1;
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
     }
 
     section.player2-info {
         padding-bottom: 5px;
         grid-area: s2;
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
     }
 
     section.player1-info > section.player1-score {
@@ -591,27 +519,12 @@ section.bottom {
 
     section.player1-board > button {
         margin: 0;
-        border: var(--board-border-radius) solid black;
-        border-bottom: none;
-        border-right: none;
-        font-family: "Finger Paint", sans-serif;
         width: 30%;
         max-width: 160px;
         height: 30%;
         max-height: 130px;
     }
 
-    section.player1-board > button:hover:not(:disabled) {
-        cursor: pointer;
-    }
-
-    section.player1-board > button:nth-child(n + 7) {
-        border-bottom: var(--board-border-radius) solid black;
-    }
-
-    section.player1-board> button:nth-child(3n) {
-        border-right: var(--board-border-radius) solid black;
-    }
 
     section.player1-board > button > img {
         width: 80px;
@@ -620,56 +533,17 @@ section.bottom {
     section.player2-board {
         padding-top: 0;
         grid-area: b2;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
     }
 
     section.player2-board > button {
-        border: var(--board-border-radius) solid black;
-        border-bottom: none;
-        border-right: none;
-        font-family: "Finger Paint", sans-serif;
         width: 30%;
         max-width: 160px;
         height: 30%;
         max-height: 130px;
     }
 
-    section.player2-board > button:hover:not(:disabled) {
-        cursor: pointer;
-    }
-
-    section.player2-board > button:nth-child(n + 7) {
-        border-bottom: var(--board-border-radius) solid black;
-    }
-
-    section.player2-board> button:nth-child(3n) {
-        border-right: var(--board-border-radius) solid black;
-    }
-
     section.player2-board > button > img {
         width: 80px;
-    }
-
-    section.instructions {
-        display: none;
-    }
-
-    section.player1-info > h1 {
-        display: none;
-    }
-
-    section.player1-info > img {
-        display: none;
-    }
-
-    section.player2-info > h1{
-        display: none;
-    }
-
-    section.player2-info > img {
-        display: none;
     }
 
     section.local-game-over {
