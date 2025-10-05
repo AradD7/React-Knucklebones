@@ -536,14 +536,36 @@ section.bottom {
     }
 
     section.player2-board > button {
+        font-family: "Finger Paint", sans-serif;
         width: 30%;
         max-width: 160px;
         height: 30%;
         max-height: 130px;
     }
 
+
     section.player2-board > button > img {
         width: 80px;
+    }
+
+    section.instructions {
+        display: none;
+    }
+
+    section.player1-info > h1 {
+        display: none;
+    }
+
+    section.player1-info > img {
+        display: none;
+    }
+
+    section.player2-info > h1{
+        display: none;
+    }
+
+    section.player2-info > img {
+        display: none;
     }
 
     section.local-game-over {
