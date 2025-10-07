@@ -293,11 +293,15 @@ section.bottom {
     section.roll-bottom {
         margin-right: 40px;
         grid-area: rm;
+        justify-content: center;
+        align-items: center;
     }
 
     section.roll-top {
         margin-left: 40px;
         grid-area: dm;
+        justify-content: center;
+        align-items: center;
     }
 
     button.roll-button {
@@ -455,11 +459,15 @@ section.bottom {
     section.roll-bottom {
         padding-right: 20px;
         grid-area: rm;
+        justify-content: center;
+        align-items: center;
     }
 
     section.roll-top {
         padding-left: 20px;
         grid-area: dm;
+        justify-content: center;
+        align-items: center;
     }
 
     button.roll-button {

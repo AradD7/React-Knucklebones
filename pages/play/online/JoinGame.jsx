@@ -64,6 +64,13 @@ export default function OnlineGame() {
                 token: localStorage.getItem('accessToken')
             })
         },
+        shouldReconnect: (closeEvent) => {
+            return closeEvent.code != 1000
+        },
+        reconnectAttempts: 10,
+        reconnectInterval: (attemptNumber) => {
+            Math.min(Math.pow(2, attemptNumber) * 1000, 20000)
+        },
         onMessage: (event) => {
             const msg = JSON.parse(event.data)
             if (msg.type === "refresh") {

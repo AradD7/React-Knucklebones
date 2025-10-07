@@ -10,6 +10,7 @@ import axios from "axios"
 export default function ComputerGame() {
     const [currentDice, setCurrentDice] = useState(Dice[5])
     const [canRoll, setCanRoll] = useState(true)
+    const [hasRolled, setHasRolled] = useState(false)
     const [board1, setBoard1] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
     const [board2, setBoard2] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
     const [nextBoard1, setNextBoard1] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
@@ -31,7 +32,6 @@ export default function ComputerGame() {
     function rollDice() {
         if (!isGameOver) {
             if (!canRoll) return; // Prevent double-clicks
-
             setCanRoll(false);
 
             // Pre-determine final result
@@ -46,6 +46,7 @@ export default function ComputerGame() {
             setTimeout(() => {
                 clearInterval(intervalRef.current);
                 setCurrentDice(Dice[finalRoll]);
+                setHasRolled(true)
             }, 800);
 
             return;
@@ -58,6 +59,7 @@ export default function ComputerGame() {
         setIsComputerTurn(false)
         setIsGameOver(false)
         setCanRoll(true)
+        setHasRolled(false)
     }
 
     useEffect(() => {
@@ -94,6 +96,7 @@ export default function ComputerGame() {
                         setIsComputerTurn(false)
                         setIsGameOver(isGameOverNext)
                         setCanRoll(true)
+                        setHasRolled(false)
                     }, 1000)
                 }, 1000)
             }
@@ -124,6 +127,9 @@ export default function ComputerGame() {
                 setIsGameOverNext(data.is_over_next)
                 setIsComputerTurn(true)
                 setCurrentDice(Dice[5])
+                if (data.is_over) {
+                    setCanRoll(true)
+                }
             })
             .catch(error => {
                 console.log('Failed to place:', error);
@@ -161,7 +167,7 @@ export default function ComputerGame() {
                 place={handlePlace}
                 board={board1}
                 isTurn={!isComputerTurn}
-                hasRolled={!canRoll}
+                hasRolled={hasRolled}
             />
 
             <section
@@ -198,7 +204,7 @@ export default function ComputerGame() {
                 place={handlePlace}
                 board={board2}
                 isTurn={isComputerTurn}
-                hasRolled={true}
+                hasRolled={false}
             />
 
             <Instructions />

@@ -8,9 +8,9 @@ import { useOutletContext } from "react-router-dom"
 import axios from "axios"
 
 export default function LocalGame() {
-
     const [currentDice, setCurrentDice] = useState(Dice[5])
     const [canRoll, setCanRoll] = useState(true)
+    const [hasRolled, setHasRolled] = useState(false)
     const [board1, setBoard1] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
     const [board2, setBoard2] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
     const [score1, setScore1] = useState(0)
@@ -39,6 +39,7 @@ export default function LocalGame() {
             setTimeout(() => {
                 clearInterval(intervalRef.current);
                 setCurrentDice(Dice[finalRoll]);
+                setHasRolled(true)
             }, 800);
 
             return;
@@ -50,6 +51,7 @@ export default function LocalGame() {
         setScore2(0)
         setIsPlayer1Turn(true)
         setIsGameOver(false)
+        setHasRolled(false)
     }
 
     useEffect(() => {
@@ -78,6 +80,7 @@ export default function LocalGame() {
                 setIsGameOver(data.is_over)
                 setCurrentDice(Dice[5])
                 setCanRoll(true)
+                setHasRolled(false)
                 setIsPlayer1Turn(prev => !prev)
             })
             .catch(error => {
@@ -110,7 +113,7 @@ export default function LocalGame() {
                 place={handlePlace}
                 board={board1}
                 isTurn={isPlayer1Turn}
-                hasRolled={!canRoll}
+                hasRolled={hasRolled}
             />
 
             <section
@@ -147,7 +150,7 @@ export default function LocalGame() {
                 place={handlePlace}
                 board={board2}
                 isTurn={!isPlayer1Turn}
-                hasRolled={!canRoll}
+                hasRolled={hasRolled}
             />
 
             <Instructions />
