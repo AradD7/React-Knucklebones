@@ -124,7 +124,11 @@ export default function OnlineGame() {
                     }, 6000)
                 })
                 .catch(error => {
-                    console.log('Error joining game:', error);
+                    if (error.status === 409) {
+                        navigate(`/onlineplay?gameid=${gameId}`)
+                    } else {
+                        console.log('Error joining game:', error);
+                    }
                 });
         } else {
             navigate("/signin", { state: { from: location } })

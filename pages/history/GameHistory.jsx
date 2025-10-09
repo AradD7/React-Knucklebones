@@ -1,18 +1,20 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 export default function GameHistory() {
+    const navigate = useNavigate()
     const [games, setGames] = useState([])
 
     useEffect(() => {
         axios.get("/games")
         .then(response => {
-                setGames(response.data.sort((g1, g2) => Date(g1.date) > Date(g2.date) ? -1 : 1))
+                setGames(response.data.sort((g1, g2) => new Date(g1.date) - new Date(g2.date)))
             })
     }, [])
 
     const rows = games.map(game => (
-        <tr key={game.id}>
+        <tr key={game.id} onClick={() => navigate(`/onlineplay?gameid=${game.id}`)}>
             <td className="time-column"> {new Date(game.date).toLocaleString('en-US', {
                 day: 'numeric',
                 month: 'short',
@@ -26,7 +28,7 @@ export default function GameHistory() {
             <td className={`status ${game.status === 1 ? "status-won" :
                             game.status === -1 ? "status-lost" : ""}`}>
                 {game.status === 0 ? "In Progress" :
-                    game.status === 1 ? "You Won" : "You Lost"}
+                    game.status === 1 ? "You\nWon" : "You\nLost"}
             </td>
         </tr>
     ))
@@ -36,9 +38,9 @@ export default function GameHistory() {
         <table className="game-history">
             <thead>
                 <tr>
-                    <th> Date </th>
-                    <th> Against </th>
-                    <th> Status </th>
+                    <th>Date</th>
+                    <th>Against</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>

@@ -8,11 +8,7 @@ import { Link, useOutletContext } from "react-router-dom";
 //online games to see if other
 //person is connected **
 //
-//** reconnect to an online game **
-//
 //** user to set their username **
-//
-//** game history **
 //
 //** sounds **
 //

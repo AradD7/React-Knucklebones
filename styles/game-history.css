@@ -42,4 +42,47 @@ tbody > tr:hover {
     cursor: pointer;
 }
 
-@media (max-width: 640px) and (min-width: 520px) {}
+@media (max-width: 630px) {
+    .status {
+        font-size: 1.4rem;
+        white-space: pre-line;
+    }
+}
+
+@media (max-width: 500px) {
+    th {
+        font-size: 1.5rem;
+    }
+
+    .name-column{
+        font-size: 1rem;
+    }
+
+    .status {
+        font-size: 1.2rem;
+        white-space: pre-line;
+    }
+
+    .time-column {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 340px) {
+    th {
+        font-size: 1.1rem;
+    }
+
+    .name-column {
+        font-size: 0.8rem;
+    }
+
+    .status {
+        font-size: 0.9rem;
+        white-space: pre-line;
+    }
+
+    .time-column {
+        font-size: 0.8rem;
+    }
+}
