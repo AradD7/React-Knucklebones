@@ -42,6 +42,35 @@ tbody > tr:hover {
     cursor: pointer;
 }
 
+tfoot > tr > td {
+    border: 6px solid var(--backgroundColor);
+}
+
+.pagination {
+    margin-right: -10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+}
+
+.pagination > h1 {
+    padding: 5px;
+    border: 3px solid var(--textColor);
+    margin: 0;
+    font-size: 1rem;
+}
+
+.not-visible {
+    opacity: 0;
+    cursor: default;
+}
+
+.pagination > h1.visible:hover {
+    background-color: var(--buttonHoverColor);
+    cursor: pointer;
+}
+
 @media (max-width: 630px) {
     .status {
         font-size: 1.4rem;

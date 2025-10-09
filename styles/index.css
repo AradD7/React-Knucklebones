@@ -34,6 +34,13 @@ header {
     max-width: 810px;
 }
 
+.back-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
 .back-button > span.material-symbols-outlined {
     margin: 0;
     padding-left: 10px;

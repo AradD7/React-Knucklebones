@@ -1,9 +1,11 @@
-import { Link, Outlet } from "react-router-dom"
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom"
 import { ProfilePics } from "./utils"
 import { useEffect, useState } from "react"
 import axios from "axios"
 
 export default function Navbar() {
+    const navigate = useNavigate()
+    const location = useLocation()
     const [playerInfo, setPlayerInfo] = useState({
         username:    "guest",
         avatar:      "",
@@ -27,15 +29,24 @@ export default function Navbar() {
                 })
         }}, [])
 
+    function handleBack() {
+        const previousPath = location.state?.previousPath
+
+        if (previousPath === '/gamehistory') {
+            navigate(-1);
+        } else {
+            navigate('..');
+        }
+    }
     return (
         <>
             <header>
-                <Link
-                    to=".."
+                <button
+                    onClick={handleBack}
                     className="back-button"
                 >
                     <span className="material-symbols-outlined">arrow_back</span>
-                </Link>
+                </button>
 
                 {playerInfo.avatar === "" ?
                     playerInfo.displayName === null ?
