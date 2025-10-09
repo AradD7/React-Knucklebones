@@ -13,6 +13,7 @@ import PlayerProfile from "./pages/profile/PlayerProfile"
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import "./src/api/config"
 import VerifyEmail from "./pages/signin/VerifyEmail"
+import GameHistory from "./pages/history/GameHistory"
 
 function App() {
     return (
@@ -25,6 +26,8 @@ function App() {
                     <Route path="vscomputer" element={<ComputerGame />} />
                     <Route path="onlineplay" element={<OnlineGame />} />
                     <Route path="joingame" element={<JoinGame />} />
+
+                    <Route path="gamehistory" element={<GameHistory />} />
 
                     <Route path="profile" element={<PlayerProfile />} />
 

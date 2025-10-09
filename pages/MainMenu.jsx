@@ -8,11 +8,7 @@ import { Link, useOutletContext } from "react-router-dom";
 //online games to see if other
 //person is connected **
 //
-//** reconnect to an online game **
-//
 //** user to set their username **
-//
-//** game history **
 //
 //** sounds **
 //
@@ -103,7 +99,12 @@ export default function MainMenu() {
                 <h1 className="menu-entry">Online Play</h1>
             </Link>
             {token !== null &&
-                <h1 className="menu-entry" onClick={signout}>Sign Out</h1>}
+                <>
+                    <Link to="gamehistory">
+                        <h1 className="menu-entry">Game History</h1>
+                    </Link>
+                    <h1 className="menu-entry" onClick={signout}>Sign Out</h1>
+                </>}
         </section>
     )
 }

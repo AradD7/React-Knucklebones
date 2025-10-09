@@ -15,17 +15,17 @@ export default function OnlineGame() {
     const navigate = useNavigate()
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const [currentDice, setCurrentDice] = useState(() => Dice[5])
-    const [canRoll, setCanRoll] = useState(() => false)
-    const [gameId, setGameId] = useState(() => searchParams.get("gameid"))
-    const [board1, setBoard1] = useState(() => [[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
-    const [board2, setBoard2] = useState(() => null)
-    const [score1, setScore1] = useState(() => 0)
-    const [score2, setScore2] = useState(() => null)
-    const [isPlayer1Turn, setIsPlayer1Turn] = useState(() => false)
-    const [isGameOver, setIsGameOver] = useState(() => false)
-    const [shareLink, setShareLink] = useState(() => "")
-    const [newGame, setNewGame] = useState(() => false)
+    const [currentDice, setCurrentDice] = useState(Dice[5])
+    const [canRoll, setCanRoll] = useState(false)
+    const [gameId, setGameId] = useState(searchParams.get("gameid"))
+    const [board1, setBoard1] = useState([[0, 0, 0], [0, 0, 0] ,[0, 0, 0]])
+    const [board2, setBoard2] = useState(null)
+    const [score1, setScore1] = useState(0)
+    const [score2, setScore2] = useState(null)
+    const [isPlayer1Turn, setIsPlayer1Turn] = useState(false)
+    const [isGameOver, setIsGameOver] = useState(false)
+    const [shareLink, setShareLink] = useState("")
+    const [newGame, setNewGame] = useState(false)
     const [oppInfo, setOppInfo] = useState({
         displayName: "",
         avatar: "8",
@@ -35,7 +35,7 @@ export default function OnlineGame() {
     const [showOppInfo ,setShowOppInfo] = useState(false)
     const [showVsText ,setShowVsText] = useState(false)
 
-    const [socketUrl, setSocketUrl] = useState(() => null);
+    const [socketUrl, setSocketUrl] = useState(null);
     const { playerInfo } = useOutletContext()
 
     function animateDiceRoll(finalRoll) {
@@ -137,6 +137,10 @@ export default function OnlineGame() {
                     setCurrentDice(Dice[5]);
                     setIsPlayer1Turn(data.is_turn);
                     setCanRoll(data.is_turn);
+                    setOppInfo({
+                        displayName: data.opp_name,
+                        avatar: data.opp_avatar
+                    })
                     if (!data.is_over) {
                         setSocketUrl(`${import.meta.env.VITE_WEBSOCKET_URL}${data.id}`);
                     }
