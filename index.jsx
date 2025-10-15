@@ -14,6 +14,8 @@ import { GoogleOAuthProvider } from "@react-oauth/google"
 import "./src/api/config"
 import VerifyEmail from "./pages/signin/VerifyEmail"
 import GameHistory from "./pages/history/GameHistory"
+import HowTo from "./pages/howto/HowTo"
+import AboutProject from "./pages/about/AboutProject"
 
 function App() {
     return (
@@ -27,7 +29,11 @@ function App() {
                     <Route path="onlineplay" element={<OnlineGame />} />
                     <Route path="joingame" element={<JoinGame />} />
 
+                    <Route path="howtoplay" element={<HowTo />} />
+
                     <Route path="gamehistory" element={<GameHistory />} />
+
+                    <Route path="aboutproject" element={<AboutProject />} />
 
                     <Route path="profile" element={<PlayerProfile />} />
 

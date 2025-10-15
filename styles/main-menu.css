@@ -159,6 +159,20 @@ section.main-menu a {
     color: inherit;
 }
 
+h1.how-to-play,
+h1.signout-entry,
+h1.about-project,
+h1.game-history-entry {
+    font-size: 1.4rem;
+    margin-bottom: -15px;
+}
+
+h1.how-to-play:hover,
+h1.signout-entry:hover,
+h1.about-project:hover,
+h1.game-history-entry:hover {
+    font-size: 1.8rem;
+}
 
 @media (max-width: 550px) {
     h1.welcome-text {
@@ -185,20 +199,17 @@ section.main-menu a {
         top: 50%;
     }
     h1.welcome-text {
-        font-size: 3.5rem;
+        font-size: 3.1rem;
     }
     h1.menu-entry {
-        font-size: 1.5rem;
+        padding-top: 5px;
+        padding-bottom: 5px;
     }
 
     h1.localplay-text.showing {
-        font-size: 1.7rem;
         cursor: default;
     }
 
-    h1.menu-entry:hover {
-        font-size: 1.7rem;
-    }
 
     .submenu-content > a {
         margin-top: -15px;
@@ -228,30 +239,49 @@ section.main-menu a {
     .diff-submenu > a:hover > h1 {
         font-size: 1.3rem;
     }
+
+    h1.how-to-play {
+        margin-top: 20px;
+    }
+
+    h1.how-to-play,
+    h1.signout-entry,
+    h1.about-project,
+    h1.game-history-entry {
+        font-size: 1.2rem;
+        padding-bottom: 20px;
+    }
+
+    h1.how-to-play:hover,
+    h1.signout-entry:hover,
+    h1.about-project:hover,
+    h1.game-history-entry:hover {
+        font-size: 1.5rem;
+    }
 }
 
 @media (max-width: 380px) or (max-height: 450px) {
     section.main-menu {
-        top: 55%;
+        top: 50%;
     }
     h1.welcome-text {
         text-align: center;
         margin: 0;
         padding-bottom: 30px;
-        font-size: 2.2rem;
+        font-size: 2.4rem;
     }
     h1.menu-entry {
         padding-top: 0px;
-        font-size: 1.3rem;
+        font-size: 1.6rem;
     }
 
     h1.localplay-text.showing {
-        font-size: 1.6rem;
+        font-size: 1.9rem;
         cursor: default;
     }
 
     h1.menu-entry:hover {
-        font-size: 1.6rem;
+        font-size: 1.9rem;
     }
 
     .submenu.open {
@@ -297,5 +327,24 @@ section.main-menu a {
 
     .diff-submenu > a:hover > h1 {
         font-size: 1rem;
+    }
+
+    h1.how-to-play {
+        margin-top: 20px;
+    }
+
+    h1.how-to-play,
+    h1.signout-entry,
+    h1.about-project,
+    h1.game-history-entry {
+        font-size: 1.2rem;
+        margin-bottom: -9px;
+    }
+
+    h1.how-to-play:hover,
+    h1.signout-entry:hover,
+    h1.about-project:hover,
+    h1.game-history-entry:hover {
+        font-size: 1.5rem;
     }
 }
