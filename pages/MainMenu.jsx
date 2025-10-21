@@ -109,12 +109,19 @@ export default function MainMenu() {
                     <h1 className="menu-entry game-history-entry">Game History</h1>
                 </Link>
                 }
-            <Link to="aboutproject">
-                <h1 className="menu-entry about-project">About Project</h1>
-            </Link>
             {token !== null &&
                 <h1 className="menu-entry signout-entry" onClick={signout}>Sign Out</h1>
             }
+            <footer>
+                <Link to="aboutproject">
+                    <h1 className="menu-entry about-project">About Project</h1>
+                </Link>
+                    <h1 className="menu-entry my-github">
+                    <a className="my-github" href="https://github.com/aradd7" target="_blank">
+                        My Github
+                    </a>
+                    </h1>
+            </footer>
         </section>
     )
 }
