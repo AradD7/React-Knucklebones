@@ -1,7 +1,7 @@
 section.signin-section {
     width: 90vw;
     max-width: 430px;
-    height: 33vh;
+    height: 53vh;
     min-height: 320px;
     background-color: var(--containerColor);
     border-radius: 30px;
@@ -24,6 +24,7 @@ section.signin-section {
     font-size: 2.2rem;
     font-weight: 800;
     font-weight: 600;
+    transition: all 0.8s ease;
 }
 
 .signin-section > h2 {
@@ -141,6 +142,28 @@ section.icon-section > img {
 .goto-email:hover:not(:disabled) {
     background-color: var(--buttonHoverColor);
     cursor: pointer;
+}
+
+.errors-container {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+}
+
+.errors-container.show {
+    max-height: 200px;
+    opacity: 1;
+}
+
+.signup-h2 {
+    margin: 8px 0;
+    text-align: center;
+    margin: 0;
+    padding-bottom: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: red;
 }
 
 @media (max-width: 450px) {
