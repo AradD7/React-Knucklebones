@@ -106,4 +106,3 @@ export default function LocalBoard(props) {
         </section>
     )
 }
-//style={{backgroundColor: "yellow", borderRadius: 15}}

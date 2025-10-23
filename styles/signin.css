@@ -180,11 +180,12 @@ section.icon-section > img {
     .signin-section > .signup-h1 {
         text-align: center;
         margin: 0;
-        padding: 16px 0;
-        font-size: 2rem;
+        padding: 0 0 20px;
+        font-size: 1.7rem;
     }
 
     .button-section {
+        margin-top: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -211,7 +212,7 @@ section.icon-section > img {
     }
 
     .redirect-section {
-        padding-top: 25px;
+        margin-top: -5px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -221,12 +222,21 @@ section.icon-section > img {
         margin: 0;
         font-size: 0.8rem;
     }
+
+    .signup-h2 {
+        font-size: 0.7rem;
+    }
 }
 
 @media (max-width: 350px) {
     .signin-section > h1 {
         font-size: 1.5rem;
     }
+
+    .signup-h1 {
+        font-size: 1.2rem;
+    }
+
     section.icon-section {
         gap: 15px;
     }
