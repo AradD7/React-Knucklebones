@@ -60,6 +60,8 @@
 .tutorial-page2 {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .buttons-tutorial > h1.visible:hover {
@@ -101,6 +103,10 @@ section.tutorial1-board > button:nth-child(n + 7) {
     border-bottom: var(--board-border-radius) solid var(--backgroundColor);
 }
 
+section.highlight-bottom > button:nth-child(n + 7) {
+    background-color: #EA7159;
+}
+
 section.tutorial1-board> button:nth-child(3n) {
     border-right: var(--board-border-radius) solid var(--backgroundColor);
 }
@@ -110,30 +116,64 @@ section.tutorial1-board > button > img {
 }
 
 .score-dice-roll-section {
+    margin-top: 10px;
+    margin-bottom: 5px;
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 25px;
 }
 
 .score-dice-roll-section > .tutorial-score {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 55px;
-    height: 55px;
-    font-size: 1.8rem;
+    width: 50px;
+    height: 50px;
+    font-size: 1.6rem;
     background: var(--buttonColor);
     color: var(--textColor);
     border-radius: 10px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    margin-left: 20px;
+    margin-right: -10px;
+}
+
+.score-dice-roll-section > .tutorial-score-two-boards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tutorial-score-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 40px;
+    font-size: 1.4rem;
+    background: var(--buttonColor);
+    color: var(--textColor);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    margin-left: 30px;
+}
+
+.tutorial-score1 {
+    margin-top: -5px;
 }
 
 .score-dice-roll-section > img {
+    margin-top: -5px;
     width: 70px;
-    margin-left: 20px;
+    height: 70px;
+    margin-left: 35px;
 }
 
 .score-dice-roll-section > .tutorial-roll-button {
+    margin-top: -5px;
+    margin-right: 20px;
     width: 90px;
     height: 65px;
     font-family: "Finger Paint", sans-serif;
@@ -151,6 +191,15 @@ section.tutorial1-board > button > img {
     cursor: pointer;
 }
 
+p.board-paragraph {
+    width: 500px;
+    line-height: 1.4;
+    text-align: center;
+    font-size: 1.3rem;
+    color: var(--textColor);
+    margin: 10px 0 15px;
+}
+
 @media (max-width: 470px) and (min-width: 400px) {
     .how-to-play-section > h1 {
         margin: 10px 0;
@@ -160,6 +209,9 @@ section.tutorial1-board > button > img {
         line-height: 1.6;
         font-size: 1rem;
         margin: 10px 0;
+    }
+    p.board-paragraph {
+        font-size: 1.1rem;
     }
 }
 
@@ -178,5 +230,8 @@ section.tutorial1-board > button > img {
         line-height: 1.6;
         font-size: 0.9rem;
         margin: 5px 0;
+    }
+    p.board-paragraph {
+        font-size: 1.1rem;
     }
 }

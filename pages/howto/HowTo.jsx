@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import BoardPage2 from "./BoardPage2"
-import BoardPageF from "./BaordPageF"
+import BoardPage3 from "./BoardPage3"
+import BoardPage4 from "./BoardPage4"
 
 export default function HowTo() {
     const navigate = useNavigate()
@@ -23,9 +24,9 @@ export default function HowTo() {
                     <h2>Overview</h2>
                     <p>
                     Knucklebones is a 2-player dice game, in which each player has a 3x3 board. In
-                    each turn, player rolls a dice and places it in their board from bottom to top
-                    and the game is finished as soon as one of the boards is full. Then, the player
-                    with the higher score wins.
+                    each turn, player rolls a dice and places it in their board from bottom up and
+                    the game is finished as soon as one of the boards is full. Then, the player with
+                    the higher score wins.
                     </p>
                     <p>
                     The score is calculated by adding the dice values on the board but each repeated dice
@@ -34,42 +35,11 @@ export default function HowTo() {
                     </p>
                 </> : null
             }
-            {page === 2 ?
-                <>
-                    <p>
-                        in page 2
-                    </p>
-                    <section className="tutorial-page2">
-                        <BoardPage2
-                            page={page}
-                        />
-                    </section>
-                </> : null
-            }
-            {page === 3 ?
-                <>
-                    <p>
-                        in page 3
-                    </p>
-                    <section className="tutorial-pageF">
-                        <BoardPageF
-                            page={page}
-                        />
-                    </section>
-                </> : null
-            }
-            {page === 4 ?
-                <>
-                    <p>
-                        in page 4
-                    </p>
-                    <section className="tutorial-pageF">
-                        <BoardPageF
-                            page={page}
-                        />
-                    </section>
-                </> : null
-            }
+
+            {page === 2 ? <BoardPage2 /> : null}
+            {page === 3 ? <BoardPage3 /> : null}
+            {page === 4 ? <BoardPage4 /> : null}
+
             <section className="buttons-tutorial">
                 <h1 onClick={prevPage} className={page === 1 ? "not-visible" : "visible"}>Previous</h1>
                 <h1 onClick={nextPage} className={page === 4 ? "not-visible" : "visible"}>Next</h1>
