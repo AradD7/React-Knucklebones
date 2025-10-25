@@ -8,7 +8,7 @@
 }
 
 th {
-    width: 33.33%;
+    min-width: 33.33%;
     font-size: 2rem;
     padding: 15px 5px;
     font-weight: 800;
@@ -97,7 +97,7 @@ tfoot > tr > td {
     }
 }
 
-@media (max-width: 340px) {
+@media (max-width: 390px) {
     th {
         font-size: 1.1rem;
     }
@@ -107,8 +107,7 @@ tfoot > tr > td {
     }
 
     .status {
-        font-size: 0.9rem;
-        white-space: pre-line;
+        font-size: 1.0rem;
     }
 
     .time-column {

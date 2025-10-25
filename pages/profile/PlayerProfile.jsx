@@ -10,9 +10,18 @@ export default function PlayerProfile(){
     const [avatarIdx, setAvatarIdx] = useState(playerInfo.avatar === "" ? 8 : parseInt(playerInfo.avatar))
     const [isChangingName, setIsChanginName] = useState(false)
     const [isChangingAvatar, setIsChanginAvatar] = useState(false)
+    const [error, setError] = useState("")
+    const [showError, setShowError] = useState(false)
 
     function updateProfile(formData){
         const data = Object.fromEntries(formData);
+
+        if (data.displayName.length > 12) {
+            setShowError(true)
+            setError("Display name must be less than 13 characters")
+            return
+        }
+
         axios.post("/players/update", {
             display_name: data.displayName || playerInfo.displayName,
             avatar: data.avatar
@@ -58,6 +67,9 @@ export default function PlayerProfile(){
                     `${playerInfo.displayName}${playerInfo.displayName[playerInfo.displayName.length - 1] === 's' ? "'" : "'s"} Profile` :
                     `${playerInfo.username}${playerInfo.username[playerInfo.username.length - 1] === 's' ? "'" : "'s"} Profile`}
             </h1>
+            <div className={showError ? "errors-container show" : "errors-container"}>
+                <h2 className="signup-h2 errors-profile">{error}</h2>
+            </div>
             <form action={updateProfile}>
                 <input type="hidden" name="avatar" value={avatarIdx} />
                 <input type="hidden" name="displayName" value={playerInfo.displayName === "" ? playerInfo.username : playerInfo.displayName} />
@@ -77,7 +89,10 @@ export default function PlayerProfile(){
                                 placeholder="BigSteve"
                                 type="text"
                                 name="displayName"
-                                onFocus={(e) => e.target.placeholder = ''}
+                                onFocus={(e) => {
+                                    e.target.placeholder = ''
+                                    setShowError(false)
+                                }}
                                 onBlur={(e) => e.target.placeholder = 'BigSteve'}
                         />
                     }

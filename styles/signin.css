@@ -1,8 +1,9 @@
 section.signin-section {
     width: 90vw;
     max-width: 430px;
-    height: 33vh;
+    height: 53vh;
     min-height: 320px;
+    max-height: 400px;
     background-color: var(--containerColor);
     border-radius: 30px;
     display: flex;
@@ -24,6 +25,7 @@ section.signin-section {
     font-size: 2.2rem;
     font-weight: 800;
     font-weight: 600;
+    transition: all 0.8s ease;
 }
 
 .signin-section > h2 {
@@ -143,7 +145,34 @@ section.icon-section > img {
     cursor: pointer;
 }
 
+.errors-container {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+}
+
+.errors-container.show {
+    max-height: 200px;
+    opacity: 1;
+}
+
+.signup-h2 {
+    margin: 8px 0;
+    text-align: center;
+    margin: 0;
+    padding-bottom: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: red;
+}
+
 @media (max-width: 450px) {
+    section.signin-section {
+        width: 90vw;
+        max-width: 430px;
+        height: 38vh;
+    }
     .signin-section > h1 {
         font-size: 1.9rem;
     }
@@ -157,11 +186,12 @@ section.icon-section > img {
     .signin-section > .signup-h1 {
         text-align: center;
         margin: 0;
-        padding: 16px 0;
-        font-size: 2rem;
+        padding: 0 0 20px;
+        font-size: 1.7rem;
     }
 
     .button-section {
+        margin-top: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -188,7 +218,7 @@ section.icon-section > img {
     }
 
     .redirect-section {
-        padding-top: 25px;
+        margin-top: -5px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -198,12 +228,21 @@ section.icon-section > img {
         margin: 0;
         font-size: 0.8rem;
     }
+
+    .signup-h2 {
+        font-size: 0.7rem;
+    }
 }
 
 @media (max-width: 350px) {
     .signin-section > h1 {
         font-size: 1.5rem;
     }
+
+    .signup-h1 {
+        font-size: 1.2rem;
+    }
+
     section.icon-section {
         gap: 15px;
     }

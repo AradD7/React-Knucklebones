@@ -1,0 +1,258 @@
+.how-to-play-section {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 10px;
+    max-width: 620px;
+    width: 90vw;
+}
+
+.how-to-play-section > h1 {
+    text-align: center;
+    font-size: 3.2rem;
+    color: var(--textColor);
+    margin: 0 0 15px;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.how-to-play-section > h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: var(--textColor);
+    margin: 10px 0 0;
+    font-weight: 800;
+    opacity: 0.8;
+    line-height: 1.1;
+}
+
+.how-to-play-section > p {
+    line-height: 1.5;
+    text-align: center;
+    font-size: 1rem;
+    color: var(--textColor);
+    margin: 10px 0;
+}
+
+.buttons-tutorial {
+    margin-top: 10px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.buttons-tutorial > h1 {
+    padding: 5px;
+    color: var(--textColor);
+    border: 3px solid var(--textColor);
+    margin: 0;
+    font-size: 0.8rem;
+}
+
+.not-visible {
+    opacity: 0;
+    cursor: default;
+}
+
+.tutorial-page2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.buttons-tutorial > h1.visible:hover {
+    background-color: var(--buttonHoverColor);
+    cursor: pointer;
+}
+
+.tutorial1-section {
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.tutorial1-board {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tutorial1-board > button {
+    margin: 0;
+    border: var(--board-border-radius) solid var(--backgroundColor);
+    border-bottom: none;
+    border-right: none;
+    width: 100px;
+    height: 100px;
+    background-color: var(--containerColor);
+}
+
+section.tutorial1-board > button:hover:not(:disabled) {
+    background-color: var(--highlightColor);
+    cursor: pointer;
+}
+
+section.tutorial1-board > button:nth-child(n + 7) {
+    border-bottom: var(--board-border-radius) solid var(--backgroundColor);
+}
+
+section.highlight-bottom > button:nth-child(n + 7) {
+    background-color: #EA7159;
+}
+
+section.tutorial1-board> button:nth-child(3n) {
+    border-right: var(--board-border-radius) solid var(--backgroundColor);
+}
+
+section.tutorial1-board > button > img {
+    width: 70px;
+}
+
+.score-dice-roll-section {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.score-dice-roll-section > .tutorial-score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    font-size: 1.6rem;
+    background: var(--buttonColor);
+    color: var(--textColor);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    margin-left: 20px;
+    margin-right: -10px;
+}
+
+.score-dice-roll-section > .tutorial-score-two-boards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tutorial-score-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 40px;
+    font-size: 1.4rem;
+    background: var(--buttonColor);
+    color: var(--textColor);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    margin-left: 30px;
+}
+
+.tutorial-score1 {
+    margin-top: -5px;
+}
+
+.score-dice-roll-section > img {
+    margin-top: -5px;
+    width: 70px;
+    height: 70px;
+    margin-left: 35px;
+}
+
+.score-dice-roll-section > .tutorial-roll-button {
+    margin-top: -5px;
+    margin-right: 20px;
+    width: 90px;
+    height: 65px;
+    font-family: "Finger Paint", sans-serif;
+    background-color: var(--buttonColor);
+    color: var(--textColor);
+    border: none;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+
+.score-dice-roll-section > .tutorial-roll-button:hover:not(:disabled) {
+    background-color: var(--buttonHoverColor);
+    cursor: pointer;
+}
+
+.score-dice-roll-section > .back-to-main-menu {
+    font-size: 1.2rem;
+}
+
+p.board-paragraph {
+    width: 500px;
+    line-height: 1.4;
+    text-align: center;
+    font-size: 1.3rem;
+    color: var(--textColor);
+    margin: 10px 0 15px;
+}
+
+h1.tutorial-game-over-text {
+    color: #EAC03A;
+    text-align: center;
+    line-height: 0.9;
+    margin: 0;
+    font-size: 6rem;
+    position: absolute;
+    left: 51%;
+    top: 37%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+
+h1.tutorial-game-lost-text {
+    color: #700000;
+}
+
+@media (max-width: 470px) and (min-width: 400px) {
+    .how-to-play-section > h1 {
+        margin: 10px 0;
+    }
+
+    .how-to-play-section > p {
+        line-height: 1.6;
+        font-size: 1rem;
+        margin: 10px 0;
+    }
+    p.board-paragraph {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .how-to-play-section > h1 {
+        font-size: 2.8rem;
+        margin: 10px 0;
+    }
+
+    .how-to-play-section > h2 {
+        font-size: 1.6rem;
+        margin: 10px 0 5px;
+    }
+
+    .how-to-play-section > p {
+        line-height: 1.6;
+        font-size: 0.9rem;
+        margin: 5px 0;
+    }
+    p.board-paragraph {
+        font-size: 1.1rem;
+    }
+}

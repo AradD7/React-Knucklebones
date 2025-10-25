@@ -41,6 +41,9 @@ export default function MainMenu() {
 
     const [localPlayClicked, setLocalPlayClick] = useState(false)
     function showLocalPlay() {
+        if (difficultyClicked) {
+            setDifficultyClicked(false)
+        }
         setLocalPlayClick(prev => !prev)
     }
 
@@ -66,7 +69,7 @@ export default function MainMenu() {
                 className={`menu-entry localplay-text ${localPlayClicked ? 'showing' : 'hiding'}`}
                 onClick={showLocalPlay}
             >
-                Local Play
+                Local Game
             </h1>
 
             <section className={`submenu ${localPlayClicked ? 'open' : ''}`}>
@@ -96,15 +99,29 @@ export default function MainMenu() {
             </section>
 
             <Link to={token === null ? "signin" : "onlineplay"}>
-                <h1 className="menu-entry">Online Play</h1>
+                <h1 className="menu-entry">Online Game</h1>
+            </Link>
+            <Link to="howtoplay">
+                <h1 className="menu-entry how-to-play">How To Play</h1>
             </Link>
             {token !== null &&
-                <>
-                    <Link to="gamehistory">
-                        <h1 className="menu-entry">Game History</h1>
-                    </Link>
-                    <h1 className="menu-entry" onClick={signout}>Sign Out</h1>
-                </>}
+                <Link to="gamehistory">
+                    <h1 className="menu-entry game-history-entry">Game History</h1>
+                </Link>
+                }
+            {token !== null &&
+                <h1 className="menu-entry signout-entry" onClick={signout}>Sign Out</h1>
+            }
+            <footer>
+                <Link to="aboutproject">
+                    <h1 className="menu-entry about-project">About Project</h1>
+                </Link>
+                    <h1 className="menu-entry my-github">
+                    <a className="my-github" href="https://github.com/aradd7" target="_blank">
+                        My Github
+                    </a>
+                    </h1>
+            </footer>
         </section>
     )
 }
