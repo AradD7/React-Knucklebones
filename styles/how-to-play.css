@@ -191,6 +191,10 @@ section.tutorial1-board > button > img {
     cursor: pointer;
 }
 
+.score-dice-roll-section > .back-to-main-menu {
+    font-size: 1.2rem;
+}
+
 p.board-paragraph {
     width: 500px;
     line-height: 1.4;
@@ -198,6 +202,23 @@ p.board-paragraph {
     font-size: 1.3rem;
     color: var(--textColor);
     margin: 10px 0 15px;
+}
+
+h1.tutorial-game-over-text {
+    color: #EAC03A;
+    text-align: center;
+    line-height: 0.9;
+    margin: 0;
+    font-size: 6rem;
+    position: absolute;
+    left: 51%;
+    top: 37%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+
+h1.tutorial-game-lost-text {
+    color: #700000;
 }
 
 @media (max-width: 470px) and (min-width: 400px) {

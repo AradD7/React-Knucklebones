@@ -9,7 +9,7 @@ export default function BoardPage2() {
     const [score, setScore] = useState(0)
     const [currentDice, setCurrentDice] = useState(Dice[5])
     const [subPage, setSubPage] = useState(0)
-    const [paragraph, setParagraph] = useState("Your board needs to be filled from the bottom. Roll the dice and place it in one of the highlighted cells")
+    const [paragraph, setParagraph] = useState(["Your board needs to be filled from the bottom.", "Roll the dice and place it in one of the highlighted cells."])
     const [singleDiceValue] = useState(Math.ceil(Math.random() * 3))
     const [dupDiceValue] = useState(Math.ceil(Math.random() * 3) + 3)
     const [hasRolled, setHasRolled] = useState(false)
@@ -104,16 +104,16 @@ export default function BoardPage2() {
     useEffect(() => {
         switch (subPage) {
             case 1:
-                setParagraph("Great! Now roll again and place the dice in another empty column")
+                setParagraph(["Great!", "Now roll again and place the dice in another empty column."])
                 break
             case 2:
-                setParagraph("Nice! This time, roll and put the dice in the column that already has the same value and watch how the score changes.")
+                setParagraph(["Nice!", "This time, roll and put the dice in the column with the same value and watch how the score changes."])
                 break
             case 3:
-                setParagraph(`Did you catch that? Your score wasn't just increased by ${dupDiceValue} but it increased by ${dupDiceValue * 3}! Here is how it was calculated: (${dupDiceValue} + ${dupDiceValue}) x 2 + ${singleDiceValue}. Roll one more time and place it in the same column.`)
+                setParagraph([`Did you catch that? Your score didn't increase by ${dupDiceValue}, but it increased by ${dupDiceValue * 3}!`, `Here's how it was calculated: (${dupDiceValue} + ${dupDiceValue}) x 2 + ${singleDiceValue}.`, `Roll one more time and place it in the same column.`])
                 break
             case 4:
-                setParagraph(`Awesome! This time your score was inscreased by ${dupDiceValue * 5}! It was calculated by: (${dupDiceValue} + ${dupDiceValue} + ${dupDiceValue}) x 3 + ${singleDiceValue}, since you have three ${dupDiceValue}'s in a single column. Hit next to see your board against your opponent's board`)
+                setParagraph([`Awesome! This time your score was inscreased by ${dupDiceValue * 5}!`, `It was calculated by: (${dupDiceValue} + ${dupDiceValue} + ${dupDiceValue}) x 3 + ${singleDiceValue}, because you have three ${dupDiceValue}'s in a single column.`, `Hit next to see your board against your opponent's board.`])
                 break
         }
     }, [subPage])
@@ -153,13 +153,12 @@ export default function BoardPage2() {
         }
     }, [board])
 
-    console.log(subPage)
+    const paragraphElements = paragraph.map((para, idx) => <p key={idx} className="board-paragraph">{para}</p>)
+
     return (
         <>
             <section className="tutorial-page2">
-                <p className="board-paragraph">
-                    {paragraph}
-                </p>
+                {paragraphElements}
                 <section className="tutorial1-section">
                     <section className={subPage === 0 ? "tutorial1-board highlight-bottom" : "tutorial1-board"}>
                         {buttons}

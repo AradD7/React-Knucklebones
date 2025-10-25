@@ -23,15 +23,14 @@ export default function HowTo() {
                     <h1>Game Rules</h1>
                     <h2>Overview</h2>
                     <p>
-                    Knucklebones is a 2-player dice game, in which each player has a 3x3 board. In
-                    each turn, player rolls a dice and places it in their board from bottom up and
-                    the game is finished as soon as one of the boards is full. Then, the player with
-                    the higher score wins.
+                    Knucklebones is a 2-player dice game in which each player has a 3x3 board. Each turn,
+                    the player rolls a dice and places it in their board. The game is finished as soon as one
+                    of the boards is full and the player with the higher score wins!
                     </p>
                     <p>
-                    The score is calculated by adding the dice values on the board but each repeated dice
-                    in a column multiplies its value by how many times it's repeated in that column. Hit
-                    next to see it in action!
+                    The score is calculated by adding the dice values on the board, but each repeated dice
+                    in a column multiplies its value by how many times it's repeated. Hit next to see it
+                    in action!
                     </p>
                 </> : null
             }

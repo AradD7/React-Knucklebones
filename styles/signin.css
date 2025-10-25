@@ -3,6 +3,7 @@ section.signin-section {
     max-width: 430px;
     height: 53vh;
     min-height: 320px;
+    max-height: 400px;
     background-color: var(--containerColor);
     border-radius: 30px;
     display: flex;
@@ -167,6 +168,11 @@ section.icon-section > img {
 }
 
 @media (max-width: 450px) {
+    section.signin-section {
+        width: 90vw;
+        max-width: 430px;
+        height: 38vh;
+    }
     .signin-section > h1 {
         font-size: 1.9rem;
     }

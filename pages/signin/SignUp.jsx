@@ -10,6 +10,17 @@ export default function SignUp() {
     function signup(formData) {
         const data = Object.fromEntries(formData);
 
+        if (data.username.length < 4 || data.username.length > 10) {
+            setShowError(true)
+            setError("Username must be between 4 and 12 characters")
+            return
+        }
+        if (data.password.length < 7) {
+            setShowError(true)
+            setError("Password must be between at least 8 characters")
+            return
+        }
+
         axios.post("/players/new", {
             username: data.username,
             email:    data.email,
@@ -40,16 +51,6 @@ export default function SignUp() {
                 return
             });
 
-        if (data.username.length < 4 || data.username.length > 10) {
-            setShowError(true)
-            setError("Username must be between 4 and 12 characters")
-            return
-        }
-        if (data.password.length < 7) {
-            setShowError(true)
-            setError("Password must be between at least 8 characters")
-            return
-        }
     }
 
     return (

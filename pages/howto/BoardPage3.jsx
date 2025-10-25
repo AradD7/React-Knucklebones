@@ -11,11 +11,12 @@ export default function BoardPage3() {
     const [score1, setScore1] = useState(38)
     const [score2, setScore2] = useState(43)
     const [currentDice, setCurrentDice] = useState(Dice[5])
-    const [paragraph, setParagraph] = useState(["Your opponent's board is placed directly below yours and will fill from top to bottom.",
-        "Putting a dice in a column will eliminate all of your opponent's same-value dice in the same column (and vice versa).",
+    const [paragraph, setParagraph] = useState(["Your opponent's board sits below yours and will fill from top to bottom.",
+        "Placing a die in a column will eliminate all of your opponent's same-value dice in the same column (and vice versa).",
         "Roll and place the dice to see how your opponent's board changes."
     ])
     const [hasRolled, setHasRolled] = useState(false)
+    const [canPlace, setCanPlace] = useState(false)
     const intervalRef = useRef(null)
 
     function animateDiceRoll(finalRoll) {
@@ -36,6 +37,7 @@ export default function BoardPage3() {
                 intervalRef.current = null;
             }
             setCurrentDice(Dice[finalRoll]);
+            setCanPlace(true)
         }, 800);
     }
 
@@ -55,6 +57,7 @@ export default function BoardPage3() {
             "Hit next to see how the game ends."])
         setScore1(42)
         setScore2(27)
+        setCanPlace(false)
     }
 
     for (let col = 0; col < 3; col++) {
@@ -74,7 +77,7 @@ export default function BoardPage3() {
         }
     }
 
-    if (hasRolled) {
+    if (canPlace) {
         for (let row = 2; row >=0; row--) {
             for (let col = 0; col < 3; col++) {
                 if (board1[row][col] == 0 && !colBlocked1[col]) {

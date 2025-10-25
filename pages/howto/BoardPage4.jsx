@@ -1,7 +1,10 @@
 import { useRef, useState } from "react"
 import { Dice } from "../utils"
+import { useNavigate } from "react-router-dom"
+import ConfettiExplosion from "react-confetti-explosion"
 
 export default function BoardPage4() {
+    const navigate = useNavigate()
     const isDisabled1 = new Array(9).fill(true)
     const colBlocked1 = new Array(3).fill(false)
     const isHighlighted1 = [[false, false, false], [false, false, false], [false, false, false]]
@@ -12,9 +15,10 @@ export default function BoardPage4() {
     const [score2, setScore2] = useState(37)
     const [nextDice] = useState(Math.ceil(Math.random() * 6))
     const [currentDice, setCurrentDice] = useState(Dice[5])
-    const [paragraph, setParagraph] = useState(["The game ends when either board is full and the player with the higher score wins!",
-        "Test your luck by rolling and placing the dice to finish the game"])
+    const [paragraph, setParagraph] = useState(["The game ends when one of the boards is full and the player with the higher score wins!",
+        "Test your luck by rolling and placing the dice to finish the game."])
     const [hasRolled, setHasRolled] = useState(false)
+    const [canPlace, setCanPlace] = useState(false)
     const [gameStatus, setGameStatus] = useState("pending")
     const intervalRef = useRef(null)
 
@@ -36,6 +40,7 @@ export default function BoardPage4() {
                 intervalRef.current = null;
             }
             setCurrentDice(Dice[finalRoll]);
+            setCanPlace(true)
         }, 800);
     }
 
@@ -44,7 +49,7 @@ export default function BoardPage4() {
             "You've finished the tutorial. Hit the button to return to main menu and enjoy the game!"
         ]
         const lostParagraph = ["That's okay! This was only the tutorial.",
-            "Hit the button to try luck again in an actual game!"
+            "Hit the button to try again in an actual game!"
         ]
 
         setBoard1(arr => {
@@ -57,6 +62,7 @@ export default function BoardPage4() {
             case 3:
                 setGameStatus("lost")
                 setParagraph(lostParagraph)
+                setScore1(prev => prev + nextDice)
                 break
             case 5:
                 setBoard2(arr => {
@@ -66,12 +72,19 @@ export default function BoardPage4() {
                 })
                 setGameStatus("win")
                 setParagraph(winParagraphs)
+                setScore1(prev => prev + nextDice)
+                setScore2(prev => prev - 5)
                 break
             case 2:
             case 4:
+                setGameStatus("win")
+                setParagraph(winParagraphs)
+                setScore1(prev => prev + (nextDice * 3))
+                break
             case 6:
                 setGameStatus("win")
                 setParagraph(winParagraphs)
+                setScore1(prev => prev + nextDice)
                 break
         }
     }
@@ -93,7 +106,7 @@ export default function BoardPage4() {
         }
     }
 
-    if (hasRolled) {
+    if (canPlace) {
         for (let row = 2; row >=0; row--) {
             for (let col = 0; col < 3; col++) {
                 if (board1[row][col] == 0 && !colBlocked1[col]) {
@@ -155,8 +168,12 @@ export default function BoardPage4() {
         ))
 
     function handleRoll() {
-        setHasRolled(true)
-        animateDiceRoll(nextDice)
+        if (gameStatus === "pending") {
+            setHasRolled(true)
+            animateDiceRoll(nextDice)
+        } else {
+            navigate("/")
+        }
     }
 
     const paragraphElements = paragraph.map((para, idx) => <p key={idx} className="board-paragraph">{para}</p>)
@@ -164,6 +181,23 @@ export default function BoardPage4() {
     return (
         <>
             <section className="tutorial-page2">
+                {gameStatus !== "pending" && (score1 > score2 ?
+                    <>
+                        <ConfettiExplosion
+                            style={{position: "absolute", top: "32%", left: "50%"}}
+                            duration={4000}
+                            particleCount={400}
+                        />
+                        <h1 className="tutorial-game-over-text">
+                            You Won!
+                        </h1>
+                    </> :
+                    <>
+                        <h1 className="tutorial-game-over-text tutorial-game-lost-text">
+                            You Lost!
+                        </h1>
+                    </>
+                )}
                 {paragraphElements}
                 <section className="tutorial1-section">
                     <section className={"tutorial1-board"}>
@@ -181,12 +215,12 @@ export default function BoardPage4() {
                             style={{opacity: hasRolled ? 1 : 0.5}}
                         />
                         <button
-                            className="tutorial-roll-button"
+                            className={gameStatus === "pending" ? "tutorial-roll-button" : "tutorial-roll-button back-to-main-menu"}
                             onClick={handleRoll}
-                            disabled={hasRolled}
-                            style={{opacity: !hasRolled ? 1 : 0.5}}
+                            disabled={hasRolled && gameStatus === "pending"}
+                            style={{opacity: (!hasRolled || gameStatus !== "pending") ? 1 : 0.5}}
                         >
-                            Roll
+                            {gameStatus === "pending" ? "Roll" : "Main Menu"}
                         </button>
                     </section>
                     <section className={"tutorial1-board"}>
